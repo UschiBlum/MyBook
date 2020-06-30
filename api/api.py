@@ -27,7 +27,7 @@ def register():
 
     if existing_user is None:
         passwordtest = request.get_json()['password']
-        if passwordtest==request.get_json()['confirmpassword']:
+        if passwordtest == request.get_json()['confirmpassword']:
             username = request.get_json()['username']
             email = request.get_json()['email']
             studyprogram = request.get_json()['studyprogram']
