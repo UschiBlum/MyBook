@@ -1,9 +1,27 @@
-import React from 'react';
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
+import NavBar from "./components/NavBar";
+import Welcome from "./components/Welcome";
+import Login from "./components/Login";
+import Register from "./components/Register";
+import Profile from "./components/Profile";
 
-function App() {
-  return 'hallo';
+class App extends Component {
+  render() {
+    return (
+        <Router>
+          <div className="App">
+            <NavBar />
+            <Route exact path="/" component={Welcome} />
+            <div className="container">
+              <Route path="/register" component={Register} />
+              <Route path="/login" component={Login} />
+              <Route path="/profile" component={Profile} />
+            </div>
+          </div>
+        </Router>
+    );
+  }
 }
 
 export default App;
