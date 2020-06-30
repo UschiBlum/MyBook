@@ -20,25 +20,32 @@ jwt = JWTManager(app)
 
 CORS(app)
 
-@app.route('/users/register', methods=["POST"])
+@app.route('/users/register', methods=['GET', 'POST'])
 def register():
     users = mongo.db.users
-    username = request.get_json()['username']
-    email = request.get_json()['email']
-    studyprogram = request.get_json()['studyprogram']
-    password = bcrypt.generate_password_hash(request.get_json()['password']).decode('utf-8')
-    created = datetime.utcnow()
+    existing_user = users.find_one({'username':request.get_json()['username']})
 
-    uid = users.insert({
-        'username': username,
-        'email': email,
-        'studyprogram': studyprogram,
-        'password': password,
-        'created': created
-    })
+    if existing_user is None:
+        passwordtest = request.get_json()['password']
+        if passwordtest == request.get_json()['confirmpassword']:
+            username = request.get_json()['username']
+            email = request.get_json()['email']
+            studyprogram = request.get_json()['studyprogram']
+            password = bcrypt.generate_password_hash(request.get_json()['password']).decode('utf-8')
+            created = datetime.utcnow()
 
-    newuser = users.find_one({'_id': uid})
-    result = {'username': newuser['username'] + ' registered'}
+            uid = users.insert({
+                'username': username,
+                'email': email,
+                'studyprogram': studyprogram,
+                'password': password,
+                'created': created
+            })
+
+            newuser = users.find_one({'_id': uid})
+            result = {'username': newuser['username'] + ' registered'}
+    else:
+        result = {'username': existing_user['username'] + ' has registered before'}
     return jsonify({'result': result})
 
 
