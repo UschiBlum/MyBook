@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {login} from "./UserFunction"
-import {ReactComponent as Logo} from './logo.svg';
+// import {ReactComponent as Logo} from 'ressources/journal-png-transparent-4-original.png';
 
 
 class Login extends Component {
@@ -51,18 +51,21 @@ class Login extends Component {
                         </div>
                         <div className="form-group">
                             <label htmlFor="password">Password</label>
-                            <input type="text"
+                            <input type="password"
                                    className="form-control"
                                    name="password"
                                    placeholder="Enter Password"
                                    value={this.state.password}
                                    onChange={this.onChange} />
                         </div>
+                        <button type="submit" className="btn btn-lg btn-primary btn-block">
+                            Login
+                        </button>
                     </form>
                 </div>
 
                 <div className="col-md-6 right">
-                    <Logo />
+                    {/*<Logo />*/}
                 </div>
             </div>
         )
