@@ -34,7 +34,7 @@ class Register extends Component {
         }
 
         register(newUser).then(res => {
-            if(this.state.password == this.state.confirmpassword) {
+            if(this.state.password === this.state.confirmpassword) {
                 this.props.history.push('/login')
             }
 
