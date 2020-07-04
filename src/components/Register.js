@@ -12,23 +12,30 @@ class Register extends Component {
             email: '',
             studyprogram: '',
             password: '',
-            confirmpassword:''
+            confirmpassword:'',
+            mai: '',
+            ise:'',
+            komedia:'',
+            otherprogram:''
         }
         this.onChange = this.onChange.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
+
     }
 
     onChange(e) {
         this.setState({[e.target.name]: e.target.value})
+        this.setState({studyprogram: e.target.value})
     }
 
     onSubmit(e) {
         e.preventDefault()
 
+
         const newUser = {
             username: this.state.username,
             email: this.state.email,
-            studyprogram: this.state.studyprogram,
+            studyprogram: this.state.value,
             password: this.state.password,
             confirmpassword: this.state.confirmpassword
         }
@@ -73,18 +80,25 @@ class Register extends Component {
                     <div className="row">
                         <div className="col-md-6 left">
                             <div className="form-group">
+                                <label htmlFor="studyprogram">Study program</label>
+                                <select onChange={this.onChange} className="form-control" value={this.state.studyprogram}>
+                                    <option value="mai">Master Angewandte Informatik</option>
+                                    <option value="ise">Master Computer Engineering</option>
+                                    <option value="komedia">Master Angewandte Kognitions- und Medienwissenschaft</option>
+                                    <option value="otherprogram">Other</option>
+                                </select>
 
-                                <Form>
-                                    <FormGroup>
-                                        <label htmlFor="studyprogram">Study program</label>
-                                        <Input type="select" name="studyprogram" >
-                                            <option>Master Angewandte Informatik</option>
-                                            <option>MasterComputer Engineering</option>
-                                            <option>Master Angewandte Kognitions- und Medienwissenschaft</option>
-                                        </Input>
+                                {/*<Form>*/}
+                                {/*    <FormGroup>*/}
+                                {/*        <label htmlFor="studyprogram">Study program</label>*/}
+                                {/*        <Input type="select" name="studyprogram" >*/}
+                                {/*            <option>Master Angewandte Informatik</option>*/}
+                                {/*            <option>MasterComputer Engineering</option>*/}
+                                {/*            <option>Master Angewandte Kognitions- und Medienwissenschaft</option>*/}
+                                {/*        </Input>*/}
 
-                                    </FormGroup>
-                                </Form>
+                                {/*    </FormGroup>*/}
+                                {/*</Form>*/}
                                 {/*<input type="select"*/}
                                 {/*       className="form-control"*/}
                                 {/*       name="studyprogram"*/}
@@ -120,7 +134,7 @@ class Register extends Component {
                                        className="form-control"
                                        name="confirmpassword"
                                        placeholder="Repeat Password"
-                                       value={this.state.confirmpasswordo}
+                                       value={this.state.confirmpassword}
                                        onChange={this.onChange} />
                             </div>
                         </div>
