@@ -11,3 +11,12 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+
+@font-face { font-family: 'meine-schrift';
+src: local('meine-schrift'),
+url('Yellowtail-Regular.ttf') format('truetpe'); }
+
+h1{
+  font-family: meine-schrift;
+}
