@@ -11,12 +11,13 @@ import Timetable from "./components/Timetable";
 import Calender from "./components/Calender";
 import Assignments from "./components/Assignments";
 import Notes from "./components/Notes";
+import notebook from './components/notepad-background-png-4-original.png'
 
 class App extends Component {
   render() {
     return (
         <Router>
-          <div className="App">
+          <div className="App" style={{backgroundImage: `url(${notebook})`, backgroundSize: 'cover'}}>
             <NavBar />
             <Route exact path="/" component={Welcome} />
             <div className="container">
