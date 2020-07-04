@@ -22,9 +22,24 @@ class Welcome extends Component {
                 </div>
             </div>
             <div style={divStyle}>
-                <div className="logo">
-                    <img src={logo} width="500" height="500" />
+                <div>
+                    <h2 className = "text-center">With MyBook to your book!</h2>
+                    <div>
+                    <p>
+                        MyBook is your online Bullet-Journal!
+                    </p>
+                    <p>
+                        You can plan your week with the Calender, make Notes, create a Timetable and much more!
+                    </p>
+                    <p>
+                        MyBook helps you organise your Study and private life.
+                    </p>
+                    <div className="logo">
+                        <img src={logo} width="250" height="250" />
+                    </div>
+                </div>            
                 </div>
+            
                 <div>
                     <ReactPlayer
                     url="https://www.youtube.com/watch?v=zkVFHDtQ3Bk&t"
