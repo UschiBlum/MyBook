@@ -33,12 +33,17 @@ class Login extends Component {
         })
     }
 
+    /*<div className="logo">
+                    <img src={logo} width="500" height="500" />
+                </div>*/
+ //put in here somewhere
+ 
     render() {
         return (
             <div className="container">
                 <div className="col-md-6 left">
                     <h1 className="h3 mb-3 font-weight-normal">Login!</h1>
-
+                    
                     <form noValidate onSubmit={this.onSubmit}>
                         <div className="form-group">
                             <label htmlFor="username">Username</label>
