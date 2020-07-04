@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import {login} from "./UserFunction"
+import logo from './logo.jpg';
 // import {ReactComponent as Logo} from 'ressources/journal-png-transparent-4-original.png';
 
 
@@ -32,11 +33,6 @@ class Login extends Component {
             }
         })
     }
-
-    /*<div className="logo">
-                    <img src={logo} width="500" height="500" />
-                </div>*/
- //put in here somewhere
  
     render() {
         return (
@@ -70,7 +66,9 @@ class Login extends Component {
                 </div>
 
                 <div className="col-md-6 right">
-                    {/*<Logo />*/}
+                    <div className="logo">
+                        <img src={logo} width="500" height="500" />
+                    </div>
                 </div>
             </div>
         )

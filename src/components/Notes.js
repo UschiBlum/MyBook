@@ -1,12 +1,33 @@
 import React, {Component} from 'react'
 import { Form, TextArea } from 'semantic-ui-react'
 
+
 const divStyle = {
     display: 'flex',
+    padding: "20px",
     alignItems: 'center',
     justifyContent: 'center',
-    margin: '100px',
+    margin: '50px',
   };
+  const secondStyle = {
+    padding: "20px",
+    color:"white",
+  };
+
+    var colors = ['#58D3F7', '#F781F3', '#8000FF', '#A9F5D0', '#F5BCA9'];
+
+    var min = 0;
+    var max = 4;
+
+
+  const notestyle = {
+    color: "white",
+    backgroundColor: colors[Math.floor(Math.random() * (max - min)) + min],
+    padding: "60px",
+    fontFamily: 'Arial'
+  };
+
+  
 
 class Notes extends Component {
 
@@ -19,16 +40,22 @@ class Notes extends Component {
                     </div>
                 </div>
                 <div style={divStyle}>
-                <div>
-                    <h2>Hier kommen die Notes hin</h2>
-                </div>
-                <div>
-                    <span>
-                    <Form>
-                        <TextArea placeholder='Write a Note' style={{ minHeight: 300 , minWidth: 500}} />
-                    </Form>
-                    </span>
-                </div>
+                    <div style={divStyle}>
+                        <div style={secondStyle}>
+                            <h2 style={notestyle}>Hier ist ein note</h2>
+                        </div>
+                        <div style={secondStyle}>
+                            <h2 style={notestyle}>Hier ist ein note</h2>
+                        </div>
+                        <div style={secondStyle}>
+                            <h2 style={notestyle}>Hier ist ein note</h2>
+                        </div>
+                    </div>
+                    <div>
+                        <Form>
+                            <TextArea placeholder='Write a Note' style={{ minHeight: 300 , minWidth: 500}} />
+                        </Form>
+                    </div>
                 </div>
             </div>
         )
