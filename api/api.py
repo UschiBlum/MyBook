@@ -30,9 +30,10 @@ def register():
         if passwordtest == request.get_json()['confirmpassword']:
             username = request.get_json()['username']
             email = request.get_json()['email']
-            studyprogram = request.get_json()['studyprogram']
             password = bcrypt.generate_password_hash(request.get_json()['password']).decode('utf-8')
             created = datetime.utcnow()
+            # studyprogram = request.get_json()['studyprogram']
+            studyprogram = 'program'
 
             uid = users.insert({
                 'username': username,
