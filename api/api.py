@@ -72,7 +72,27 @@ def login():
         result = jsonify({"result":"No results found"})
     return result
 
-
+    #@app.route('/notes', methods=['GET', 'POST'])
+    #def notes():
+      #  if session['login'] == 'True':
+     #       form = LoginForm()
+     #       if request.method == 'POST':
+     #           user = mongo.db.user
+     #           login_user = user.find_one({'email': request.form.get("email")})
+     #           print("Login_user:")
+     #           print(login_user)
+     #           if login_user:
+     #               if bcrypt.checkpw(request.form.get('password').encode('utf-8'), login_user['password'].encode('utf-8')):
+     #                   session['firstname'] = login_user['firstname']
+     #                   session['lastname'] = login_user['lastname']
+     #                   session['birthday'] = login_user['birthday']
+     #                   session['email'] = login_user['email']
+    #                    session['logged_in'] = True
+   #                     return render_template('profil.html')
+  #                  session['logged_in'] = False
+ #               return render_template('failLogin.html')
+#
+     #   return render_template('login.html', form=form)''
 
 @app.route('/time')
 def get_current_time():
