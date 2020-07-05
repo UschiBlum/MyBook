@@ -51,8 +51,12 @@ class Register extends Component {
     render() {
         return (
             <div className="container">
-                <h1 className="h3 mb-3 font-weight-normal">Sign up!</h1>
                 <form noValidate onSubmit={this.onSubmit}>
+                    <div className="row">
+                        <div className="col-md-6 left">
+                            <h1>Sign up!</h1>
+                        </div>
+                    </div>
                     <div className="row">
                         <div className="col-md-6 left">
                             <div className="form-group">
