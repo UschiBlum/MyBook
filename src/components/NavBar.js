@@ -27,6 +27,11 @@ class Navbar extends Component {
         const userLink = (
             <ul className="navbar-nav">
                 <li className="nav-item">
+                    <Link to="/profile" className="nav-link">
+                        Overview
+                    </Link>
+                </li>
+                <li className="nav-item">
                     <Link to="/assignments" className="nav-link">
                         Assignments
                     </Link>
@@ -49,11 +54,6 @@ class Navbar extends Component {
                 <li className="nav-item">
                     <Link to="/timetable" className="nav-link">
                         Time Table
-                    </Link>
-                </li>
-                <li className="nav-item">
-                    <Link to="/profile" className="nav-link">
-                        User
                     </Link>
                 </li>
                 <li className="nav-item">
@@ -81,7 +81,7 @@ class Navbar extends Component {
                     <ul className="navbar-nav">
                         <li className="nav-item">
                             <Link to="/" className="nav-link">
-                                Home
+                                Welcome
                             </Link>
                         </li>
                     </ul>

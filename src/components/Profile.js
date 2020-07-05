@@ -24,7 +24,7 @@ class Profile extends Component {
     render () {
         return (
             <div className="container">
-                <div className="jumbotron mt-5">
+                <div className="mt-5">
                     <div className="col-sm-8 mx-auto">
                         <h1 className="text-center">PROFILE</h1>
                     </div>
@@ -33,10 +33,6 @@ class Profile extends Component {
                         <tr>
                             <td>Username</td>
                             <td>{this.state.username}</td>
-                        </tr>
-                        <tr>
-                            <td>Study Program</td>
-                            <td>{this.state.studyprogram}</td>
                         </tr>
                         <tr>
                             <td>Email</td>
