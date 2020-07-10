@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
 import './navbar.css'
-import logo from './logo.jpg';
+import logo from './Logopit.png';
 
 class Navbar extends Component {
     logOut (e) {
@@ -13,15 +13,17 @@ class Navbar extends Component {
     render () {
         const loginRegLink = (
             <ul className="navbar-nav">
-                <li className="nav-item">
+                <li className="nav-item nav-pos">
                     <Link to="/login" className="nav-link">
                         Login
                     </Link>
                 </li>
                 <li className="nav-item">
-                    <Link to="/register" className="nav-link">
-                        <button type="button" className="btn btn-outline-primary btn-lg">
-                            Sign up
+                    <Link to="/register" className="nav-link logo-pos">
+                        <button type="button" className="btn btn-outline-primary btn-lg signup">
+                            <label className="signup-text">
+                                Sign up
+                            </label>
                         </button>
                     </Link>
                 </li>
@@ -82,15 +84,15 @@ class Navbar extends Component {
                     <span className="navbar-toggler-icon"></span>
                 </button>
 
-                <div>
-                    <img src={logo} width="50" height="50" />
+                <div className="logo-pos">
+                    <img src={logo} width="100" height="100" />
 
                 </div>
-                <h1 className="headline">MyBook</h1>
+                <h1 className="headline display-3">MyBook</h1>
                 <div className="collapse navbar-collapse justify-content-end"
                      id="navbar1">
                     <ul className="navbar-nav">
-                        <li className="nav-item">
+                        <li className="nav-item nav-pos">
                             <Link to="/" className="nav-link">
                                 Welcome
                             </Link>

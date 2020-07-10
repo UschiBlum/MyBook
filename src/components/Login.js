@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {login} from "./UserFunction"
-import logo from './logo.jpg';
+import logo from './Logopit.png';
 import './signup.css'
 
 
