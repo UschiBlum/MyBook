@@ -3,6 +3,7 @@ import {register} from './UserFunction'
 import {Input, Form, FormGroup} from 'reactstrap'
 import Dropdown from 'react-dropdown'
 import 'react-dropdown/style.css'
+import './signup.css'
 
 class Register extends Component {
     constructor() {
@@ -51,29 +52,35 @@ class Register extends Component {
     render() {
         return (
             <div className="container">
+                <div className="row">
+                    <div className="col-md-12">
+                        <div className="row first-row"></div>
+                    </div>
+                </div>
                 <form noValidate onSubmit={this.onSubmit}>
                     <div className="row">
-                        <div className="col-md-6 left">
-                            <h1>Sign up!</h1>
+                        <div className="col-md-5 left header-row">
+                            <h1 className="heading text-primary text-center">Sign up!</h1>
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-md-6 left">
+                        <div className="col-md-5 left">
                             <div className="form-group">
-                                <label htmlFor="username">Username</label>
+                                <label htmlFor="username" className="text-primary">Username</label>
                                 <input type="text"
-                                       className="form-control"
+                                       className="form-control form-control-lg"
                                        name="username"
                                        placeholder="Enter Username"
                                        value={this.state.username}
                                        onChange={this.onChange} />
                             </div>
                         </div>
-                        <div className="col-md-6 right">
+                        <div className="col-md-2"></div>
+                        <div className="col-md-5 right">
                             <div className="form-group">
-                                <label htmlFor="email">Email Address</label>
+                                <label htmlFor="email" className="text-primary">Email Address</label>
                                 <input type="email"
-                                       className="form-control"
+                                       className="form-control form-control-lg"
                                        name="email"
                                        placeholder="Enter Email"
                                        value={this.state.email}
@@ -82,10 +89,10 @@ class Register extends Component {
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-md-6 left">
+                        <div className="col-md-5 left">
                             <div className="form-group">
-                                <label htmlFor="studyprogram">Study program</label>
-                                <select onChange={this.onChange} className="form-control" value={this.state.studyprogram}>
+                                <label htmlFor="studyprogram" className="text-primary">Study program</label>
+                                <select onChange={this.onChange} className="form-control form-control-lg" value={this.state.studyprogram}>
                                     <option value="mai">Master Angewandte Informatik</option>
                                     <option value="ise">Master Computer Engineering</option>
                                     <option value="komedia">Master Angewandte Kognitions- und Medienwissenschaft</option>
@@ -116,26 +123,28 @@ class Register extends Component {
                                 {/*</input>*/}
                             </div>
                         </div>
-                        <div className="col-md-6 right">
+                        <div className="col-md-2"></div>
+                        <div className="col-md-5 right">
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-md-6 left">
+                        <div className="col-md-5 left">
                             <div className="form-group">
-                                <label htmlFor="password">Password</label>
+                                <label htmlFor="password" className="text-primary">Password</label>
                                 <input type="password"
-                                       className="form-control"
+                                       className="form-control form-control-lg"
                                        name="password"
                                        placeholder="Enter Password"
                                        value={this.state.password}
                                        onChange={this.onChange} />
                             </div>
                         </div>
-                        <div className="col-md-6 right">
+                        <div className="col-md-2"></div>
+                        <div className="col-md-5 right">
                             <div className="form-group">
-                                <label htmlFor="confirmpassword">Confirm Password</label>
+                                <label htmlFor="confirmpassword" className="text-primary">Confirm Password</label>
                                 <input type="password"
-                                       className="form-control"
+                                       className="form-control form-control-lg"
                                        name="confirmpassword"
                                        placeholder="Repeat Password"
                                        value={this.state.confirmpassword}
@@ -144,11 +153,12 @@ class Register extends Component {
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-md-6 left">
+                        <div className="col-md-5 left">
                         </div>
-                        <div className="col-md-6 right">
-                            <div className="form-group">
-                                <button type="submit" className="btn btn-lg btn-dark btn-primary btn-block">
+                        <div className="col-md-2"></div>
+                        <div className="col-md-5 right">
+                            <div className="form-group submit">
+                                <button type="submit" className="btn btn-primary btn-lg">
                                     Submit
                                 </button>
                             </div>
