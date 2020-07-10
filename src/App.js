@@ -11,14 +11,15 @@ import Timetable from "./components/Timetable";
 import Calender from "./components/Calender";
 import Assignments from "./components/Assignments";
 import Notes from "./components/Notes";
-import notebook from './components/notepad-background-png-4-original.png'
+import notebook from './components/notepad-background-png-4-blau.png'
+import Footer from "./components/Footer";
 
 class App extends Component {
   render() {
     return (
-        <Router>
-          <div className="App" style={{backgroundImage: `url(${notebook})`, backgroundSize: 'cover', height:'100vh'}}>
-            <NavBar />
+        <Router style={{backgroundcolor:'#07f8e7'}}>
+          <NavBar />
+          <div className="App" style={{backgroundImage: `url(${notebook})`, backgroundSize: 'cover', height:'80vh', backgroundcolor:'#07f8e7'}}>
             <Route exact path="/" component={Welcome} />
             <div className="container">
               <Route path="/register" component={Register} />
@@ -31,22 +32,7 @@ class App extends Component {
               <Route path="/notes" component ={Notes}/>
             </div>
           </div>
-          <footer>
-            <div className="container">
-              <div className="row justify-content-center">
-                <div className="col-auto">
-                  <a href="#"></a>
-                  <a className="mx-3" href="#"></a>
-                  <a href="#"></a>
-                </div>
-              </div>
-              <div className="row justify-content-center">
-                <div className="col-auto">
-                  <p className="copyright text-muted">Copyright &copy; Donotreact 2020</p>
-                </div>
-              </div>
-            </div>
-          </footer>
+          <Footer />
         </Router>
     );
   }

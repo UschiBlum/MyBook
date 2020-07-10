@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import { Link, withRouter } from 'react-router-dom'
+import './navbar.css'
+import logo from './logo.jpg';
 
 class Navbar extends Component {
     logOut (e) {
@@ -18,7 +20,9 @@ class Navbar extends Component {
                 </li>
                 <li className="nav-item">
                     <Link to="/register" className="nav-link">
-                        Sign up
+                        <button type="button" className="btn btn-outline-primary btn-lg">
+                            Sign up
+                        </button>
                     </Link>
                 </li>
             </ul>
@@ -58,14 +62,16 @@ class Navbar extends Component {
                 </li>
                 <li className="nav-item">
                     <a href="#" onClick={this.logOut.bind(this)} className="nav-link">
-                        Logout
+                        <button type="button" className="btn btn-outline-primary btn-lg">
+                            Logout
+                        </button>
                     </a>
                 </li>
             </ul>
         )
 
         return (
-            <nav className="navbar navbar-expand-lg navbar-dark bg-dark rounded">
+            <nav className="navbar navbar-expand-lg  rounded text-primary text-center navbar-design">
                 <button className="navbar-toggler"
                         type="button"
                         data-toggle="collapse"
@@ -76,7 +82,12 @@ class Navbar extends Component {
                     <span className="navbar-toggler-icon"></span>
                 </button>
 
-                <div className="collapse navbar-collapse justify-content-md-center"
+                <div>
+                    <img src={logo} width="50" height="50" />
+
+                </div>
+                <h1 className="headline">MyBook</h1>
+                <div className="collapse navbar-collapse justify-content-end"
                      id="navbar1">
                     <ul className="navbar-nav">
                         <li className="nav-item">
@@ -84,8 +95,9 @@ class Navbar extends Component {
                                 Welcome
                             </Link>
                         </li>
+                        {localStorage.usertoken ? userLink : loginRegLink}
                     </ul>
-                    {localStorage.usertoken ? userLink : loginRegLink}
+
                 </div>
             </nav>
         )
