@@ -7131,9 +7131,9 @@ a.text-dark:hover, a.text-dark:focus {
     font-style: italic;
 }
 .first-row{
-    height:6em;
-    min-height: 1em;
-    max-height: 10em;
+    height:10em;
+    min-height: 5em;
+    max-height: 15em;
 }
 .header-row{
     height: 10em;
