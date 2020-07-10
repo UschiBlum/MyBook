@@ -4,6 +4,25 @@ import {Input, Form, FormGroup} from 'reactstrap'
 import Dropdown from 'react-dropdown'
 import 'react-dropdown/style.css'
 import './signup.css'
+import jwt_decode from "jwt-decode";
+
+const validEmailRegex = RegExp(/^(([^<>()\[\]\.,;:\s@\"]+(\.[^<>()\[\]\.,;:\s@\"]+)*)|(\".+\"))@(([^<>()[\]\.,;:\s@\"]+\.)+[^<>()[\]\.,;:\s@\"]{2,})$/i)
+
+const validateForm = (errors) => {
+    let valid = true
+    Object.values(errors).forEach(
+        (val) => val.length > 0 && (valid = false)
+    )
+    return valid
+}
+
+const countErrors = (errors) => {
+    let count = 0
+    Object.values(errors).forEach(
+        (val) => val.length > 0 && (count = count+1)
+    )
+    return count
+}
 
 class Register extends Component {
     constructor() {
@@ -13,24 +32,82 @@ class Register extends Component {
             email: '',
             studyprogram: '',
             password: '',
-            confirmpassword:'',
+            confirmpassword: '',
             mai: '',
             ise:'',
             komedia:'',
-            otherprogram:''
+            otherprogram:'',
+            formValid: false,
+            errorCount: null,
+            result:'',
+            errors: {
+                username: '',
+                email: '',
+                password:'',
+                confirmpassword:''
+            }
         }
-        this.onChange = this.onChange.bind(this)
-        this.onSubmit = this.onSubmit.bind(this)
+        // this.onChange = this.onChange.bind(this)
+        // this.onSubmit = this.onSubmit.bind(this)
 
     }
 
-    onChange(e) {
-        this.setState({[e.target.name]: e.target.value})
-        this.setState({studyprogram: e.target.value})
+    // componentDidMount () {
+    //     const token = localStorage.usertoken
+    //     const decoded = jwt_decode(token)
+    //     this.setState({
+    //         result: decoded.identity.result
+    //     })
+    // }
+
+    // onChange(e) {
+    //     this.setState({[e.target.name]: e.target.value})
+    //     this.setState({studyprogram: e.target.value})
+    // }
+
+    handleChange = (e) => {
+        e.preventDefault()
+        const {name, value} = e.target
+        let errors = this.state.errors
+        const testPw = errors.password.value
+
+        switch (name) {
+            case 'username':
+                errors.username =
+                    value.length < 3
+                        ? 'Username must be 3 characters long!'
+                        : ''
+                break
+            case 'email':
+                errors.email =
+                    validEmailRegex.test(value)
+                        ? ''
+                        : 'Email is not valid!';
+                break
+            case 'password':
+                errors.password =
+                    value.length < 4
+                        ? 'Password must be 4 characters long!'
+                        : ''
+                break
+            case 'confirmpassword':
+                errors.confirmpassword =
+                    value === this.state.password
+                        ? ''
+                        : 'Password not match!'
+                break
+            default:
+                break
+        }
+        this.setState({errors, [name]: value})
+        this.setState({[name]:value})
     }
 
     onSubmit(e) {
         e.preventDefault()
+
+        this.setState({formValid: validateForm(this.state.errors)})
+        this.setState({errorCount: countErrors(this.state.errors)})
 
 
         const newUser = {
@@ -44,12 +121,40 @@ class Register extends Component {
         register(newUser).then(res => {
             if(this.state.password === this.state.confirmpassword) {
                 this.props.history.push('/login')
+            } else {
+                alert("Username has registered before!")
+            }
+
+        })
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault()
+
+        this.setState({formValid: validateForm(this.state.errors)})
+        this.setState({errorCount: countErrors(this.state.errors)})
+
+
+        const newUser = {
+            username: this.state.username,
+            email: this.state.email,
+            studyprogram: this.state.value,
+            password: this.state.password,
+            confirmpassword: this.state.confirmpassword
+        }
+
+        register(newUser).then(res => {
+            if(this.state.password === this.state.confirmpassword) {
+                this.props.history.push('/login')
+            }else {
+
             }
 
         })
     }
 
     render() {
+        const {errors, formValid} = this.state
         return (
             <div className="container">
                 <div className="row">
@@ -57,10 +162,10 @@ class Register extends Component {
                         <div className="row first-row"></div>
                     </div>
                 </div>
-                <form noValidate onSubmit={this.onSubmit}>
+                <form noValidate onSubmit={this.handleSubmit}>
                     <div className="row">
                         <div className="col-md-5 left header-row">
-                            <h1 className="heading text-primary text-center">Sign up!</h1>
+                            <h1 className="heading text-center display-1">Sign up!</h1>
                         </div>
                     </div>
                     <div className="row">
@@ -72,7 +177,10 @@ class Register extends Component {
                                        name="username"
                                        placeholder="Enter Username"
                                        value={this.state.username}
-                                       onChange={this.onChange} />
+                                       onChange={this.handleChange}
+                                       noValidate
+                                />
+                                {errors.username.length > 0 && <span className="error">{errors.username}</span>}
                             </div>
                         </div>
                         <div className="col-md-2"></div>
@@ -84,7 +192,10 @@ class Register extends Component {
                                        name="email"
                                        placeholder="Enter Email"
                                        value={this.state.email}
-                                       onChange={this.onChange} />
+                                       onChange={this.handleChange}
+                                       noValidate
+                                />
+                                {errors.email.length > 0 && <span className="error">{errors.email}</span>}
                             </div>
                         </div>
                     </div>
@@ -92,7 +203,7 @@ class Register extends Component {
                         <div className="col-md-5 left">
                             <div className="form-group">
                                 <label htmlFor="studyprogram" className="text-primary">Study program</label>
-                                <select onChange={this.onChange} className="form-control form-control-lg" value={this.state.studyprogram}>
+                                <select onChange={this.handleChange} className="form-control form-control-lg" value={this.state.studyprogram}>
                                     <option value="mai">Master Angewandte Informatik</option>
                                     <option value="ise">Master Computer Engineering</option>
                                     <option value="komedia">Master Angewandte Kognitions- und Medienwissenschaft</option>
@@ -136,7 +247,10 @@ class Register extends Component {
                                        name="password"
                                        placeholder="Enter Password"
                                        value={this.state.password}
-                                       onChange={this.onChange} />
+                                       onChange={this.handleChange}
+                                       noValidate
+                                />
+                                {errors.password.length > 0 && <span className="error">{errors.password}</span>}
                             </div>
                         </div>
                         <div className="col-md-2"></div>
@@ -148,7 +262,10 @@ class Register extends Component {
                                        name="confirmpassword"
                                        placeholder="Repeat Password"
                                        value={this.state.confirmpassword}
-                                       onChange={this.onChange} />
+                                       onChange={this.handleChange}
+                                       noValidate
+                                />
+                                {errors.confirmpassword.length > 0 && <span className="error">{errors.confirmpassword}</span>}
                             </div>
                         </div>
                     </div>
@@ -164,6 +281,7 @@ class Register extends Component {
                             </div>
                         </div>
                     </div>
+                    {this.state.errorCount !== null ? <p className="form-status">Form is {formValid ? 'valid ✅' : 'invalid ❌'}</p> : 'Form not submitted'}
                 </form>
             </div>
         )

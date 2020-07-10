@@ -45,6 +45,7 @@ def register():
 
             newuser = users.find_one({'_id': uid})
             result = {'username': newuser['username'] + ' registered'}
+            
     else:
         result = {'username': existing_user['username'] + ' has registered before'}
     return jsonify({'result': result})
