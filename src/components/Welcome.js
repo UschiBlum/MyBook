@@ -31,7 +31,7 @@ class Welcome extends Component {
                 </div>
                 <div className="row second-row">
                     <div className="col-md-5">
-                        <div class="lead text-dark my-4 border border-dark rounded text-box">
+                        <div className="lead text-dark my-4 border border-dark rounded text-box">
                             <h2 className = "text-center">With MyBook to your book!</h2>
                             <div>
                                 <p>
