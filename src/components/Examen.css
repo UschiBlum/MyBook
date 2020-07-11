@@ -12,7 +12,7 @@ body {
     font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
       monospace;
   }
-  .Assignments {
+  .Examen {
     text-align: left;
   }
   body{
@@ -66,13 +66,7 @@ body {
     background-color: #c59ee8;
     box-shadow: 3px 8px 11px -3px rgb(215, 170, 255);
   }
-  .item .Button.edit{
-    width: 30px;
-    height: 30px;
-    background-color: #6647f1;
-    box-shadow: 3px 8px 11px -3px rgb(212, 210, 66);
-  }
-
+ 
   .item .Button.delete{
     background-color: #ff9eb6;
     box-shadow: 3px 8px 11px -3px rgba(255, 158, 182);
@@ -81,11 +75,7 @@ body {
     background-color: #2EE59D;
     box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
   }
-  .item .Button.edit:hover{
-    
-    background-color: #b2dd3b;
-    box-shadow: 0px 15px 20px rgba(185, 228, 66, 0.86);
-  }
+
 
   .item .Button.delete:hover{
     
@@ -119,3 +109,4 @@ body {
     border: 1px solid #b06eee;
     transition: all .1s linear;
   }
+

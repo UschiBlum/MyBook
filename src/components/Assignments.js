@@ -1,5 +1,6 @@
 import React, {Component} from 'react'
 import './Assignments.css'
+//import {Link, RichText, Date} from 'prismic-reactjs';
 
 const items = [
   {id:1, text:'learn React', isCompleted: false},
@@ -14,8 +15,11 @@ class Assignments extends React.Component {
     };
     this.deleteItem = this.deleteItem.bind(this);
     this.addItem = this.addItem.bind(this);
+    this.editItem = this.editItem.bind(this);
     this.compleateItem = this.compleateItem.bind(this);
   }
+
+
   deleteItem=(id)=>{
     const {items} = this.state;
     const isNotId = item => item.id !== id;
@@ -34,6 +38,19 @@ class Assignments extends React.Component {
       }
      )
   }
+
+  editItem = (item) =>{
+    const {items} = this.state;
+     item.id = items.length+1;
+     item.compleateItem = false;
+     let updateList = [...items, item];
+     this.setState({
+        items: updateList
+      }
+     )
+  }
+
+
 
   compleateItem = (item) =>{
     const {items} = this.state;
@@ -63,7 +80,7 @@ class Assignments extends React.Component {
                      </div>
             </div>
 
-            <h1>My Assignments</h1>
+            <h1>MyBook Assignments</h1>
                 <Input addItem={this.addItem}/>
                 <div>
                 <Items items = {this.state.items} deleteItem={this.deleteItem} compleateItem={this.compleateItem} className="items"/>
@@ -73,7 +90,7 @@ class Assignments extends React.Component {
     }
 }
 
-const Items = ({items, deleteItem, compleateItem}) => {
+const Items = ({items, deleteItem, editItem, compleateItem}) => {
     const itemList = items.length ? (
         items.map(item=>
             <div key={item.id}>
@@ -81,6 +98,7 @@ const Items = ({items, deleteItem, compleateItem}) => {
                     <p className="item-block">
                     <span className="item-name" style={{ textDecoration: item.isCompleted ? "line-through" : "" }}>{item.text}</span>
                     <Button onClick={()=>{compleateItem(item)}} className={"Button"}>&#10004;</Button>
+                    <Button onClick={()=>{editItem(item)}} className={"Button"}>Edit</Button>
                     <Button onClick={()=>{deleteItem(item.id)}} className={"Button delete"}>-</Button>
                     </p>
                 </span>
