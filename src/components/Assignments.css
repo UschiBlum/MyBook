@@ -1,0 +1,104 @@
+body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Roboto", "Oxygen",
+      "Ubuntu", "Cantarell", "Fira Sans", "Droid Sans", "Helvetica Neue",
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  
+  code {
+    font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
+      monospace;
+  }
+  .App {
+    text-align: center;
+  }
+  body{
+    background-color: #fbf7ff;
+  }
+  .success{
+    text-decoration: line-through;
+  }
+  
+  h1 {
+    display: table;
+    margin: 0 auto;
+    font-weight: 800;
+    font-size: 3em;
+    background: linear-gradient(330deg,  #5452e0 0%, #c58aff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    line-height: 100px;
+  }
+  
+  .Button{
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    background-color: #8f48d2;
+    border: none;
+    margin: 0 2px;
+    box-shadow: 3px 8px 11px -3px rgb(140, 38, 230);
+    color: aliceblue;
+  }
+  .Button:focus{
+    outline: none;
+  }
+  
+  Button:hover{
+    background-color: #7712d6;
+    box-shadow: 0px 15px 20px rgb(109, 5, 201);
+    transform: translateY(-4px);
+    transition: all .1s linear;
+  }
+  .item-block{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .item .Button{
+    width: 30px;
+    height: 30px;
+    background-color: #c59ee8;
+    box-shadow: 3px 8px 11px -3px rgb(215, 170, 255);
+  }
+  .item .Button.delete{
+    background-color: #ff9eb6;
+    box-shadow: 3px 8px 11px -3px rgba(255, 158, 182);
+  }
+  .item .Button:hover{
+    background-color: #2EE59D;
+    box-shadow: 0px 15px 20px rgba(46, 229, 157, 0.4);
+  }
+  .item .Button.delete:hover{
+    background-color: #e44269;
+    box-shadow: 0px 15px 20px rgba(228, 66, 105, 0.86);
+  }
+  
+  .item-name{
+    margin: 10px;
+    font-size: 20px;
+  }
+  .input{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .add-input{
+    height: 40px;
+    border-radius: 30px;
+    font-size: 20px;
+    padding: 0 10px;
+    border: 2px solid #c7a7e4;
+    box-shadow: 11px 5px 9px 1px rgba(109, 5, 201, 0.25);
+  }
+  
+  .add-input:focus{
+    outline: none;
+    border: 1px solid #b06eee;
+    transition: all .1s linear;
+  }
