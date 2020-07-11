@@ -6,7 +6,7 @@ const items = [
   {id:2, text: 'Work on project', isCompleted: false} 
 ]
   
-class App extends React.Component {
+class Assignments extends React.Component {
   constructor() {
     super();
     this.state = {
@@ -47,19 +47,22 @@ class App extends React.Component {
     });
     
   }
-
-
-//class Assignments extends Component {
     render() {
         return (
             // <div className="container">
-            //     <div className="mt-5">
+            //     <div className="row">
             //         <div className="col-sm-8 mx-auto">
-            //             <h1 className="text-center">My Assignments</h1>
+            //             <h1 className="text-center">Assignments</h1>
             //         </div>
             //     </div>
             // </div>
-            <div className="App">
+            <div className="container">
+            <div className="row">
+                     <div className="col-sm-5 left">
+                         <h1 className="text-center">  </h1>
+                     </div>
+            </div>
+
             <h1>My Assignments</h1>
                 <Input addItem={this.addItem}/>
                 <div>
@@ -119,6 +122,10 @@ class Input extends React.Component {
     }
     render(){
         return(
+            <div className="container">
+            <div className="row">
+            <div className="col-md-2"></div>
+            
             <form onSubmit={this.handleSubmit} className="input">
                 <input
                     className="add-input"
@@ -128,10 +135,20 @@ class Input extends React.Component {
                     required="required"
                 >
                 </input>
+            
                 <Button type={"submit"} className={"Button"}>
                     Submit
                 </Button>
             </form>
+            </div>   
+            
+               
+
+            
+            
+            </div>
+
+
         );
     }
 }
@@ -153,5 +170,5 @@ const Button =({
 //ReactDOM.render(<App />, document.getElementById('root'));
 
 
-export default App
+export default Assignments
 
