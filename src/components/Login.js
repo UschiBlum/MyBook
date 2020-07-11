@@ -1,6 +1,6 @@
 import React, {Component} from 'react'
 import {login} from "./UserFunction"
-import logo from './logo.jpg';
+import logo from './Logopit.png';
 import './signup.css'
 
 
@@ -50,7 +50,7 @@ class Login extends Component {
                 <form noValidate onSubmit={this.onSubmit}>
                     <div className="row">
                         <div className="col-md-5 left header-row">
-                            <h1 className="heading text-primary text-center">Login!</h1>
+                            <h1 className="heading display-1 text-center">Login!</h1>
                         </div>
                     </div>
                     <div className="row">

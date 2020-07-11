@@ -6,7 +6,7 @@ class Footer extends Component {
         return (
             <footer>
                     <hr />
-                    <div className="row justify-content-center" style={{height: '3em'}}>
+                    <div className="row justify-content-center" style={{height: '5em'}}>
                         <div className="col-md-4 footer-brand animated fadeInLeft" >
                            <p className="copyright text-muted text-center text-footer">Copyright &copy; Donotreact 2020</p>
                         </div>
@@ -21,8 +21,8 @@ class Footer extends Component {
                         </div>
                     </div>
                     <div className="row justify-content-center">
-                        <div className="col-auto" style={{height: '3em'}}>
-                            <h3>With MyBook to your book!</h3>
+                        <div className="col-auto" style={{height: '5em'}}>
+                            <h3 className="heading">With MyBook to your book!</h3>
                         </div>
                     </div>
             </footer>

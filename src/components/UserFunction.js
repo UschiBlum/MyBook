@@ -13,6 +13,7 @@ export const register = newUser => {
         })
         .catch(err => {
             console.log(err)
+            alert("Username has registered before!")
         })
 }
 

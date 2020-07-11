@@ -19,7 +19,7 @@ class App extends Component {
     return (
         <Router style={{backgroundcolor:'#07f8e7'}}>
           <NavBar />
-          <div className="App" style={{backgroundImage: `url(${notebook})`, backgroundSize: 'cover', height:'80vh', backgroundcolor:'#07f8e7'}}>
+          <div className="App" style={{backgroundImage: `url(${notebook})`, backgroundSize: 'cover', height:'100vh', backgroundcolor:'#07f8e7'}}>
             <Route exact path="/" component={Welcome} />
             <div className="container">
               <Route path="/register" component={Register} />

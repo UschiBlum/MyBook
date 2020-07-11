@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import ReactPlayer from "react-player"
-import logo from './logo.jpg'
+// import logo from './logo.jpg'
 import './welcome.css'
+import logo from './Logopit.png'
 
 const divStyle = {
     display: 'flex',
@@ -22,7 +23,7 @@ class Welcome extends Component {
                 </div>
                 <div className="row header-row">
                     <div className="col-md-5">
-                        <h1 className="heading text-primary text-center">Welcome</h1>
+                        <h1 className="heading text-center display-1">Welcome</h1>
                     </div>
                     <div className="col-md-2"></div>
                     <div className="col-md-5"></div>
@@ -52,7 +53,7 @@ class Welcome extends Component {
                 </div>
                 <div class="row last-row">
                     <div class="row logo">
-                        <div class="col-md-5">
+                        <div class="col-md-5 text-right">
                             <img src={logo} width="250" height="250" />
                         </div>
                         <div class="col-md-2"></div>
