@@ -57,13 +57,21 @@ class Examen extends Component {
     render() {
         return (
             <div className="container">
-            <div className="row">
+                <div className="row">
                      <div className="col-sm-5 left">
                          <h1 className="text-center">  </h1>
                      </div>
-            </div>
-                
-            <h1>MyBook Exam Planner</h1>
+                 </div>
+                 <div className="row">
+                    <div className="col">
+                    <h1>MyBook Exam Planner</h1>
+                    </div>
+                    <div className="col"></div>
+            
+                    <div className="col">    
+                    <h1>Add Exams</h1>
+                    </div>
+                </div>
                 <Input addItem={this.addItem}/>
                 <div>
                 <Items items = {this.state.items} deleteItem={this.deleteItem} compleateItem={this.compleateItem} className="items"/>
