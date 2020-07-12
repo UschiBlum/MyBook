@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import {register} from './UserFunction'
+import {login, register} from './UserFunction'
 import {Input, Form, FormGroup} from 'reactstrap'
 import Dropdown from 'react-dropdown'
 import 'react-dropdown/style.css'
@@ -40,6 +40,7 @@ class Register extends Component {
             formValid: false,
             errorCount: null,
             result:'',
+            existing: false,
             errors: {
                 username: '',
                 email: '',
@@ -103,30 +104,38 @@ class Register extends Component {
         this.setState({[name]:value})
     }
 
-    onSubmit(e) {
-        e.preventDefault()
-
-        this.setState({formValid: validateForm(this.state.errors)})
-        this.setState({errorCount: countErrors(this.state.errors)})
-
-
-        const newUser = {
-            username: this.state.username,
-            email: this.state.email,
-            studyprogram: this.state.value,
-            password: this.state.password,
-            confirmpassword: this.state.confirmpassword
-        }
-
-        register(newUser).then(res => {
-            if(this.state.password === this.state.confirmpassword) {
-                this.props.history.push('/login')
-            } else {
-                alert("Username has registered before!")
-            }
-
-        })
-    }
+    // onSubmit(e) {
+    //     e.preventDefault()
+    //
+    //     this.setState({formValid: validateForm(this.state.errors)})
+    //     this.setState({errorCount: countErrors(this.state.errors)})
+    //
+    //
+    //     const newUser = {
+    //         username: this.state.username,
+    //         email: this.state.email,
+    //         studyprogram: this.state.value,
+    //         password: this.state.password,
+    //         confirmpassword: this.state.confirmpassword
+    //     }
+    //
+    //
+    //     register(newUser)
+    //         .then(res => {
+    //             if(this.state.password === this.state.confirmpassword) {
+    //                 if(this.state.existing === false) {
+    //                     this.props.history.push('/login')
+    //                 }else{
+    //                     alert("Username has registered before!")
+    //                     this.props.history.push('/signup')
+    //                 }
+    //
+    //             }
+    //         })
+    //         .catch(err => {
+    //             alert("Username has registered before!")
+    //         })
+    // }
 
     handleSubmit = (e) => {
         e.preventDefault()
@@ -134,6 +143,31 @@ class Register extends Component {
         this.setState({formValid: validateForm(this.state.errors)})
         this.setState({errorCount: countErrors(this.state.errors)})
 
+        const existingUser = {
+            username: this.state.username
+        }
+
+        login(existingUser)
+            .then(res=> {
+                if(!res.error) {
+                    this.setState({exisiting: true})
+                    alert("Username has registered before")
+                }
+            })
+            .catch(err => {
+                // alert("Username has registered before")
+                console.log("not existing")
+                register(newUser).then(res => {
+                    if(this.state.password === this.state.confirmpassword) {
+                        this.props.history.push('/login')
+                    }else{
+                        alert("Username has registered before!")
+                        this.props.history.push('/register')
+                    }
+
+                })
+
+            })
 
         const newUser = {
             username: this.state.username,
@@ -143,14 +177,7 @@ class Register extends Component {
             confirmpassword: this.state.confirmpassword
         }
 
-        register(newUser).then(res => {
-            if(this.state.password === this.state.confirmpassword) {
-                this.props.history.push('/login')
-            }else {
 
-            }
-
-        })
     }
 
     render() {

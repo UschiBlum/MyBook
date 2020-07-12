@@ -69,7 +69,8 @@ def login():
         if bcrypt.check_password_hash(response['password'], password):
             access_token = create_access_token(identity = {
                 'username': response['username'],
-                'email': response['email']
+                'email': response['email'],
+                'studyprogram': response['tudyprogram']
             })
             result= jsonify({'token': access_token})
         else:
