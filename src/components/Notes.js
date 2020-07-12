@@ -1,5 +1,7 @@
 import React, {Component} from 'react'
 import { Form, TextArea } from 'semantic-ui-react'
+import jwt_decode from 'jwt-decode'
+import {notes} from './UserFunction'
 
 
 const divStyle = {
@@ -22,41 +24,95 @@ const divStyle = {
 
   const notestyle = {
     color: "white",
+    width: "200px",
     backgroundColor: colors[Math.floor(Math.random() * (max - min)) + min],
-    padding: "60px",
+    alignItems: 'center',
+    padding: "50px",
+    justifyContent: 'center',
     fontFamily: 'Arial'
   };
 
   
+  
 
 class Notes extends Component {
+
+    constructor(props) {
+        super(props);
+        this.state = {     
+             value: '' 
+            };
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+      }
+    
+      handleChange(event) {  
+            this.setState({value: event.target.value}); 
+         }
+
+      handleSubmit(event) {
+
+        event.preventDefault();
+        
+        const user = {
+            value: this.state.value,
+
+        }
+        notes(user).then(res => {
+            alert("Added a new Note");
+        }).catch(err =>{
+            console.log(err)
+        });
+        
+
+
+
+      }
 
     render() {
         return (
             <div className="container">
-                <div className="mt-5">
-                    <div className="col-sm-8 mx-auto">
-                        <h1 className="text-center">Notes</h1>
+                <div className="row">
+                    <div className="col-md-12">
+                        <div className="row first-row"></div>
                     </div>
                 </div>
-                <div style={divStyle}>
-                    <div style={divStyle}>
-                        <div style={secondStyle}>
-                            <h2 style={notestyle}>Hier ist ein note</h2>
-                        </div>
-                        <div style={secondStyle}>
-                            <h2 style={notestyle}>Hier ist ein note</h2>
-                        </div>
-                        <div style={secondStyle}>
-                            <h2 style={notestyle}>Hier ist ein note</h2>
-                        </div>
-                    </div>
-                    <div>
-                        <Form>
-                            <TextArea placeholder='Write a Note' style={{ minHeight: 300 , minWidth: 500}} />
-                        </Form>
+                <div className="row header-row">
+                    <div className="col-md-5">
+                        <h1 className="heading text-center display-1">Notes</h1>
                     </div>
                 </div>
+                <div className="col-md-5 left">
+                    <div className="form-group">
+                        <div >
+                            <div className="col-md-5 left">
+                                <h2 style = {notestyle}>Hier ist ein note 1</h2>
+                            </div>
+                            <div className="col-md-2"></div>
+                            <div className="col-md-5">
+                                <h2 style = {notestyle}>Hier ist ein note 2</h2>
+                            </div>
+                            <div className="col-md-2"></div>
+                            <div className="col-md-5">
+                                <h2 style = {notestyle}>Hier ist ein note 3</h2>
+                            </div>
+                            <div className="col-md-2"></div>
+                        </div>
+                    </div>
+                </div>
+                    <div className="col-md-2"></div>
+                    <div className="col-md-5 right">
+                        <div className = "form-group">
+                            <form noValidate onSubmit={this.handleSubmit}>
+                                <textarea placeholder='Write a Note' onChange={this.handleChange} value ={this.state.value} style={{ minHeight: 300 , minWidth: 500}} />
+                                <div>
+                                    <button type="submit" className="btn btn-primary btn-lg">
+                                        Create Note
+                                    </button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
             </div>
         )
     }

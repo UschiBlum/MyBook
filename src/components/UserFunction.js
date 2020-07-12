@@ -31,3 +31,16 @@ export const login = user => {
             console.log(err)
         })
 }
+
+export const notes = user => {
+    return axios
+        .post("users/notes", {
+            notes: user.value
+        })
+        .then(response =>{
+            console.log("New Note")
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
