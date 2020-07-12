@@ -142,7 +142,9 @@ class Input extends React.Component {
         return(
             <div className="container">
             <div className="row">
-            <div className="col-md-2"></div>
+            <div className="col"></div>
+            <div className="col"></div>
+            <div className="col">
             
             <form onSubmit={this.handleSubmit} className="input">
                 <input
@@ -159,10 +161,8 @@ class Input extends React.Component {
                 </Button>
             </form>
             </div>   
-            
-               
-
-            
+            </div>
+             
             
             </div>
 

@@ -62,12 +62,12 @@ class Examen extends Component {
                          <h1 className="text-center">  </h1>
                      </div>
             </div>
-
+                
             <h1>MyBook Exam Planner</h1>
                 <Input addItem={this.addItem}/>
                 <div>
                 <Items items = {this.state.items} deleteItem={this.deleteItem} compleateItem={this.compleateItem} className="items"/>
-                </div>
+                </div> 
             </div>
         );
     }
@@ -125,7 +125,9 @@ class Input extends React.Component {
         return(
             <div className="container">
             <div className="row">
-            <div className="col-md-2"></div>
+            <div className="col"></div>
+            <div className="col"></div>
+            <div className="col">
             
             <form onSubmit={this.handleSubmit} className="input">
                 <input
@@ -142,7 +144,7 @@ class Input extends React.Component {
                 </Button>
             </form>
             </div>   
-            
+            </div>
                
 
             
