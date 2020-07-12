@@ -3,8 +3,11 @@ import paper_plane from './paper_plane.png'
 import {HuePicker} from 'react-color'
 import {createLecture} from "./TimeTablFunction";
 import './timttable.css'
+import nextId from "react-id-generator";
+
 
 class Timetable extends Component {
+    lecId = nextId()
     constructor() {
         super()
         this.state = {
@@ -14,7 +17,7 @@ class Timetable extends Component {
             wednesday: false,
             thursday: false,
             friday: false,
-            color: '#fff',
+            color: '#8ff',
             starttimemonday: '',
             endtimemonday:'',
             starttimetuesday: '',
@@ -25,6 +28,13 @@ class Timetable extends Component {
             endtimethursday:'',
             starttimefriday: '',
             endtimefriday:'',
+            lectures: [
+                // {id: lecId, lecName: {lecture}, startMo: {starttimemonday}, endMo:{endtimemonday}, startTu: {starttimetuesday}, endTu:{endtimetuesday}, startWe:{starttimewednesday}, endWe: {endtimewednesday}, startTh:{starttimethursday}, endTh:{endtimethursday}, startFr:{starttimefriday}, endFr:{endtimefriday}}
+                {id:1, lecName:'test1', startMo: '12:00', endMo:'14:00', startTu: '', endTu:'', startWe:'', endWe: '', startTh:'', endTh:'', startFr:'', endFr:''},
+                {id:2, lecName:'test2', startMo: '', endMo:'', startTu: '14:00', endTu:'16:00', startWe:'', endWe: '', startTh:'', endTh:'', startFr:'', endFr:''},
+                {id:3, lecName:'test3', startMo: '10:00', endMo:'12:00', startTu: '', endTu:'', startWe:'', endWe: '', startTh:'16:00', endTh:'18:00', startFr:'', endFr:''},
+                {id:4, lecName:'test4', startMo: '', endMo:'', startTu: '', endTu:'', startWe:'', endWe: '', startTh:'', endTh:'', startFr:'10:00', endFr:'12:00'}
+                ]
 
         }
         this.onChange = this.onChange.bind(this)
@@ -61,48 +71,80 @@ class Timetable extends Component {
             endtimefriday: this.state.endtimefriday,
         }
 
-        // createLecture(newLecture).then(res =>{
-        //     this.props.history.push('/timetable')
-        // })
     }
 
+    renderTableData(){
+        return this.state.lectures.map((lectures, index) =>{
+            const{id, lecName, startMo, endMo, startTu, endTu, startWe, endWe, startTh, endTh, startFr, endFr} = lectures
+            var numStartMo = parseInt(startMo, 10)
+            var numStartTu = parseInt(startTu, 10)
+            var numStartWe = parseInt(startWe, 10)
+            var numStartTh = parseInt(startTh, 10)
+            var numStartFr = parseInt(startFr, 10)
+
+            const times =[8,9,10,11,12,13,14,15,16,17,18,19,20]
+            const timeList = times.forEach(number =>{
+                if(startMo !== ''){
+                    if(numStartMo===number){
+                        return(
+                            <tr key={id}>
+                                <td>{startMo} - {endMo}</td>
+                                <td>{lecName}</td>
+                            </tr>
+                        )
+                    }
+
+                }
+                // if(numStartTu !== '' && numStartTu >= number && numStartTu < number+1){
+                //     return(
+                //         <tr key={id}>
+                //             <td>{startTu} - {endTu}</td>
+                //             <td></td>
+                //             <td>{lecName}</td>
+                //         </tr>
+                //     )
+                // }
+                // if(numStartWe !== '' && numStartWe >= number && numStartWe < number+1){
+                //     return(
+                //         <tr key={id}>
+                //             <td>{startWe} - {endWe}</td>
+                //             <td></td>
+                //             <td></td>
+                //             <td>{lecName}</td>
+                //         </tr>
+                //     )
+                // }
+                // if(numStartTh !== '' && numStartTh >= number && numStartTh < number+1){
+                //     return(
+                //         <tr key={id}>
+                //             <td>{startTh} - {endTh}</td>
+                //             <td></td>
+                //             <td></td>
+                //             <td></td>
+                //             <td>{lecName}</td>
+                //         </tr>
+                //     )
+                // }
+                // if(numStartFr !== '' && numStartFr >= number && numStartFr < number+1){
+                //     return(
+                //         <tr key={id}>
+                //             <td>{startFr} - {endFr}</td>
+                //             <td></td>
+                //             <td></td>
+                //             <td></td>
+                //             <td></td>
+                //             <td>{lecName}</td>
+                //         </tr>
+                //     )
+                // }
+
+            } )
+
+
+        })
+    }
 
     render() {
-        // function Weekday(props) {
-        //     const isChecked = props.isChecked
-        //
-        //     if (isChecked) {
-        //         return <TimeSet/>
-        //     }
-        // }
-        //
-        // function TimeSet(props) {
-        //     const startTimeName = props.startTimeName
-        //     const startTimeValue = props.startTimeValue
-        //     const endTimeName = props.endTimeName
-        //     const endTimeValue = props.endTimeValue
-        //
-        //     return(
-        //         <div className="row">
-        //             <div className="col-6 mb-auto">
-        //                 <label htmlFor={startTimeName}>Start time:</label>
-        //                 <input type="text" className="form-control"
-        //                        name = {startTimeName}
-        //                        value={startTimeValue}
-        //                        placeholder="Starttime:"
-        //                         />
-        //             </div>
-        //             <div className="col-6 mb-auto">
-        //                 <label htmlFor={endTimeName}>Start time:</label>
-        //                 <input type="text" className="form-control"
-        //                        name = {endTimeName}
-        //                        value={endTimeValue}
-        //                        placeholder="Endtime"
-        //                         />
-        //             </div>
-        //         </div>)
-        // }
-
 
 
         return (
@@ -120,7 +162,22 @@ class Timetable extends Component {
                     </div>
                     <div className="row">
                         <div className="col-md-5 left">
-
+                            <table id='lectures'>
+                                <thead>
+                                    <tr>
+                                        <th>Time</th>
+                                        <th>Monday</th>
+                                        <th>Tuesday</th>
+                                        <th>Wednesday</th>
+                                        <th>Thursday</th>
+                                        <th>Friday</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {this.renderTableData()}
+                                    {this.timesList}
+                                </tbody>
+                            </table>
                         </div>
                         <div className="col-md-2"></div>
                         <div className="col-md-5 right">
@@ -159,6 +216,7 @@ class Timetable extends Component {
                                                name = "starttimemonday"
                                                value={this.state.starttimemonday}
                                                placeholder="12:00"
+                                               onChange={this.onChange}
                                         />
                                     </div>
                                     <div className="col-md-5 mb-auto">
@@ -167,6 +225,7 @@ class Timetable extends Component {
                                                name = "endtimemonday"
                                                value={this.state.endtimemonday}
                                                placeholder="14:00:"
+                                               onChange={this.onChange}
                                         />
                                     </div>
                                 </div>
@@ -178,6 +237,7 @@ class Timetable extends Component {
                                                name = "starttimetuesday"
                                                value={this.state.starttimetuesday}
                                                placeholder="12:00"
+                                               onChange={this.onChange}
                                         />
                                     </div>
                                     <div className="col-md-5 mb-auto">
@@ -186,6 +246,7 @@ class Timetable extends Component {
                                                name = "endtimetuesday"
                                                value={this.state.endtimetuesday}
                                                placeholder="14:00"
+                                               onChange={this.onChange}
                                         />
                                     </div>
                                 </div>
@@ -197,6 +258,7 @@ class Timetable extends Component {
                                                name = "starttimewednesday"
                                                value={this.state.starttimewednesday}
                                                placeholder="12:00"
+                                               onChange={this.onChange}
                                         />
                                     </div>
                                     <div className="col-md-5 mb-auto">
@@ -205,6 +267,7 @@ class Timetable extends Component {
                                                name = "endtimewednesday"
                                                value={this.state.endtimewednesday}
                                                placeholder="14:00"
+                                               onChange={this.onChange}
                                         />
                                     </div>
                                 </div>
@@ -216,6 +279,7 @@ class Timetable extends Component {
                                                name = "starttimethursday"
                                                value={this.state.starttimethursday}
                                                placeholder="12:00"
+                                               onChange={this.onChange}
                                         />
                                     </div>
                                     <div className="col-5 mb-auto">
@@ -224,6 +288,7 @@ class Timetable extends Component {
                                                name = "endtimethursday"
                                                value={this.state.endtimethursday}
                                                placeholder="14:00"
+                                               onChange={this.onChange}
                                         />
                                     </div>
                                 </div>
@@ -235,6 +300,7 @@ class Timetable extends Component {
                                                name = "starttimefriday"
                                                value={this.state.starttimefriday}
                                                placeholder="12:00"
+                                               onChange={this.onChange}
                                         />
                                     </div>
                                     <div className="col-md-5 mb-auto">
@@ -243,6 +309,7 @@ class Timetable extends Component {
                                                name = "endtimefriday"
                                                value={this.state.endtimefriday}
                                                placeholder="14:00"
+                                               onChange={this.onChange}
                                         />
                                     </div>
                                 </div>

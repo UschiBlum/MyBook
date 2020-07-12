@@ -157,15 +157,6 @@ class Register extends Component {
             .catch(err => {
                 // alert("Username has registered before")
                 console.log("not existing")
-                register(newUser).then(res => {
-                    if(this.state.password === this.state.confirmpassword) {
-                        this.props.history.push('/login')
-                    }else{
-                        alert("Username has registered before!")
-                        this.props.history.push('/register')
-                    }
-
-                })
 
             })
 
@@ -176,6 +167,21 @@ class Register extends Component {
             password: this.state.password,
             confirmpassword: this.state.confirmpassword
         }
+
+        register(newUser)
+            .then(res => {
+            if(this.state.password === this.state.confirmpassword) {
+                this.props.history.push('/login')
+            }else{
+                alert("Username has registered before!")
+                this.props.history.push('/register')
+            }
+
+        })
+            .catch(err =>{
+                console.log(err)
+            })
+
 
 
     }

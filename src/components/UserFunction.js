@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 export const register = newUser => {
     return axios
         .post("users/register", {

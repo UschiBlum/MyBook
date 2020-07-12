@@ -28,7 +28,13 @@ def notes():
 @app.route('/users/register', methods=['GET', 'POST'])
 def register():
     users = mongo.db.users
+    testuser= users.find_one({'username':'Conny'})
+    print('--------------------------------')
+    print(testuser)
+    print('---------------------------------')
     existing_user = users.find_one({'username':request.get_json()['username']})
+
+
 
     if existing_user is None:
         passwordtest = request.get_json()['password']
@@ -70,7 +76,7 @@ def login():
             access_token = create_access_token(identity = {
                 'username': response['username'],
                 'email': response['email'],
-                'studyprogram': response['tudyprogram']
+                'studyprogram': response['studyprogram']
             })
             result= jsonify({'token': access_token})
         else:

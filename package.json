@@ -19,6 +19,7 @@
     "react-color": "^2.18.1",
     "react-dom": "^16.13.1",
     "react-dropdown": "^1.7.0",
+    "react-id-generator": "^3.0.1",
     "react-player": "^2.5.0",
     "react-router-dom": "^5.2.0",
     "react-scripts": "3.4.1",
@@ -47,5 +48,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "proxy": "http://localhost:5000"
 }
