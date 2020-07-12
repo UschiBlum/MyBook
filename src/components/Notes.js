@@ -1,6 +1,7 @@
 import React, {Component} from 'react'
 import { Form, TextArea } from 'semantic-ui-react'
 import jwt_decode from 'jwt-decode'
+import {notes} from './UserFunction'
 
 
 const divStyle = {
@@ -36,45 +37,37 @@ const divStyle = {
 
 class Notes extends Component {
 
-    constructor() {
-        super()
-        this.state = {
-            username: '',
-            notes: ''
-        }
-    }
+    constructor(props) {
+        super(props);
+        this.state = {     
+             value: '' 
+            };
+        this.handleChange = this.handleChange.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
+      }
+    
+      handleChange(event) {  
+            this.setState({value: event.target.value}); 
+         }
 
-    componentDidMount () {
-        const token = localStorage.usertoken
-        const decoded = jwt_decode(token)
-        this.setState({
-            username: decoded.identity.username,
-            notes: decoded.identity.notes,
-        })
+      handleSubmit(event) {
+
+        event.preventDefault();
         
-    }
-
-    onSubmit(e) {
-        e.preventDefault()
         const user = {
-            username: this.state.username,
-            notes: this.state.notes
-        }
+            value: this.state.value,
 
-        Notes(user)
-            .then(res => {
-                if (!res.error) {
-                    const token = localStorage.usertoken
-                    const decoded = jwt_decode(token)
-                    this.setState({
-                        notes: decoded.identity.notes + this.state.TextArea,
-                    })
-                }
-            })
-            .catch(err => {
-                console.log(err)
-            })
-    }
+        }
+        notes(user).then(res => {
+            alert("Added a new Note");
+        }).catch(err =>{
+            console.log(err)
+        });
+        
+
+
+
+      }
 
     render() {
         return (
@@ -110,21 +103,14 @@ class Notes extends Component {
                     <div className="col-md-2"></div>
                     <div className="col-md-5 right">
                         <div className = "form-group">
-                            <Form>
-                                <TextArea placeholder='Write a Note' style={{ minHeight: 300 , minWidth: 500}} />
-                            </Form>
-                            <input type="text"
-                                       className="form-control form-control-lg"
-                                       name="text"
-                                       value={this.state.TextArea}
-                                       onChange={this.handleChange}
-                                       noValidate
-                                />
-                        </div>
-                        <div>
-                            <button type="submit" className="btn btn-primary btn-lg">
-                                 Create Note
-                            </button>
+                            <form noValidate onSubmit={this.handleSubmit}>
+                                <textarea placeholder='Write a Note' onChange={this.handleChange} value ={this.state.value} style={{ minHeight: 300 , minWidth: 500}} />
+                                <div>
+                                    <button type="submit" className="btn btn-primary btn-lg">
+                                        Create Note
+                                    </button>
+                                </div>
+                            </form>
                         </div>
                     </div>
             </div>

@@ -20,6 +20,11 @@ jwt = JWTManager(app)
 
 CORS(app)
 
+@app.route('/user/notes', methods=['GET', 'POST'])
+def notes():
+    notes = mongo.db.notes
+    
+
 @app.route('/users/register', methods=['GET', 'POST'])
 def register():
     users = mongo.db.users
