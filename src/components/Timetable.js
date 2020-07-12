@@ -1,7 +1,8 @@
 import React, {Component} from 'react'
 import paper_plane from './paper_plane.png'
-import {SketchPicker} from 'react-color'
+import {HuePicker} from 'react-color'
 import {createLecture} from "./TimeTablFunction";
+import './timttable.css'
 
 class Timetable extends Component {
     constructor() {
@@ -13,7 +14,7 @@ class Timetable extends Component {
             wednesday: false,
             thursday: false,
             friday: false,
-            color: '',
+            color: '#fff',
             starttimemonday: '',
             endtimemonday:'',
             starttimetuesday: '',
@@ -32,6 +33,9 @@ class Timetable extends Component {
 
     onChange(e) {
         this.setState({[e.target.name]: e.target.value})
+    }
+    handleChangeComplete = (color) =>{
+        this.setState({color : color.hex})
     }
 
     onSubmit(e){
@@ -103,17 +107,26 @@ class Timetable extends Component {
 
         return (
             <div className="container">
+                <div className="row">
+                    <div className="col-md-12">
+                        <div className="row first-row"></div>
+                    </div>
+                </div>
                 <form noValidate onSubmit={this.onSubmit}>
                     <div className="row">
-                        <div className="col-md-6 left">
-                            <div className="form-group">
-                                <h1 className="h3 mb-3 font-weight-normal text-center">MyBook Time table</h1>
-                            </div>
+                        <div className="col-md-5 left header-row">
+                            <h1 className="heading text-center display-1">MyBook Time table!</h1>
                         </div>
-                        <div className="col-md-6 right">
+                    </div>
+                    <div className="row">
+                        <div className="col-md-5 left">
+
+                        </div>
+                        <div className="col-md-2"></div>
+                        <div className="col-md-5 right">
                             <div className="form-group">
                                 <input type="text"
-                                       className="form-control"
+                                       className="form-control form-control-lg"
                                        name="lecture"
                                        placeholder="Lecture"
                                        value={this.state.lecture}
@@ -122,62 +135,25 @@ class Timetable extends Component {
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-md-6 left">
-                            <div className="form-group">
-
-                            </div>
+                        <div className="col-md-5 left">
                         </div>
-                        <div className="col-md-6 right">
-                            <div className="row">
-                                {/*<div className="form-group col-6">*/}
-                                {/*    <div className="form-check">*/}
-                                {/*        <input name="monday" type="checkbox" value={this.state.monday}*/}
-                                {/*               checked={this.state.monday} onChange={this.onChange}/>*/}
-                                {/*        <label htmlFor="monday">Monday</label>*/}
-                                {/*        <br />*/}
-                                {/*    </div>*/}
-                                {/*    <div className="form-check">*/}
-                                {/*        <input name="tuesday" type="checkbox" value={this.state.tuesday}*/}
-                                {/*               checked={this.state.tuesday} onChange={this.onChange}/>*/}
-                                {/*        <label htmlFor="tuesday">Tuesday</label>*/}
-                                {/*        <br />*/}
-                                {/*    </div>*/}
-                                {/*    <div className="form-check">*/}
-                                {/*        <input name="wednesday" type="checkbox" value={this.state.wednesday}*/}
-                                {/*               checked={this.state.wednesday} onChange={this.onChange}/>*/}
-                                {/*        <label htmlFor="wednesday">Wednesday</label>*/}
-                                {/*        <br />*/}
-                                {/*    </div>*/}
-                                {/*    <div className="form-check">*/}
-                                {/*        <input name="thursday" type="checkbox" value={this.state.thursday}*/}
-                                {/*               checked={this.state.thursday} onChange={this.onChange}/>*/}
-                                {/*        <label htmlFor="thursday">Thursday</label>*/}
-                                {/*        <br />*/}
-                                {/*    </div>*/}
-                                {/*    <div className="form-check">*/}
-                                {/*        <input name="friday" type="checkbox" value={this.state.friday}*/}
-                                {/*               checked={this.state.friday} onChange={this.onChange}/>*/}
-                                {/*        <label htmlFor="friday">Friday</label>*/}
-                                {/*        <br />*/}
-                                {/*    </div>*/}
-                                {/*</div>*/}
-                                <div className="form-group col-12 center-block">
-                                    <SketchPicker />
-                                </div>
-                            </div>
+                        <div className="col-md-2"></div>
+                        <div className="col-md-5 right">
+                            <HuePicker color={this.state.color} onChangeComplete={this.handleChangeComplete}/>
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-md-6 left">
+                        <div className="col-md-5 left">
                             <div className="form-group">
                                 <img src={paper_plane} width="200" alt="Paper Plane" />
                             </div>
                         </div>
-                        <div className="col-md-6 right">
+                        <div className="col-md-2"></div>
+                        <div className="col-md-5 right">
                             <div className="form-group">
                                 <div className="row">
-                                    <div className="col-2"><h5>Monday:</h5></div>
-                                    <div className="col-5 mb-auto">
+                                    <div className="col-md-2"><h5>Monday:</h5></div>
+                                    <div className="col-,d-5 mb-auto">
                                         <label htmlFor="starttimemonday">Start time:</label>
                                         <input type="text" className="form-control"
                                                name = "starttimemonday"
@@ -185,7 +161,7 @@ class Timetable extends Component {
                                                placeholder="12:00"
                                         />
                                     </div>
-                                    <div className="col-5 mb-auto">
+                                    <div className="col-md-5 mb-auto">
                                         <label htmlFor="endtimemonday">Start time:</label>
                                         <input type="text" className="form-control"
                                                name = "endtimemonday"
@@ -195,8 +171,8 @@ class Timetable extends Component {
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-2"> <h5>Tuesday:</h5></div>
-                                    <div className="col-5 mb-auto">
+                                    <div className="col-md-2"> <h5>Tuesday:</h5></div>
+                                    <div className="col-md-5 mb-auto">
                                         <label htmlFor="starttimetuesday">Start time:</label>
                                         <input type="text" className="form-control"
                                                name = "starttimetuesday"
@@ -204,7 +180,7 @@ class Timetable extends Component {
                                                placeholder="12:00"
                                         />
                                     </div>
-                                    <div className="col-5 mb-auto">
+                                    <div className="col-md-5 mb-auto">
                                         <label htmlFor="endtimetuesday">Start time:</label>
                                         <input type="text" className="form-control"
                                                name = "endtimetuesday"
@@ -214,8 +190,8 @@ class Timetable extends Component {
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-2"> <h5>Wednesday:</h5></div>
-                                    <div className="col-5 mb-auto">
+                                    <div className="col-md-2"> <h5>Wednesday:</h5></div>
+                                    <div className="col-md-5 mb-auto">
                                         <label htmlFor="starttimewednesday">Start time:</label>
                                         <input type="text" className="form-control"
                                                name = "starttimewednesday"
@@ -223,7 +199,7 @@ class Timetable extends Component {
                                                placeholder="12:00"
                                         />
                                     </div>
-                                    <div className="col-5 mb-auto">
+                                    <div className="col-md-5 mb-auto">
                                         <label htmlFor="endtimewednesday">Start time:</label>
                                         <input type="text" className="form-control"
                                                name = "endtimewednesday"
@@ -233,8 +209,8 @@ class Timetable extends Component {
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-2"><h5>Thursday:</h5></div>
-                                    <div className="col-5 mb-auto">
+                                    <div className="col-md-2"><h5>Thursday:</h5></div>
+                                    <div className="col-md-5 mb-auto">
                                         <label htmlFor="starttimethursday">Start time:</label>
                                         <input type="text" className="form-control"
                                                name = "starttimethursday"
@@ -252,8 +228,8 @@ class Timetable extends Component {
                                     </div>
                                 </div>
                                 <div className="row">
-                                    <div className="col-2"> <h5>Friday:</h5></div>
-                                    <div className="col-5 mb-auto">
+                                    <div className="col-md-2"> <h5>Friday:</h5></div>
+                                    <div className="col-md-5 mb-auto">
                                         <label htmlFor="starttimefriday">Start time:</label>
                                         <input type="text" className="form-control"
                                                name = "starttimefriday"
@@ -261,7 +237,7 @@ class Timetable extends Component {
                                                placeholder="12:00"
                                         />
                                     </div>
-                                    <div className="col-5 mb-auto">
+                                    <div className="col-md-5 mb-auto">
                                         <label htmlFor="endtimefriday">Start time:</label>
                                         <input type="text" className="form-control"
                                                name = "endtimefriday"
