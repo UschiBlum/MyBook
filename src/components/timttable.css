@@ -7151,6 +7151,9 @@ a.text-dark:hover, a.text-dark:focus {
     max-height: 7em;
     font-size: large;
 }
+.table{
+    height:10em;
+}
 .submit{
     padding-left: 20em;
 

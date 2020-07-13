@@ -44,3 +44,16 @@ export const notes = user => {
             console.log(err)
         })
 }
+
+export const assignments = newAss => {
+    return axios
+        .post("users/assignments",{
+            assignments: newAss.items
+        })
+        .then(response =>{
+            console.log("added assignments")
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}

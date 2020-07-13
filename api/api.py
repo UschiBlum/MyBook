@@ -20,7 +20,9 @@ jwt = JWTManager(app)
 
 CORS(app)
 
-@app.route('/user/notes', methods=['GET', 'POST'])
+
+
+@app.route('/users/notes', methods=['GET', 'POST'])
 def notes():
     notes = mongo.db.notes
     
@@ -28,10 +30,6 @@ def notes():
 @app.route('/users/register', methods=['GET', 'POST'])
 def register():
     users = mongo.db.users
-    testuser= users.find_one({'username':'Conny'})
-    print('--------------------------------')
-    print(testuser)
-    print('---------------------------------')
     existing_user = users.find_one({'username':request.get_json()['username']})
 
 

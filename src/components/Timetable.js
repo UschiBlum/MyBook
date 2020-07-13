@@ -6,6 +6,8 @@ import './timttable.css'
 import nextId from "react-id-generator";
 
 
+const lectureList =[]
+
 class Timetable extends Component {
     lecId = nextId()
     constructor() {
@@ -28,9 +30,10 @@ class Timetable extends Component {
             endtimethursday:'',
             starttimefriday: '',
             endtimefriday:'',
+            lectureList: lectureList,
             lectures: [
                 // {id: lecId, lecName: {lecture}, startMo: {starttimemonday}, endMo:{endtimemonday}, startTu: {starttimetuesday}, endTu:{endtimetuesday}, startWe:{starttimewednesday}, endWe: {endtimewednesday}, startTh:{starttimethursday}, endTh:{endtimethursday}, startFr:{starttimefriday}, endFr:{endtimefriday}}
-                {id:1, lecName:'test1', startMo: '12:00', endMo:'14:00', startTu: '', endTu:'', startWe:'', endWe: '', startTh:'', endTh:'', startFr:'', endFr:''},
+                {id:1, lecName:'test1', startMo: '12:00', endMo:'14:00', startTu: '', endTu:'', startWe:'', endWe: '', startTh:'', endTh:'', startFr:'', endFr:'',},
                 {id:2, lecName:'test2', startMo: '', endMo:'', startTu: '14:00', endTu:'16:00', startWe:'', endWe: '', startTh:'', endTh:'', startFr:'', endFr:''},
                 {id:3, lecName:'test3', startMo: '10:00', endMo:'12:00', startTu: '', endTu:'', startWe:'', endWe: '', startTh:'16:00', endTh:'18:00', startFr:'', endFr:''},
                 {id:4, lecName:'test4', startMo: '', endMo:'', startTu: '', endTu:'', startWe:'', endWe: '', startTh:'', endTh:'', startFr:'10:00', endFr:'12:00'}
@@ -46,6 +49,15 @@ class Timetable extends Component {
     }
     handleChangeComplete = (color) =>{
         this.setState({color : color.hex})
+    }
+
+    addLecture = (lecture) =>{
+        const {lectureList} = this.state
+        lecture.id = this.lecId
+        let updateList = [...lectureList, lecture]
+        this.setState({
+            lectureList: updateList
+        })
     }
 
     onSubmit(e){
@@ -74,73 +86,24 @@ class Timetable extends Component {
     }
 
     renderTableData(){
-        return this.state.lectures.map((lectures, index) =>{
-            const{id, lecName, startMo, endMo, startTu, endTu, startWe, endWe, startTh, endTh, startFr, endFr} = lectures
+        return this.state.lectures.map((lectures, index) => {
+            const {id, lecName, startMo, endMo, startTu, endTu, startWe, endWe, startTh, endTh, startFr, endFr, color} = lectures
             var numStartMo = parseInt(startMo, 10)
             var numStartTu = parseInt(startTu, 10)
             var numStartWe = parseInt(startWe, 10)
             var numStartTh = parseInt(startTh, 10)
             var numStartFr = parseInt(startFr, 10)
 
-            const times =[8,9,10,11,12,13,14,15,16,17,18,19,20]
-            const timeList = times.forEach(number =>{
-                if(startMo !== ''){
-                    if(numStartMo===number){
-                        return(
-                            <tr key={id}>
-                                <td>{startMo} - {endMo}</td>
-                                <td>{lecName}</td>
-                            </tr>
-                        )
-                    }
-
-                }
-                // if(numStartTu !== '' && numStartTu >= number && numStartTu < number+1){
-                //     return(
-                //         <tr key={id}>
-                //             <td>{startTu} - {endTu}</td>
-                //             <td></td>
-                //             <td>{lecName}</td>
-                //         </tr>
-                //     )
-                // }
-                // if(numStartWe !== '' && numStartWe >= number && numStartWe < number+1){
-                //     return(
-                //         <tr key={id}>
-                //             <td>{startWe} - {endWe}</td>
-                //             <td></td>
-                //             <td></td>
-                //             <td>{lecName}</td>
-                //         </tr>
-                //     )
-                // }
-                // if(numStartTh !== '' && numStartTh >= number && numStartTh < number+1){
-                //     return(
-                //         <tr key={id}>
-                //             <td>{startTh} - {endTh}</td>
-                //             <td></td>
-                //             <td></td>
-                //             <td></td>
-                //             <td>{lecName}</td>
-                //         </tr>
-                //     )
-                // }
-                // if(numStartFr !== '' && numStartFr >= number && numStartFr < number+1){
-                //     return(
-                //         <tr key={id}>
-                //             <td>{startFr} - {endFr}</td>
-                //             <td></td>
-                //             <td></td>
-                //             <td></td>
-                //             <td></td>
-                //             <td>{lecName}</td>
-                //         </tr>
-                //     )
-                // }
-
-            } )
-
-
+            return(
+                <tr key={id} style={{backgroundColor: this.state.color}}>
+                    <td>{lecName}</td>
+                    <td>{startMo} - {endMo}</td>
+                    <td>{startTu} - {endTu}</td>
+                    <td>{startWe} - {endWe}</td>
+                    <td>{startTh} - {endTh}</td>
+                    <td>{startFr} - {endFr}</td>
+                </tr>
+            )
         })
     }
 
@@ -161,11 +124,11 @@ class Timetable extends Component {
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-md-5 left">
+                        <div className="col-md-5 table">
                             <table id='lectures'>
                                 <thead>
                                     <tr>
-                                        <th>Time</th>
+                                        <th>Lecture</th>
                                         <th>Monday</th>
                                         <th>Tuesday</th>
                                         <th>Wednesday</th>
@@ -175,7 +138,6 @@ class Timetable extends Component {
                                 </thead>
                                 <tbody>
                                     {this.renderTableData()}
-                                    {this.timesList}
                                 </tbody>
                             </table>
                         </div>
