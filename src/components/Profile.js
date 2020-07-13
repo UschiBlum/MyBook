@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import jwt_decode from 'jwt-decode'
+import List from './List'
 
 class Profile extends Component {
     constructor() {
@@ -27,6 +28,7 @@ class Profile extends Component {
                 <div className="mt-5">
                     <div className="col-sm-8 mx-auto">
                         <h1 className="text-center">{this.state.username}'s Homepage</h1>
+                        <List />
                     </div>
                 </div>
             </div>

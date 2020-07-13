@@ -1,18 +1,13 @@
 import React, { Component } from 'react'
-import { getList, addToList, deleteItem, updateItem } from './ListFunctions'
+import { getList, addToList, deleteItem, updateItem } from './ListMethods'
 
 class List extends Component {
     constructor() {
         super()
         this.state = {
             id: '',
-            term: '',
-            editDisabled: false,
-            items: []
+            term: ''
         }
-
-        this.onSubmit = this.onSubmit.bind(this)
-        this.onChange = this.onChange.bind(this)
     }
 
     componentDidMount () {
