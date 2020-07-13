@@ -1,23 +1,32 @@
 import React, {Component} from 'react'
 import './Assignments.css'
 //import {Link, RichText, Date} from 'prismic-reactjs';
+import { Form } from 'semantic-ui-react'
 
 const items = [
-  {id:1, text:'learn React', isCompleted: false},
+  {id:1, text:'Learn React', isCompleted: false},
   {id:2, text: 'Work on project', isCompleted: false} 
 ]
   
 class Assignments extends React.Component {
-  constructor() {
-    super();
+
+    
+  constructor(props) {
+    super(props);
     this.state = {
       items: items,
+      date: "",
+      description: ""
     };
     this.deleteItem = this.deleteItem.bind(this);
     this.addItem = this.addItem.bind(this);
     this.editItem = this.editItem.bind(this);
     this.compleateItem = this.compleateItem.bind(this);
-  }
+    
+
+    
+    }
+   
 
 
   deleteItem=(id)=>{
@@ -100,6 +109,8 @@ class Assignments extends React.Component {
     }
 }
 
+
+
 const Items = ({items, deleteItem, editItem, compleateItem}) => {
     const itemList = items.length ? (
         items.map(item=>
@@ -115,13 +126,32 @@ const Items = ({items, deleteItem, editItem, compleateItem}) => {
             </div>
         )
     ) 
+
+    
     : (
         <p> You have no items</p>
+        
     );
+
+    
     return(
-        <div>
-            {itemList}
+        
+        <div className="row">
+            <div className="col">{itemList}</div>
+                    
+                <div className="col">
+                    {/* <Form>
+                    <Form.Group widths='equal'>
+                        <Form.TextArea width='auto' label='' placeholder='Enter the detail description of Task...' />
+                    </Form.Group>
+                    </Form>
+                 */}
+                </div>
+                    
         </div>
+
+   
+
     );
     
 }
@@ -148,6 +178,7 @@ class Input extends React.Component {
         )
         
     }
+    
     render(){
         return(
             <div className="container">
@@ -164,7 +195,8 @@ class Input extends React.Component {
                     onChange={this.handleChange}
                     required="required"
                 >
-                </input>
+                </input> 
+                
             
                 <Button type={"submit"} className={"Button"}>
                     Submit
@@ -195,7 +227,17 @@ const Button =({
         {children}
     </button>
 
+
+
+
+
 //ReactDOM.render(<App />, document.getElementById('root'));
+
+
+
+
+
+
 
 
 export default Assignments

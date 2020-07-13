@@ -86,15 +86,15 @@ class Notes extends Component {
                     <div className="form-group">
                         <div >
                             <div className="col-md-5 left">
-                                <h2 style = {notestyle}>Hier ist ein note 1</h2>
+                                <h2 style = {notestyle}>{this.state.notes}</h2>
                             </div>
                             <div className="col-md-2"></div>
                             <div className="col-md-5">
-                                <h2 style = {notestyle}>Hier ist ein note 2</h2>
+                                <h2 style = {notestyle}>{this.state.notes}</h2>
                             </div>
                             <div className="col-md-2"></div>
                             <div className="col-md-5">
-                                <h2 style = {notestyle}>Hier ist ein note 3</h2>
+                                <h2 style = {notestyle}>{this.state.notes}</h2>
                             </div>
                             <div className="col-md-2"></div>
                         </div>
