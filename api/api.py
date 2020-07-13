@@ -20,8 +20,12 @@ jwt = JWTManager(app)
 
 CORS(app)
 
-@app.route('/user/notes', methods=['GET', 'POST'])
+
+
+
+@app.route('/users/notes', methods=['GET', 'POST'])
 def notes(user):
+
     notes = mongo.db.notes
     users = mongo.db.users
     time = datetime.utcnow()
@@ -42,6 +46,8 @@ def notes(user):
 def register():
     users = mongo.db.users
     existing_user = users.find_one({'username':request.get_json()['username']})
+
+
 
     if existing_user is None:
         passwordtest = request.get_json()['password']
@@ -83,7 +89,7 @@ def login():
             access_token = create_access_token(identity = {
                 'username': response['username'],
                 'email': response['email'],
-                'studyprogram': response['tudyprogram']
+                'studyprogram': response['studyprogram']
             })
             result= jsonify({'token': access_token})
         else:

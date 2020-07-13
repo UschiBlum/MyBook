@@ -1,5 +1,7 @@
 import React, { Component } from 'react'
 import jwt_decode from 'jwt-decode'
+import logo from "./Logopit.png";
+
 
 class Profile extends Component {
     constructor() {
@@ -24,10 +26,14 @@ class Profile extends Component {
     render () {
         return (
             <div className="container">
+
+                
+
                 <div className="mt-5">
                     <div className="col-sm-8 mx-auto">
                         <h1 className="text-center">{this.state.username}'s Homepage</h1>
                     </div>
+
                 </div>
             </div>
         )

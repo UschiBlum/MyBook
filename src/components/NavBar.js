@@ -32,40 +32,40 @@ class Navbar extends Component {
 
         const userLink = (
             <ul className="navbar-nav">
-                <li className="nav-item">
+                <li className="nav-item nav-pos">
                     <Link to="/profile" className="nav-link">
                         Overview
                     </Link>
                 </li>
-                <li className="nav-item">
+                <li className="nav-item nav-pos">
                     <Link to="/assignments" className="nav-link">
                         Assignments
                     </Link>
                 </li>
-                <li className="nav-item">
-                    <Link to="/calender" className="nav-link">
-                        Calender
-                    </Link>
-                </li>
-                <li className="nav-item">
+                {/*<li className="nav-item">*/}
+                {/*    <Link to="/calender" className="nav-link">*/}
+                {/*        Calender*/}
+                {/*    </Link>*/}
+                {/*</li>*/}
+                <li className="nav-item nav-pos">
                     <Link to="/examen" className="nav-link">
-                        Examen Planer
+                        Examen Planner
                     </Link>
                 </li>
-                <li className="nav-item">
+                <li className="nav-item nav-pos">
                     <Link to="/notes" className="nav-link">
                         Notes
                     </Link>
                 </li>
-                <li className="nav-item">
+                <li className="nav-item nav-pos">
                     <Link to="/timetable" className="nav-link">
                         Time Table
                     </Link>
                 </li>
-                <li className="nav-item">
+                <li className="nav-item logo-pos">
                     <a href="#" onClick={this.logOut.bind(this)} className="nav-link">
                         <button type="button" className="btn btn-outline-primary btn-lg">
-                            Logout
+                           <label className="signup-text">Logout</label>
                         </button>
                     </a>
                 </li>

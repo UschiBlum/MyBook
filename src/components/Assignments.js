@@ -36,6 +36,7 @@ class Assignments extends React.Component {
     this.setState({
       items: updateList
     });
+
   }
   addItem = (item) =>{
     const {items} = this.state;

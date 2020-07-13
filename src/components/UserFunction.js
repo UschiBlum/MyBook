@@ -1,4 +1,5 @@
 import axios from 'axios'
+
 export const register = newUser => {
     return axios
         .post("users/register", {
@@ -38,6 +39,19 @@ export const notes = user => {
         })
         .then(response =>{
             console.log("New Note")
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+
+export const assignments = newAss => {
+    return axios
+        .post("users/assignments",{
+            assignments: newAss.items
+        })
+        .then(response =>{
+            console.log("added assignments")
         })
         .catch(err => {
             console.log(err)
