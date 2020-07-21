@@ -24,13 +24,13 @@ CORS(app)
 
 
 @app.route('/users/notes', methods=['GET', 'POST'])
-def notes(user):
+def notes():
 
     notes = mongo.db.notes
     users = mongo.db.users
     time = datetime.utcnow()
     user = users.find_one({'username':request.get_json()['username']})
-    uid = users._id
+    uid = user._id
     content = request.get_json()['textarea']
     
     nid = notes.insert({
@@ -41,6 +41,7 @@ def notes(user):
     })
 
     newnote = notes.find_one({'_id': nid})
+    result = {'content': newnote['content'] + ' is saved'}
 
 @app.route('/users/register', methods=['GET', 'POST'])
 def register():
