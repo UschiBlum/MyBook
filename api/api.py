@@ -28,12 +28,29 @@ jwt = JWTManager(app)
 
 CORS(app)
 
+usernamesession = ""
 
 
 @app.route('/users/notes', methods=['GET', 'POST'])
 def notes():
-    notes = mongo.db.notes
+    users = mongo.db.users
+    note = request.get_json()['note']
+    ntimestemp = datetime.utcnow()
+    nfavorite = False
+    resultNotes =''
 
+    users.updateOne({'username': usernamesession},
+                    {'$push': {'notes': {'_nid': ObjectId(), 'note': note, 'ntimestemp':ntimestemp, 'nfavorite':nfavorite}}})
+
+    response = users.find_one({'username': usernamesession})
+    notes = response['notes']
+
+    access_token = create_access_token(identity={
+        'notes': notes
+                                                })
+    resultNotes = jsonify({'token': access_token})
+
+    return resultNotes
 
 @app.route('/users/register', methods=['GET', 'POST'])
 def register():
@@ -57,7 +74,12 @@ def register():
                 'email': email,
                 'studyprogram': studyprogram,
                 'password': password,
-                'created': created
+                'created': created,
+                'notes': [],
+                'assignnents': [],
+                'exams':[],
+                'timetable':[],
+                "tasks": []
             })
 
             newuser = users.find_one({'_id': uid})
@@ -85,6 +107,7 @@ def login():
                 'studyprogram': response['studyprogram']
             })
             result= jsonify({'token': access_token})
+            usernamesession = username
         else:
             result = jsonify({"error":"Invalid username and password"})
     else:
