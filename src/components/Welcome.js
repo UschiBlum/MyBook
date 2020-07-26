@@ -48,16 +48,16 @@ class Welcome extends Component {
                     </div>
                     <div className="col-md-2"></div>
                     <div className="col-md-5">
-                        <ReactPlayer url="https://www.youtube.com/watch?v=zkVFHDtQ3Bk&t" width="50em"/>
+                        <ReactPlayer url="https://youtu.be/7Eh4K9ZCeKw" width="50em"/>
                     </div>
                 </div>
-                <div class="row last-row">
-                    <div class="row logo">
-                        <div class="col-md-5 text-right">
+                <div className="row last-row">
+                    <div className="row logo">
+                        <div className="col-md-5 text-right">
                             <img src={logo} width="250" height="250" />
                         </div>
-                        <div class="col-md-2"></div>
-                        <div class="col-md-5"></div>
+                        <div className="col-md-2"></div>
+                        <div className="col-md-5"></div>
                     </div>
                 </div>
             </div>

@@ -49,7 +49,7 @@ class Navbar extends Component {
                 {/*</li>*/}
                 <li className="nav-item nav-pos">
                     <Link to="/examen" className="nav-link">
-                        Examen Planner
+                        Exam Planner
                     </Link>
                 </li>
                 <li className="nav-item nav-pos">

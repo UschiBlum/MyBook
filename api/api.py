@@ -1,18 +1,26 @@
 import time
+
+import pymongo
 from flask import Flask, jsonify, request, json
-from flask_pymongo import PyMongo
+from flask_pymongo import PyMongo, MongoClient
 from bson.objectid import ObjectId
 from datetime import datetime
 from flask_bcrypt import Bcrypt
 from flask_cors import CORS
 from flask_jwt_extended import JWTManager
 from flask_jwt_extended import create_access_token
+from zeep.xsd import const
 
 app = Flask(__name__)
 
-app.config['MONGO_DBNAME'] = 'mybook'
-app.config['MONGO_URI'] = 'mongodb://localhost:27017/mybook'
+# app.config['MONGO_DBNAME'] = 'mybook'
+# app.config['MONGO_URI'] = 'mongodb://localhost:27017/mybook'
 app.config['JWT_SECRET_KEY'] = 'secret'
+app.config['MONGO_DBNAME'] = 'mybook'
+app.config['MONGO_URI'] = 'mongodb+srv://admin:admin123@mybook.fgysf.mongodb.net/mybook?retryWrites=true&w=majority'
+
+client = pymongo.MongoClient("mongodb+srv://admin:admin123@mybook.fgysf.mongodb.net/mybook?retryWrites=true&w=majority")
+db = client.test
 
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
@@ -22,9 +30,9 @@ CORS(app)
 
 
 
-
 @app.route('/users/notes', methods=['GET', 'POST'])
 def notes():
+
 
     notes = mongo.db.notes
     users = mongo.db.users
@@ -43,6 +51,7 @@ def notes():
     newnote = notes.find_one({'_id': nid})
     result = {'content': newnote['content'] + ' is saved'}
 
+
 @app.route('/users/register', methods=['GET', 'POST'])
 def register():
     users = mongo.db.users
@@ -57,8 +66,8 @@ def register():
             email = request.get_json()['email']
             password = bcrypt.generate_password_hash(request.get_json()['password']).decode('utf-8')
             created = datetime.utcnow()
-            # studyprogram = request.get_json()['studyprogram']
-            studyprogram = 'program'
+            studyprogram = request.get_json()['studyprogram']
+            # studyprogram = 'program'
 
             uid = users.insert({
                 'username': username,
@@ -70,7 +79,7 @@ def register():
 
             newuser = users.find_one({'_id': uid})
             result = {'username': newuser['username'] + ' registered'}
-            
+
     else:
         result = {'username': existing_user['username'] + ' has registered before'}
     return jsonify({'result': result})
