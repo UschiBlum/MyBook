@@ -3,7 +3,6 @@ import { Form, TextArea } from 'semantic-ui-react'
 import jwt_decode from 'jwt-decode'
 import {notes} from './UserFunction'
 
-
 const divStyle = {
     display: 'flex',
     padding: "20px",
@@ -17,6 +16,7 @@ const divStyle = {
   };
 
     var colors = ['#58D3F7', '#F781F3', '#8000FF', '#A9F5D0', '#F5BCA9'];
+    var content = [];
 
     var min = 0;
     var max = 4;
@@ -31,7 +31,6 @@ const divStyle = {
     justifyContent: 'center',
     fontFamily: 'Arial'
   };
-
   
   
 
@@ -40,8 +39,19 @@ class Notes extends Component {
     constructor(props) {
         super(props);
         this.state = {     
-             value: '',
-            notes: []
+            value: '',
+            notesList: [{
+                _nid: 1,
+                content: 'Bitte klappe!',
+                nfavorite: false,
+                ntimestamp: '123456'
+            },
+            {
+                _nid: 2,
+                content: 'Bitte klappe 2!',
+                nfavorite: false,
+                ntimestamp: '123456'
+            }]
         }
             ;
         this.handleChange = this.handleChange.bind(this);
@@ -80,7 +90,27 @@ class Notes extends Component {
 
       }
 
+      getNoteData(){
+        return this.state.notesList.map((note, index) =>  {
+            const {_nid, content, nfavorite, ntimestemp} = note
+            // if (id > 1){
+                return (
+                    <div key={{_nid}}>
+                        <div className="col-md-5 ">
+                            <h2 style = {notestyle}>First Note in DB {content}</h2>
+                        </div>
+                        <div className="col-md-2"></div>
+                    </div>
+                )
+            // }
+
+        })
+        }
+      content = this.getNoteData();
+      
+
     render() {
+        alert(this.state.bind(this));
         return (
             <div className="container">
                 <div className="row">
@@ -96,18 +126,7 @@ class Notes extends Component {
                 <div className="col-md-5 left">
                     <div className="form-group">
                         <div >
-                            <div className="col-md-5 left">
-                                <h2 style = {notestyle}>First Note in DB</h2>
-                            </div>
-                            <div className="col-md-2"></div>
-                            <div className="col-md-5">
-                                <h2 style = {notestyle}>Second Note in DB</h2>
-                            </div>
-                            <div className="col-md-2"></div>
-                            <div className="col-md-5">
-                                <h2 style = {notestyle}>Third Note in DB</h2>
-                            </div>
-                            <div className="col-md-2"></div>
+                            {this.getNoteData()}
                         </div>
                     </div>
                 </div>
