@@ -29,7 +29,9 @@ const divStyle = {
     alignItems: 'center',
     padding: "50px",
     justifyContent: 'center',
-    fontFamily: 'Arial'
+    fontFamily: 'Arial',
+    margin: "2em",
+    marginLeft:"-10em"
   };
 
   
@@ -42,10 +44,10 @@ class Notes extends Component {
         this.state = {     
              value: '',
             notesList: [
-                {id: 1, notename:'test1', nfavorite: false, ntimestemp:"3423234"},
-                {id: 2, notename:'test2', nfavorite: false, ntimestemp:"3423234"},
-                {id: 3, notename:'test3', nfavorite: false, ntimestemp:"3423234"},
-                {id: 4, notename:'test4', nfavorite: false, ntimestemp:"3423234"}
+                {_nid: 1, content:'test1', nfavorite: false, ntimestemp:"3423234"},
+                {_nid: 2, content:'test2', nfavorite: false, ntimestemp:"3423234"},
+                {_nid: 3, content:'test3', nfavorite: false, ntimestemp:"3423234"},
+                {_nid: 4, content:'test4', nfavorite: false, ntimestemp:"3423234"}
             ]
         }
 
@@ -86,14 +88,14 @@ class Notes extends Component {
 
     renderNotesData(){
         return this.state.notesList.map((note, index) =>  {
-            const {id, notename, nfavorite, ntimestemp} = note
+            const {_nid, content, nfavorite, ntimestemp} = note
             // if (id > 1){
                 return (
-                    <div key={{id}}>
-                        <div className="col-md-5 ">
-                            <h2 style = {notestyle}>First Note in DB {notename}</h2>
+                    <div key={{_nid}}>
+                        <div className="col-md-6 ">
+                            <h2 style = {notestyle}>First Note in DB {content}</h2>
                         </div>
-                        <div className="col-md-2"></div>
+                        {/*<div className="col-md-2"></div>*/}
                     </div>
                 )
             // }
