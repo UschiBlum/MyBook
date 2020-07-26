@@ -48,7 +48,7 @@ class Welcome extends Component {
                     </div>
                     <div className="col-md-2"></div>
                     <div className="col-md-5">
-                        <ReactPlayer url="https://www.youtube.com/watch?v=zkVFHDtQ3Bk&t" width="50em"/>
+                        <ReactPlayer url="https://youtu.be/7Eh4K9ZCeKw" width="50em"/>
                     </div>
                 </div>
                 <div class="row last-row">

@@ -7136,7 +7136,7 @@ a.text-dark:hover, a.text-dark:focus {
     max-height: 15em;
 }
 .header-row{
-    height: 10em;
+    height: 15em;
 }
 
 .left{
@@ -7152,9 +7152,19 @@ a.text-dark:hover, a.text-dark:focus {
     font-size: large;
 }
 .table{
-    height:10em;
+    height:15em;
+    font-size: medium;
+    width: 20em;
+    margin-left: -10em;
+    margin-right: 10em;
 }
 .submit{
     padding-left: 20em;
 
+}
+.papper{
+    padding-top: 5em;
+}
+.picker{
+    margin-top: -5em;
 }

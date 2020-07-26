@@ -33,14 +33,8 @@ class Register extends Component {
             studyprogram: '',
             password: '',
             confirmpassword: '',
-            mai: '',
-            ise:'',
-            komedia:'',
-            otherprogram:'',
             formValid: false,
             errorCount: null,
-            result:'',
-            existing: false,
             errors: {
                 username: '',
                 email: '',
@@ -48,7 +42,7 @@ class Register extends Component {
                 confirmpassword:''
             }
         }
-        // this.onChange = this.onChange.bind(this)
+        this.onChange = this.onChange.bind(this)
         // this.onSubmit = this.onSubmit.bind(this)
 
     }
@@ -61,16 +55,15 @@ class Register extends Component {
     //     })
     // }
 
-    // onChange(e) {
+    onChange(e) {
     //     this.setState({[e.target.name]: e.target.value})
-    //     this.setState({studyprogram: e.target.value})
-    // }
+        this.setState({studyprogram: e.target.value})
+    }
 
     handleChange = (e) => {
         e.preventDefault()
         const {name, value} = e.target
         let errors = this.state.errors
-        const testPw = errors.password.value
 
         switch (name) {
             case 'username':
@@ -143,27 +136,27 @@ class Register extends Component {
         this.setState({formValid: validateForm(this.state.errors)})
         this.setState({errorCount: countErrors(this.state.errors)})
 
-        const existingUser = {
-            username: this.state.username
-        }
-
-        login(existingUser)
-            .then(res=> {
-                if(!res.error) {
-                    this.setState({exisiting: true})
-                    alert("Username has registered before")
-                }
-            })
-            .catch(err => {
-                // alert("Username has registered before")
-                console.log("not existing")
-
-            })
+        // const existingUser = {
+        //     username: this.state.username
+        // }
+        //
+        // login(existingUser)
+        //     .then(res=> {
+        //         if(!res.error) {
+        //             this.setState({exisiting: true})
+        //             alert("Username has registered before")
+        //         }
+        //     })
+        //     .catch(err => {
+        //         // alert("Username has registered before")
+        //         console.log("not existing")
+        //
+        //     })
 
         const newUser = {
             username: this.state.username,
             email: this.state.email,
-            studyprogram: this.state.value,
+            studyprogram: this.state.studyprogram,
             password: this.state.password,
             confirmpassword: this.state.confirmpassword
         }
@@ -173,7 +166,7 @@ class Register extends Component {
             if(this.state.password === this.state.confirmpassword) {
                 this.props.history.push('/login')
             }else{
-                alert("Username has registered before!")
+                alert("Not registered")
                 this.props.history.push('/register')
             }
 
@@ -236,7 +229,7 @@ class Register extends Component {
                         <div className="col-md-5 left">
                             <div className="form-group">
                                 <label htmlFor="studyprogram" className="text-primary">Study program</label>
-                                <select onChange={this.handleChange} className="form-control form-control-lg" value={this.state.studyprogram}>
+                                <select value={this.state.studyprogram} onChange={this.onChange} className="form-control form-control-lg" >
                                     <option value="mai">Master Angewandte Informatik</option>
                                     <option value="ise">Master Computer Engineering</option>
                                     <option value="komedia">Master Angewandte Kognitions- und Medienwissenschaft</option>

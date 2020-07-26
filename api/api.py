@@ -22,25 +22,10 @@ CORS(app)
 
 
 
-
 @app.route('/users/notes', methods=['GET', 'POST'])
-def notes(user):
-
+def notes():
     notes = mongo.db.notes
-    users = mongo.db.users
-    time = datetime.utcnow()
-    user = users.find_one({'username':request.get_json()['username']})
-    uid = users._id
-    content = request.get_json()['textarea']
-    
-    nid = notes.insert({
-        'date': time,
-        'userID': uid,
-        'content': content,
-        'time': time,
-    })
 
-    newnote = notes.find_one({'_id': nid})
 
 @app.route('/users/register', methods=['GET', 'POST'])
 def register():
@@ -56,8 +41,8 @@ def register():
             email = request.get_json()['email']
             password = bcrypt.generate_password_hash(request.get_json()['password']).decode('utf-8')
             created = datetime.utcnow()
-            # studyprogram = request.get_json()['studyprogram']
-            studyprogram = 'program'
+            studyprogram = request.get_json()['studyprogram']
+            # studyprogram = 'program'
 
             uid = users.insert({
                 'username': username,
@@ -69,7 +54,7 @@ def register():
 
             newuser = users.find_one({'_id': uid})
             result = {'username': newuser['username'] + ' registered'}
-            
+
     else:
         result = {'username': existing_user['username'] + ' has registered before'}
     return jsonify({'result': result})

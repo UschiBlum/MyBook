@@ -32,7 +32,7 @@ class Timetable extends Component {
             endtimefriday:'',
             lectureList: lectureList,
             lectures: [
-                // {id: lecId, lecName: {lecture}, startMo: {starttimemonday}, endMo:{endtimemonday}, startTu: {starttimetuesday}, endTu:{endtimetuesday}, startWe:{starttimewednesday}, endWe: {endtimewednesday}, startTh:{starttimethursday}, endTh:{endtimethursday}, startFr:{starttimefriday}, endFr:{endtimefriday}}
+                // {id: lecId, lecName: this.state.lecture, startMo: this.state.starttimemonday, endMo:this.state.endtimemonday, startTu: this.state.starttimetuesday, endTu:this.state.endtimetuesday, startWe:this.state.starttimewednesday, endWe: this.state.endtimewednesday, startTh:this.state.starttimethursday, endTh:this.state.endtimethursday, startFr:this.state.starttimefriday, endFr:this.state.endtimefriday, color:this.state.color},
                 {id:1, lecName:'test1', startMo: '12:00', endMo:'14:00', startTu: '', endTu:'', startWe:'', endWe: '', startTh:'', endTh:'', startFr:'', endFr:'',},
                 {id:2, lecName:'test2', startMo: '', endMo:'', startTu: '14:00', endTu:'16:00', startWe:'', endWe: '', startTh:'', endTh:'', startFr:'', endFr:''},
                 {id:3, lecName:'test3', startMo: '10:00', endMo:'12:00', startTu: '', endTu:'', startWe:'', endWe: '', startTh:'16:00', endTh:'18:00', startFr:'', endFr:''},
@@ -42,6 +42,32 @@ class Timetable extends Component {
         }
         this.onChange = this.onChange.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
+        this.addItem = this.addItem.bind(this)
+        this.compleateItem = this. compleateItem.bind(this)
+    }
+
+    addItem = (item) => {
+        const {lectureList} = this.state
+        item.id = this.lecId
+        item.compleateItem = false
+        let updateList = [...lectureList, item]
+        this.setState({
+            lectureList: updateList
+        })
+
+    }
+
+    compleateItem = (item) =>{
+        const {items} = this.state;
+
+        item.isCompleted
+            ? item.isCompleted = false
+            : item.isCompleted = true
+
+        this.setState({
+            items
+        });
+
     }
 
     onChange(e) {
@@ -62,14 +88,24 @@ class Timetable extends Component {
 
     onSubmit(e){
         e.preventDefault()
+        this.addItem(this.state)
+        this.setState({
+            lecture: this.state.lecture,
+            color: this.state.color,
+            starttimemonday: this.state.starttimemonday,
+            endtimemonday:this.state.endtimemonday,
+            starttimetuesday: this.state.starttimetuesday,
+            endtimetuesday:this.state.endtimetuesday,
+            starttimewednesday: this.state.starttimewednesday,
+            endtimewednesday: this.state.endtimewednesday,
+            starttimethursday: this.state.starttimethursday,
+            endtimethursday:this.state.endtimethursday,
+            starttimefriday: this.state.starttimefriday,
+            endtimefriday: this.state.endtimefriday,
+        })
 
         const newLecture = {
             lecture: this.state.lecture,
-            monday: this.state.monday,
-            tuesday: this.state.tuesday,
-            wednesday: this.state.wednesday,
-            thursday: this.state.thursday,
-            friday: this.state.friday,
             color: this.state.color,
             starttimemonday: this.state.starttimemonday,
             endtimemonday:this.state.endtimemonday,
@@ -142,7 +178,7 @@ class Timetable extends Component {
                             </table>
                         </div>
                         <div className="col-md-2"></div>
-                        <div className="col-md-5 right">
+                        <div className="col-md-5 right papper">
                             <div className="form-group">
                                 <input type="text"
                                        className="form-control form-control-lg"
@@ -157,22 +193,20 @@ class Timetable extends Component {
                         <div className="col-md-5 left">
                         </div>
                         <div className="col-md-2"></div>
-                        <div className="col-md-5 right">
+                        <div className="col-md-5 right picker">
                             <HuePicker color={this.state.color} onChangeComplete={this.handleChangeComplete}/>
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-md-5 left">
-                            <div className="form-group">
-                                <img src={paper_plane} width="200" alt="Paper Plane" />
-                            </div>
+                        <div className="col-md-5 left papper">
+                            <img src={paper_plane} width="200" alt="Paper Plane" />
                         </div>
                         <div className="col-md-2"></div>
-                        <div className="col-md-5 right">
+                        <div className="col-md-5 right picker">
                             <div className="form-group">
                                 <div className="row">
                                     <div className="col-md-2"><h5>Monday:</h5></div>
-                                    <div className="col-,d-5 mb-auto">
+                                    <div className="col-md-5 mb-auto">
                                         <label htmlFor="starttimemonday">Start time:</label>
                                         <input type="text" className="form-control"
                                                name = "starttimemonday"
@@ -182,7 +216,7 @@ class Timetable extends Component {
                                         />
                                     </div>
                                     <div className="col-md-5 mb-auto">
-                                        <label htmlFor="endtimemonday">Start time:</label>
+                                        <label htmlFor="endtimemonday">End time:</label>
                                         <input type="text" className="form-control"
                                                name = "endtimemonday"
                                                value={this.state.endtimemonday}
@@ -203,7 +237,7 @@ class Timetable extends Component {
                                         />
                                     </div>
                                     <div className="col-md-5 mb-auto">
-                                        <label htmlFor="endtimetuesday">Start time:</label>
+                                        <label htmlFor="endtimetuesday">End time:</label>
                                         <input type="text" className="form-control"
                                                name = "endtimetuesday"
                                                value={this.state.endtimetuesday}
@@ -224,7 +258,7 @@ class Timetable extends Component {
                                         />
                                     </div>
                                     <div className="col-md-5 mb-auto">
-                                        <label htmlFor="endtimewednesday">Start time:</label>
+                                        <label htmlFor="endtimewednesday">End time:</label>
                                         <input type="text" className="form-control"
                                                name = "endtimewednesday"
                                                value={this.state.endtimewednesday}
@@ -236,7 +270,7 @@ class Timetable extends Component {
                                 <div className="row">
                                     <div className="col-md-2"><h5>Thursday:</h5></div>
                                     <div className="col-md-5 mb-auto">
-                                        <label htmlFor="starttimethursday">Start time:</label>
+                                        <label htmlFor="starttimethursday">End time:</label>
                                         <input type="text" className="form-control"
                                                name = "starttimethursday"
                                                value={this.state.starttimethursday}
@@ -245,7 +279,7 @@ class Timetable extends Component {
                                         />
                                     </div>
                                     <div className="col-5 mb-auto">
-                                        <label htmlFor="endtimethursday">Start time:</label>
+                                        <label htmlFor="endtimethursday">End time:</label>
                                         <input type="text" className="form-control"
                                                name = "endtimethursday"
                                                value={this.state.endtimethursday}
@@ -266,7 +300,7 @@ class Timetable extends Component {
                                         />
                                     </div>
                                     <div className="col-md-5 mb-auto">
-                                        <label htmlFor="endtimefriday">Start time:</label>
+                                        <label htmlFor="endtimefriday">End time:</label>
                                         <input type="text" className="form-control"
                                                name = "endtimefriday"
                                                value={this.state.endtimefriday}
@@ -275,10 +309,12 @@ class Timetable extends Component {
                                         />
                                     </div>
                                 </div>
+                                <div className="row papper">
+                                    <button type="submit" className="btn btn-lg btn-dark btn-primary btn-block center-block">
+                                        Submit
+                                    </button>
+                                </div>
                             </div>
-                            <button type="submit" className="btn btn-lg btn-dark btn-primary btn-block center-block">
-                                Submit
-                            </button>
                         </div>
                     </div>
                 </form>
