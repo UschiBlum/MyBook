@@ -40,12 +40,23 @@ class Notes extends Component {
     constructor(props) {
         super(props);
         this.state = {     
-             value: '' 
-            };
+             value: '',
+            notes: []
+        }
+            ;
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
       }
-    
+
+    componentDidMount () {
+        const token = localStorage.usertoken
+        const decoded = jwt_decode(token)
+        this.setState({
+            notes: decoded.identity.notes,
+
+        })
+    }
+
       handleChange(event) {  
             this.setState({value: event.target.value}); 
          }

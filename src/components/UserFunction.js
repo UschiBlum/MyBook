@@ -39,6 +39,8 @@ export const notes = user => {
         })
         .then(response =>{
             console.log("New Note")
+            localStorage.setItem('notestoken', response.data.token)
+            return response.data.token
         })
         .catch(err => {
             console.log(err)

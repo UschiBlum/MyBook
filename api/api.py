@@ -28,29 +28,49 @@ jwt = JWTManager(app)
 
 CORS(app)
 
+usernamesession = ""
 
 
 @app.route('/users/notes', methods=['GET', 'POST'])
 def notes():
 
-
-    notes = mongo.db.notes
     users = mongo.db.users
-    time = datetime.utcnow()
-    user = users.find_one({'username':request.get_json()['username']})
-    uid = user._id
-    content = request.get_json()['textarea']
-    
-    nid = notes.insert({
-        'date': time,
-        'userID': uid,
-        'content': content,
-        'time': time,
-    })
+    note = request.get_json()['note']
+    ntimestemp = datetime.utcnow()
+    nfavorite = False
+    resultNotes =''
 
-    newnote = notes.find_one({'_id': nid})
-    result = {'content': newnote['content'] + ' is saved'}
+    users.updateOne({'username': usernamesession},
+                    {'$push': {'notes': {'_nid': ObjectId(), 'note': note, 'ntimestemp':ntimestemp, 'nfavorite':nfavorite}}})
 
+    response = users.find_one({'username': usernamesession})
+    notes = response['notes']
+
+    access_token = create_access_token(identity={
+        'notes': notes
+                                                })
+    resultNotes = jsonify({'token': access_token})
+
+    #
+    # notes = mongo.db.notes
+    # users = mongo.db.users
+    # time = datetime.utcnow()
+    # user = users.find_one({'username':request.get_json()['username']})
+    # uid = user._id
+    # content = request.get_json()['textarea']
+    #
+    # nid = notes.insert({
+    #     'date': time,
+    #     'userID': uid,
+    #     'content': content,
+    #     'time': time,
+    # })
+    #
+    # newnote = notes.find_one({'_id': nid})
+    # result = {'content': newnote['content'] + ' is saved'}
+
+
+    return resultNotes
 
 @app.route('/users/register', methods=['GET', 'POST'])
 def register():
@@ -74,7 +94,12 @@ def register():
                 'email': email,
                 'studyprogram': studyprogram,
                 'password': password,
-                'created': created
+                'created': created,
+                'notes': [],
+                'assignnents': [],
+                'exams':[],
+                'timetable':[],
+                "tasks": []
             })
 
             newuser = users.find_one({'_id': uid})
@@ -102,6 +127,7 @@ def login():
                 'studyprogram': response['studyprogram']
             })
             result= jsonify({'token': access_token})
+            usernamesession = username
         else:
             result = jsonify({"error":"Invalid username and password"})
     else:
