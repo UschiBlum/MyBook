@@ -3,6 +3,7 @@ import { Form, TextArea } from 'semantic-ui-react'
 import jwt_decode from 'jwt-decode'
 import {notes} from './UserFunction'
 
+
 const divStyle = {
     display: 'flex',
     padding: "20px",
@@ -16,7 +17,6 @@ const divStyle = {
   };
 
     var colors = ['#58D3F7', '#F781F3', '#8000FF', '#A9F5D0', '#F5BCA9'];
-    var content = [];
 
     var min = 0;
     var max = 4;
@@ -31,6 +31,7 @@ const divStyle = {
     justifyContent: 'center',
     fontFamily: 'Arial'
   };
+
   
   
 
@@ -39,24 +40,18 @@ class Notes extends Component {
     constructor(props) {
         super(props);
         this.state = {     
-            value: '',
-            notesList: [{
-                _nid: 1,
-                content: 'Bitte klappe!',
-                nfavorite: false,
-                ntimestamp: '123456'
-            },
-            {
-                _nid: 2,
-                content: 'Bitte klappe 2!',
-                nfavorite: false,
-                ntimestamp: '123456'
-            }]
+             value: '',
+            notesList: [
+                {_nid: 1, content:'test1', nfavorite: false, ntimestemp:"3423234"},
+                {_nid: 2, content:'test2', nfavorite: false, ntimestemp:"3423234"},
+                {_nid: 3, content:'test3', nfavorite: false, ntimestemp:"3423234"},
+                {_nid: 4, content:'test4', nfavorite: false, ntimestemp:"3423234"}
+            ]
         }
-            ;
+
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-      }
+    }
 
     componentDidMount () {
         const token = localStorage.usertoken
@@ -67,12 +62,11 @@ class Notes extends Component {
         })
     }
 
-      handleChange(event) {  
+    handleChange(event) {
             this.setState({value: event.target.value}); 
-         }
+    }
 
-      handleSubmit(event) {
-
+    handleSubmit(event) {
         event.preventDefault();
         
         const user = {
@@ -88,29 +82,25 @@ class Notes extends Component {
 
 
 
-      }
+    }
 
-      getNoteData(){
+    renderNotesData(){
         return this.state.notesList.map((note, index) =>  {
             const {_nid, content, nfavorite, ntimestemp} = note
-            // if (id > 1){
+            // if (_nid > 1){
                 return (
                     <div key={{_nid}}>
                         <div className="col-md-5 ">
                             <h2 style = {notestyle}>First Note in DB {content}</h2>
                         </div>
-                        <div className="col-md-2"></div>
                     </div>
                 )
             // }
 
         })
-        }
-      content = this.getNoteData();
-      
+    }
 
     render() {
-        alert(this.state.bind(this));
         return (
             <div className="container">
                 <div className="row">
@@ -125,8 +115,20 @@ class Notes extends Component {
                 </div>
                 <div className="col-md-5 left">
                     <div className="form-group">
-                        <div >
-                            {this.getNoteData()}
+                        <div>
+                            {this.renderNotesData()}
+                            {/*<div className="col-md-5 left">*/}
+                            {/*    <h2 style = {notestyle}>First Note in DB </h2>*/}
+                            {/*</div>*/}
+                            {/*<div className="col-md-2"></div>*/}
+                            {/*<div className="col-md-5">*/}
+                            {/*    <h2 style = {notestyle}>Second Note in DB</h2>*/}
+                            {/*</div>*/}
+                            {/*<div className="col-md-2"></div>*/}
+                            {/*<div className="col-md-5">*/}
+                            {/*    <h2 style = {notestyle}>Third Note in DB </h2>*/}
+                            {/*</div>*/}
+                            {/*<div className="col-md-2"></div>*/}
                         </div>
                     </div>
                 </div>
