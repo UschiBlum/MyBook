@@ -41,12 +41,17 @@ class Notes extends Component {
         super(props);
         this.state = {     
              value: '',
-            notes: []
+            notesList: [
+                {id: 1, notename:'test1', nfavorite: false, ntimestemp:"3423234"},
+                {id: 2, notename:'test2', nfavorite: false, ntimestemp:"3423234"},
+                {id: 3, notename:'test3', nfavorite: false, ntimestemp:"3423234"},
+                {id: 4, notename:'test4', nfavorite: false, ntimestemp:"3423234"}
+            ]
         }
-            ;
+
         this.handleChange = this.handleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
-      }
+    }
 
     componentDidMount () {
         const token = localStorage.usertoken
@@ -57,12 +62,11 @@ class Notes extends Component {
         })
     }
 
-      handleChange(event) {  
+    handleChange(event) {
             this.setState({value: event.target.value}); 
-         }
+    }
 
-      handleSubmit(event) {
-
+    handleSubmit(event) {
         event.preventDefault();
         
         const user = {
@@ -78,7 +82,24 @@ class Notes extends Component {
 
 
 
-      }
+    }
+
+    renderNotesData(){
+        return this.state.notesList.map((note, index) =>  {
+            const {id, notename, nfavorite, ntimestemp} = note
+            // if (id > 1){
+                return (
+                    <div key={{id}}>
+                        <div className="col-md-5 ">
+                            <h2 style = {notestyle}>First Note in DB {notename}</h2>
+                        </div>
+                        <div className="col-md-2"></div>
+                    </div>
+                )
+            // }
+
+        })
+    }
 
     render() {
         return (
@@ -95,19 +116,20 @@ class Notes extends Component {
                 </div>
                 <div className="col-md-5 left">
                     <div className="form-group">
-                        <div >
-                            <div className="col-md-5 left">
-                                <h2 style = {notestyle}>First Note in DB</h2>
-                            </div>
-                            <div className="col-md-2"></div>
-                            <div className="col-md-5">
-                                <h2 style = {notestyle}>Second Note in DB</h2>
-                            </div>
-                            <div className="col-md-2"></div>
-                            <div className="col-md-5">
-                                <h2 style = {notestyle}>Third Note in DB</h2>
-                            </div>
-                            <div className="col-md-2"></div>
+                        <div>
+                            {this.renderNotesData()}
+                            {/*<div className="col-md-5 left">*/}
+                            {/*    <h2 style = {notestyle}>First Note in DB </h2>*/}
+                            {/*</div>*/}
+                            {/*<div className="col-md-2"></div>*/}
+                            {/*<div className="col-md-5">*/}
+                            {/*    <h2 style = {notestyle}>Second Note in DB</h2>*/}
+                            {/*</div>*/}
+                            {/*<div className="col-md-2"></div>*/}
+                            {/*<div className="col-md-5">*/}
+                            {/*    <h2 style = {notestyle}>Third Note in DB </h2>*/}
+                            {/*</div>*/}
+                            {/*<div className="col-md-2"></div>*/}
                         </div>
                     </div>
                 </div>
