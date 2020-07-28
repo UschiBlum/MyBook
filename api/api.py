@@ -118,13 +118,29 @@ def login():
     result = ""
 
     response = users.find_one({'username':username})
+    allnotes= users.distinct("notes.content", {'username': username})
+    noteslist = []
+
+    if len(allnotes) >= 3:
+        for x in range(-3,0):
+            noteslist.append(allnotes[x])
+            x=x-1
+    else:
+        noteslist = allnotes
+
+    print("noteslist")
+    print(noteslist)
+    print("allnotes")
+    print(allnotes)
+
 
     if response:
         if bcrypt.check_password_hash(response['password'], password):
             access_token = create_access_token(identity = {
                 'username': response['username'],
                 'email': response['email'],
-                'studyprogram': response['studyprogram']
+                'studyprogram': response['studyprogram'],
+                'notes': noteslist
             })
             result= jsonify({'token': access_token})
             usernamesession = username

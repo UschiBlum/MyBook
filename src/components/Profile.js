@@ -5,14 +5,16 @@ import List from "./List";
 import Timetable from "./Timetable";
 import paper_plane from "./paper_plane.png";
 
-
+const testarray = [1,2,3]
 class Profile extends Component {
     constructor() {
         super()
         this.state = {
             username: '',
             studyprogram: '',
-            email: ''
+            email: '',
+            notes: [5,6,8],
+
         }
     }
 
@@ -22,7 +24,8 @@ class Profile extends Component {
         this.setState({
             username: decoded.identity.username,
             studyprogram: decoded.identity.studyprogram,
-            email: decoded.identity.email
+            email: decoded.identity.email,
+            notes: decoded.identity.notes
         })
     }
 
@@ -37,6 +40,7 @@ class Profile extends Component {
                 <div className="row header-row">
                     <div className="col-md-5">
                         <h1 className="heading text-center display-1">{this.state.username}'s Homepage</h1>
+                        <p>Note: {this.state.notes} : {testarray}</p>
                     </div>
                     <div className="col-md-2"></div>
                     <div className="col-md-5"></div>
