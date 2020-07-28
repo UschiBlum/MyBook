@@ -31,11 +31,12 @@ CORS(app)
 usernamesession = ""
 
 
-@app.route('/users/notes', methods=['GET', 'POST'])
-def notes():
+
+@app.route('/users/note', methods=['GET', 'POST'])
+def add_note():
 
     users = mongo.db.users
-    note = request.get_json()['note']
+    newnote = request.get_json()['newnote']
     ntimestemp = datetime.utcnow()
     nfavorite = False
     resultNotes =''
@@ -43,13 +44,10 @@ def notes():
     users.updateOne({'username': usernamesession},
                     {'$push': {'notes': {'_nid': ObjectId(), 'note': note, 'ntimestemp':ntimestemp, 'nfavorite':nfavorite}}})
 
-    response = users.find_one({'username': usernamesession})
-    notes = response['notes']
 
-    access_token = create_access_token(identity={
-        'notes': notes
-                                                })
-    resultNotes = jsonify({'token': access_token})
+
+
+
 
     #
     # notes = mongo.db.notes
@@ -144,6 +142,7 @@ def login():
             })
             result= jsonify({'token': access_token})
             usernamesession = username
+
         else:
             result = jsonify({"error":"Invalid username and password"})
     else:

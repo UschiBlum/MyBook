@@ -34,13 +34,11 @@ export const login = user => {
 
 export const notes = user => {
     return axios
-        .post("users/notes", {
-            notes: user.value
+        .post("users/note", {
+            notes: user.newnote
         })
         .then(response =>{
             console.log("New Note")
-            localStorage.setItem('notestoken', response.data.token)
-            return response.data.token
         })
         .catch(err => {
             console.log(err)
