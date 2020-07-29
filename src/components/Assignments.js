@@ -84,25 +84,40 @@ class Assignments extends React.Component {
             //     </div>
             // </div>
             <div className="container">
-            <div className="row">
+                <div className="row">
                      <div className="col-sm-5 left">
                          <h1 className="text-center">  </h1>
                      </div>
-            </div>
-            <div className="row">
-            <div className="col">
-            <h1>MyBook Assignments</h1>
-            </div>
-            <div className="col">
-            </div>
-            <div className="col">
-            <h1>Add Assignments</h1>
-            </div>
-            </div>
-                <Input addItem={this.addItem}/>
-                <div>
-                <Items items = {this.state.items} deleteItem={this.deleteItem} compleateItem={this.compleateItem} className="items"/>
                 </div>
+                    <div className="row">
+                        <div className="col-xs-7 left header-row">
+                            <h1 className="heading text-left display-1">MyBook Assignments</h1>
+                        </div>
+                        {/* <div className="col">
+                        </div> */}
+                        <div className="col-sm-5 right header-row">
+                            <h1 className="heading text-center display-2">Add Assignments</h1>
+                        
+                        </div>
+                    </div>
+
+
+                {/* <div className="row">
+                    <div className="col">
+                     <h1>MyBook Assignments</h1>
+                    </div>
+                    <div className="col">
+                    </div>
+                    <div className="col">
+                     <h1>Add Assignments</h1>
+                    </div>
+                </div> */}
+                
+                    
+                    <Input addItem={this.addItem}/>
+                    <div>
+                    <Items items = {this.state.items} deleteItem={this.deleteItem} compleateItem={this.compleateItem} className="items"/>
+                    </div>
             </div>
             
         );
