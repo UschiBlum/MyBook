@@ -2,8 +2,9 @@ import React, {Component} from 'react'
 import './Examen.css'
 
 const items = [
-    {id:1, text:'Exam 1', isCompleted: false},
-    {id:2, text: 'Exam 2', isCompleted: false} 
+    {id:1, text:'AWT Exam ', isCompleted: false},
+    {id:2, text: 'LA Exam ', isCompleted: false}, 
+    {id:3, text: 'Exam 3', isCompleted: false}
   ]
     
   
@@ -63,21 +64,21 @@ class Examen extends Component {
                      </div>
                 </div>
                     <div className="row">
-                        <div className="col-xs-7 left header-row">
-                            <h1 className="heading text-left display-1">MyBook Exam-Planner</h1>
+                        <div className="col-sm-7 left">
+                            <h1 className="heading text-left display-3">MyBook Exam-Planner</h1>
                         </div>
-                        {/* <div className="col">
+                        {/* <div className="col-xs-1">
                         </div> */}
-                        <div className="col-sm-5 right header-row">
-                            <h1 className="heading text-center display-2">Add Exams</h1>
+                        <div className="col-sm-5 right ">
+                            <h1 className="heading text-center display-3">  Add Exams</h1>
                         
                         </div>
                     
                     </div>
-                <Input addItem={this.addItem}/>
-                <div>
-                <Items items = {this.state.items} deleteItem={this.deleteItem} compleateItem={this.compleateItem} className="items"/>
-                </div> 
+                    <Input addItem={this.addItem}/>
+                        <div>
+                             <Items items = {this.state.items} deleteItem={this.deleteItem} compleateItem={this.compleateItem} className="items"/>
+                        </div> 
             </div>
         );
     }
@@ -137,7 +138,7 @@ class Input extends React.Component {
             <div className="row">
             <div className="col"></div>
             <div className="col"></div>
-            <div className="col">
+            <div className="col-xs-5">
             
             <form onSubmit={this.handleSubmit} className="input">
                 <input
