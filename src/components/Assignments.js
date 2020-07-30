@@ -91,12 +91,12 @@ class Assignments extends React.Component {
                 </div>
                     <div className="row">
                         <div className="col-xs-7 left header-row">
-                            <h1 className="heading text-left display-1">MyBook Assignments</h1>
+                            <h1 className="heading text-left display-3">MyBook Assignments</h1>
                         </div>
                         {/* <div className="col">
                         </div> */}
                         <div className="col-sm-5 right header-row">
-                            <h1 className="heading text-center display-2">Add Assignments</h1>
+                            <h1 className="heading text-center display-3">Add Assignments</h1>
                         
                         </div>
                     </div>
@@ -200,7 +200,7 @@ class Input extends React.Component {
             <div className="row">
             <div className="col"></div>
             <div className="col"></div>
-            <div className="col">
+            <div className="col-xs-5">
             
             <form onSubmit={this.handleSubmit} className="input">
                 <input
