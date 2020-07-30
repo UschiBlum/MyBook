@@ -1,7 +1,7 @@
 import React, {Component} from 'react'
 import { Form, TextArea } from 'semantic-ui-react'
 import jwt_decode from 'jwt-decode'
-import {notes} from './UserFunction'
+import {add_note} from './UserFunction'
 
 
 const divStyle = {
@@ -41,14 +41,10 @@ class Notes extends Component {
 
     constructor(props) {
         super(props);
-        this.state = {     
-             newnote: [],
-            notesList: [
-                {_nid: 1, content:'test1', nfavorite: false, ntimestemp:"3423234"},
-                {_nid: 2, content:'test2', nfavorite: false, ntimestemp:"3423234"},
-                {_nid: 3, content:'test3', nfavorite: false, ntimestemp:"3423234"},
-                {_nid: 4, content:'test4', nfavorite: false, ntimestemp:"3423234"}
-            ],
+        this.state = {
+            username:'',
+            newnote: '',
+            notesList: []
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -56,11 +52,11 @@ class Notes extends Component {
     }
 
     componentDidMount () {
-        const token = localStorage.usertoken
+        const token = localStorage.notetoken
         const decoded = jwt_decode(token)
         this.setState({
-            newnote: decoded.identity.notes,
-
+            notesList: decoded.identity.notes,
+            username: decoded.identity.username
         })
     }
 
@@ -71,15 +67,17 @@ class Notes extends Component {
     handleSubmit(event) {
         event.preventDefault();
         
-        const user = {
+        const newNote = {
             newnote: this.state.newnote,
+            username: this.state.username
 
         }
-        notes(user).then(res => {
+        add_note(newNote).then(res => {
             window.location.reload()
         }).catch(err =>{
             console.log(err)
         });
+
 
     }
 
@@ -101,7 +99,7 @@ class Notes extends Component {
                 return (
                     <div>
                         <div className="col-md-6 ">
-                            <h2 style = {notestyle}>First Note in DB {this.state.newnote}</h2>
+                            <h2 style = {notestyle}>{note}</h2>
                         </div>
                         {/*<div className="col-md-2"></div>*/}
                     </div>
@@ -146,7 +144,7 @@ class Notes extends Component {
                     <div className="col-md-2"></div>
                     <div className="col-md-5 right">
                         <div className = "form-group">
-                            <form noValidate onSubmit={this.handleSubmit}>
+                            <form onSubmit={this.handleSubmit}>
                                 <textarea placeholder='Write a Note' onChange={this.handleChange} value ={this.state.newnote} style={{ minHeight: 300 , minWidth: 500}} />
                                 <div>
                                     <button type="submit" className="btn btn-primary btn-lg">
