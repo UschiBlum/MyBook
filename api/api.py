@@ -43,7 +43,6 @@ def add_note():
 
     print("newnote")
     print(newnote)
-    print(usernamesession)
     users.update_one({'username': username},
                     {'$push': {'notes': {'_nid': ObjectId(), 'content': newnote, 'ntimestemp':ntimestemp, 'nfavorite':nfavorite}}})
 
