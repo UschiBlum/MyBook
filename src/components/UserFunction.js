@@ -32,13 +32,16 @@ export const login = user => {
         })
 }
 
-export const notes = user => {
+
+export const add_note = newNote => {
     return axios
         .post("users/note", {
-            notes: user.newnote
+            newnote: newNote.newnote,
+            username: newNote.username
         })
         .then(response =>{
             console.log("New Note")
+            localStorage.setItem('notetoken', response.data.token)
         })
         .catch(err => {
             console.log(err)

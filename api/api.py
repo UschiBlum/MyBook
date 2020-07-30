@@ -28,7 +28,6 @@ jwt = JWTManager(app)
 
 CORS(app)
 
-usernamesession = ""
 
 
 
@@ -37,37 +36,35 @@ def add_note():
 
     users = mongo.db.users
     newnote = request.get_json()['newnote']
+    username= request.get_json()['username']
     ntimestemp = datetime.utcnow()
     nfavorite = False
     resultNotes =''
 
-    users.updateOne({'username': usernamesession},
-                    {'$push': {'notes': {'_nid': ObjectId(), 'note': note, 'ntimestemp':ntimestemp, 'nfavorite':nfavorite}}})
+    print("newnote")
+    print(newnote)
+    print(usernamesession)
+    users.update_one({'username': username},
+                    {'$push': {'notes': {'_nid': ObjectId(), 'content': newnote, 'ntimestemp':ntimestemp, 'nfavorite':nfavorite}}})
 
+    allnotes = users.distinct("notes.content", {'username': username})
+    noteslist = []
 
+    if len(allnotes) >= 3:
+        for x in range(-3, 0):
+            noteslist.append(allnotes[x])
+            x = x - 1
+    else:
+        noteslist = allnotes
 
+    access_token = create_access_token(identity={
+        'notes': noteslist,
+        'username':username
+    })
+    resultNotes = jsonify({'token': access_token})
 
-
-
-    #
-    # notes = mongo.db.notes
-    # users = mongo.db.users
-    # time = datetime.utcnow()
-    # user = users.find_one({'username':request.get_json()['username']})
-    # uid = user._id
-    # content = request.get_json()['textarea']
-    #
-    # nid = notes.insert({
-    #     'date': time,
-    #     'userID': uid,
-    #     'content': content,
-    #     'time': time,
-    # })
-    #
-    # newnote = notes.find_one({'_id': nid})
-    # result = {'content': newnote['content'] + ' is saved'}
-
-
+    print(allnotes)
+    print(noteslist)
     return resultNotes
 
 @app.route('/users/register', methods=['GET', 'POST'])
@@ -116,20 +113,6 @@ def login():
     result = ""
 
     response = users.find_one({'username':username})
-    allnotes= users.distinct("notes.content", {'username': username})
-    noteslist = []
-
-    if len(allnotes) >= 3:
-        for x in range(-3,0):
-            noteslist.append(allnotes[x])
-            x=x-1
-    else:
-        noteslist = allnotes
-
-    print("noteslist")
-    print(noteslist)
-    print("allnotes")
-    print(allnotes)
 
 
     if response:
@@ -138,10 +121,9 @@ def login():
                 'username': response['username'],
                 'email': response['email'],
                 'studyprogram': response['studyprogram'],
-                'notes': noteslist
             })
             result= jsonify({'token': access_token})
-            usernamesession = username
+
 
         else:
             result = jsonify({"error":"Invalid username and password"})
