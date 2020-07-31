@@ -46,15 +46,28 @@ def add_note():
     users.update_one({'username': username},
                     {'$push': {'notes': {'_nid': ObjectId(), 'content': newnote, 'ntimestemp':ntimestemp, 'nfavorite':nfavorite}}})
 
-    allnotes = users.distinct("notes.content", {'username': username})
+    allnotes = users.distinct("notes", {'username': username})
+    timestemps = []
+    result = []
+    for n in allnotes:
+        timestemps.append({'content': n['content'], "ntimestemp": n['ntimestemp']})
+
+    for i in range(len(timestemps) - 1):
+        for j in range(0, len(timestemps) - i - 1):
+            if timestemps[j]['ntimestemp'] > timestemps[j + 1]['ntimestemp']:
+                timestemps[j], timestemps[j + 1] = timestemps[j + 1], timestemps[j]
+
+    for n in timestemps:
+        result.append(n['content'])
+
     noteslist = []
 
-    if len(allnotes) >= 3:
+    if len(result) >= 3:
         for x in range(-3, 0):
-            noteslist.append(allnotes[x])
+            noteslist.append(result[x])
             x = x - 1
     else:
-        noteslist = allnotes
+        noteslist = result
 
     # array nur timestemp content dann nach timestemp sortieren und dann nur content weitergeben
     access_token = create_access_token(identity={
