@@ -42,6 +42,7 @@ export const add_note = newNote => {
         .then(response =>{
             console.log("New Note")
             localStorage.setItem('notetoken', response.data.token)
+            return response.data.token
         })
         .catch(err => {
             console.log(err)
