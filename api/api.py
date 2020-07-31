@@ -56,6 +56,7 @@ def add_note():
     else:
         noteslist = allnotes
 
+    # array nur timestemp content dann nach timestemp sortieren und dann nur content weitergeben
     access_token = create_access_token(identity={
         'notes': noteslist,
         'username':username
@@ -112,7 +113,15 @@ def login():
     result = ""
 
     response = users.find_one({'username':username})
+    allnotes = users.distinct("notes.content", {'username': username})
+    noteslist = []
 
+    if len(allnotes) >= 3:
+        for x in range(-3, 0):
+            noteslist.append(allnotes[x])
+            x = x - 1
+    else:
+        noteslist = allnotes
 
     if response:
         if bcrypt.check_password_hash(response['password'], password):
@@ -120,15 +129,18 @@ def login():
                 'username': response['username'],
                 'email': response['email'],
                 'studyprogram': response['studyprogram'],
+                'notes': noteslist
             })
             result= jsonify({'token': access_token})
-
+            print(allnotes)
+            print(noteslist)
 
         else:
             result = jsonify({"error":"Invalid username and password"})
     else:
         result = jsonify({"result":"No results found"})
     return result
+
 
     #@app.route('/notes', methods=['GET', 'POST'])
     #def notes():

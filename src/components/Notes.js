@@ -52,12 +52,14 @@ class Notes extends Component {
     }
 
     componentDidMount () {
-        const token = localStorage.notetoken
-        const decoded = jwt_decode(token)
-        this.setState({
-            notesList: decoded.identity.notes,
-            username: decoded.identity.username
-        })
+
+            const token = localStorage.notetoken
+            const decoded = jwt_decode(token)
+            this.setState({
+                notesList: decoded.identity.notes,
+                username: decoded.identity.username
+            })
+
     }
 
     handleChange(event) {
