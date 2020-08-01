@@ -27,7 +27,6 @@ class Assignments extends React.Component {
     }
    
 
-
   deleteItem=(id)=>{
     const {items} = this.state;
     const isNotId = item => item.id !== id;
