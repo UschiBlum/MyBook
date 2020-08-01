@@ -5,7 +5,24 @@ import List from "./List";
 import Timetable from "./Timetable";
 import paper_plane from "./paper_plane.png";
 
-const testarray = [1,2,3]
+var colors = ['#58D3F7', '#F781F3', '#8000FF', '#A9F5D0', '#F5BCA9'];
+
+    var min = 0;
+    var max = 4;
+
+
+  const notestyle = {
+    color: "white",
+    width: "200px",
+    backgroundColor: colors[Math.floor(Math.random() * (max - min)) + min],
+    alignItems: 'center',
+    padding: "50px",
+    justifyContent: 'center',
+    fontFamily: 'Arial',
+    margin: "2em",
+    marginLeft:"-10em"
+  };
+
 class Profile extends Component {
     constructor() {
         super()
@@ -42,7 +59,6 @@ class Profile extends Component {
                 <div className="row header-row">
                     <div className="col-md-5">
                         <h1 className="heading text-center display-1">{this.state.username}'s Homepage</h1>
-                        <p>test: {this.state.favoriteNote} hmm</p>
                     </div>
                     <div className="col-md-2"></div>
                     <div className="col-md-5"></div>
@@ -52,7 +68,7 @@ class Profile extends Component {
                     <div className="col-md-5 ">
                         <List />
                     </div>
-                    <div className="col-md-2"></div>
+                    <div className="col-md-2" ></div>
                     <div className="col-md-5 ">
                         <table id='lectures'>
                             <thead>
@@ -105,7 +121,9 @@ class Profile extends Component {
                 <div className="row">
                     <div className="col-md-5 left papper">
                     </div>
-                    <div className="col-md-2"></div>
+                    <div className="col-md-2">
+                    <h2 style = {notestyle}>{this.state.favoriteNote}</h2>
+                    </div>
                     <div className="col-md-5">
                         <img src={paper_plane} width="200" alt="Paper Plane" />
 
