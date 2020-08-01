@@ -40,7 +40,6 @@ def add_note():
 
     print("newnote")
     print(newnote)
-    print("DOOOF")
     
     if(favorite):
         users.update_one({'username': username, "notes.nfavorite":True}, {'$set': {"notes.$.nfavorite": False}})
