@@ -131,6 +131,54 @@ def login():
         result = jsonify({"result":"No results found"})
     return result
 
+@app.route('users/assignments', methods=['GET','POST'])
+def assignments():
+    users = mongo.db.users
+    username = request.get_json()['username']
+    newassignment = request.get_json['newassignment']
+    submission = request.get_json['submission']
+    resultassignments = ''
+
+    users.update_one({'username': username}, {'$push': {'assignments': {'_aid':ObjectId(), 'assignment':newassignment, 'submission':submission}}})
+    allasignments = users.distinct("assignments", {'username': username})
+    result = []
+
+    for n in allasignments:
+        result.append({'assignment':n['assignment'],'submission':n['submission']})
+
+    access_token = create_access_token(identity={
+        'assignments': result,
+        'username': username
+    })
+    resultassignments = jsonify({'token': access_token})
+
+    return resultassignments
+
+
+@app.route('users/examen', methods=['GET','POST'])
+def examen():
+    users = mongo.db.users
+    username = request.get_json()['username']
+    newexamen = request.get_json['newexamen']
+    submission = request.get_json['submission']
+    resultexamen = ''
+
+    users.update_one({'username': username}, {'$push': {'examen': {'_aid':ObjectId(), 'examen':newexamen, 'submission':submission}}})
+    allexamen = users.distinct("examen", {'username': username})
+    result = []
+
+    for n in allexamen:
+        result.append({'examen':n['examen'], 'submission':n['submission']})
+
+    access_token = create_access_token(identity={
+        'examen': result,
+        'username': username
+    })
+    resultexamen = jsonify({'token': access_token})
+
+    return resultexamen
+
+
     #@app.route('/notes', methods=['GET', 'POST'])
     #def notes():
       #  if session['login'] == 'True':
@@ -158,15 +206,4 @@ def get_current_time():
     return {'time': time.time()}
 
 
-@app.route('/users/Assignments', methods=['GET', 'POST'])
-def Assignments():
-    users = mongo.db.users
-    newitem = request.get_json()['newitem']
 
-    db.session.commit()         
-
-    
-
-
-    
-    

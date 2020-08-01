@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import './Assignments.css'
 //import {Link, RichText, Date} from 'prismic-reactjs';
 import { Form } from 'semantic-ui-react'
+  
+
 
 const items = [
   { id:1, text:'Learn React', isCompleted: false},
@@ -154,7 +156,7 @@ const Items = ({items, deleteItem, editItem, compleateItem}) => {
                     <p className="item-block">
                     <span className="item-name" style={{ textDecoration: item.isCompleted ? "line-through" : "" }}>{item.text}</span>
                     <Button onClick={()=>{compleateItem(item)}} className={"Button"}>&#10004;</Button>
-                    <Button onClick={()=>{editItem(item)}} className={"Button"}>Edit</Button>
+                    <Button onClick={()=>{editItem(item)}} className={"Button edit"}>Edit</Button>
                     <Button onClick={()=>{deleteItem(item.id)}} className={"Button delete"}>-</Button>
                     </p>
                 </span>
