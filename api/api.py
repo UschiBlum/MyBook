@@ -22,6 +22,7 @@ app.config['MONGO_URI'] = 'mongodb+srv://admin:admin123@mybook.fgysf.mongodb.net
 client = pymongo.MongoClient("mongodb+srv://admin:admin123@mybook.fgysf.mongodb.net/mybook?retryWrites=true&w=majority")
 db = client.test
 
+
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
@@ -155,3 +156,13 @@ def login():
 @app.route('/time')
 def get_current_time():
     return {'time': time.time()}
+
+
+@app.route('/users/Assignments', methods=['GET', 'POST'])
+def Assignments():
+    users = mongo.db.users
+    newitem = request.get_json()['newitem']
+
+    db.session.commit()         
+
+    

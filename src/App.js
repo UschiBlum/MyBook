@@ -14,6 +14,8 @@ import Notes from "./components/Notes";
 import notebook from './components/notepad-background-png-4-blau.png'
 import Footer from "./components/Footer";
 
+
+
 class App extends Component {
   render() {
     return (

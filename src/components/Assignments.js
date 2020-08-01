@@ -23,9 +23,7 @@ class Assignments extends React.Component {
     this.addItem = this.addItem.bind(this);
     this.editItem = this.editItem.bind(this);
     this.compleateItem = this.compleateItem.bind(this);
-    
-
-    
+        
     }
    
 
