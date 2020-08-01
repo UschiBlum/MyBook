@@ -66,19 +66,20 @@ class Notes extends Component {
     }
 
     handleChange(event) {
-            this.setState({
-                newnote: event.target.value,
-                favorite: event.target.checked
-            });
+            this.setState({newnote: event.target.value});
     }
    
+    handleCheckbox(event){
+        this.setState({favorite: event.target.checked})
+    }
 
     handleSubmit(event) {
         event.preventDefault();
         
         const newNote = {
             newnote: this.state.newnote,
-            username: this.state.username
+            username: this.state.username,
+            favorite:this.state.favorite
 
         }
         add_note(newNote).then(res => {
@@ -147,8 +148,9 @@ class Notes extends Component {
                                     <button type="submit" className="btn btn-primary btn-lg">
                                         Create Note
                                     </button>
+                                    <div classname="col-md-5"></div>
                                     <FormControlLabel
-                                        control={<Checkbox checked={this.state.favorite} onChange={handleChange} name="checkedA" />}
+                                        control={<Checkbox checked={this.state.favorite} onChange={this.handleCheckbox} name="checkedA" />}
                                         label="Favorite"
                                     />
                                 </div>
