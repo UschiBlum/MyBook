@@ -37,6 +37,7 @@ export const add_note = newNote => {
     return axios
         .post("users/note", {
             newnote: newNote.newnote,
+            favorite : newNote.favorite,
             username: newNote.username
         })
         .then(response =>{
@@ -48,6 +49,7 @@ export const add_note = newNote => {
             console.log(err)
         })
 }
+
 
 export const assignments = newAss => {
     return axios

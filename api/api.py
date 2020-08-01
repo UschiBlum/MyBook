@@ -28,9 +28,6 @@ jwt = JWTManager(app)
 
 CORS(app)
 
-
-
-
 @app.route('/users/note', methods=['GET', 'POST'])
 def add_note():
 
@@ -38,13 +35,18 @@ def add_note():
     newnote = request.get_json()['newnote']
     username= request.get_json()['username']
     ntimestemp = datetime.utcnow()
-    nfavorite = False
+    nfavorite = request.get_json()['nfavorite']
+    favorite = request.get_json()['favorite']
     resultNotes =''
 
     print("newnote")
     print(newnote)
+
+    if(favorite):
+        users.update_one({'username': username, 'notes.content': nfavorite}, {'$set': {'notes': {'nfavorite':False}}})
+
     users.update_one({'username': username},
-                    {'$push': {'notes': {'_nid': ObjectId(), 'content': newnote, 'ntimestemp':ntimestemp, 'nfavorite':nfavorite}}})
+                    {'$push': {'notes': {'_nid': ObjectId(), 'content': newnote, 'ntimestemp':ntimestemp, 'nfavorite':favorite}}})
 
     allnotes = users.distinct("notes", {'username': username})
     timestemps = []
@@ -72,7 +74,8 @@ def add_note():
     # array nur timestemp content dann nach timestemp sortieren und dann nur content weitergeben
     access_token = create_access_token(identity={
         'notes': noteslist,
-        'username':username
+        'username':username,
+        'nfavorite': newnote
     })
     resultNotes = jsonify({'token': access_token})
 

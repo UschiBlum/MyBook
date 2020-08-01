@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import { Form, TextArea } from 'semantic-ui-react'
 import jwt_decode from 'jwt-decode'
 import {add_note} from './UserFunction'
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 
 const divStyle = {
@@ -44,7 +46,8 @@ class Notes extends Component {
         this.state = {
             username:'',
             newnote: '',
-            notesList: []
+            notesList: [],
+            favorite: false
         }
 
         this.handleChange = this.handleChange.bind(this);
@@ -63,8 +66,12 @@ class Notes extends Component {
     }
 
     handleChange(event) {
-            this.setState({newnote: event.target.value});
+            this.setState({
+                newnote: event.target.value,
+                favorite: event.target.checked
+            });
     }
+   
 
     handleSubmit(event) {
         event.preventDefault();
@@ -128,18 +135,6 @@ class Notes extends Component {
                     <div className="form-group">
                         <div>
                             {this.renderNotesData()}
-                            {/*<div className="col-md-5 left">*/}
-                            {/*    <h2 style = {notestyle}>First Note in DB </h2>*/}
-                            {/*</div>*/}
-                            {/*<div className="col-md-2"></div>*/}
-                            {/*<div className="col-md-5">*/}
-                            {/*    <h2 style = {notestyle}>Second Note in DB</h2>*/}
-                            {/*</div>*/}
-                            {/*<div className="col-md-2"></div>*/}
-                            {/*<div className="col-md-5">*/}
-                            {/*    <h2 style = {notestyle}>Third Note in DB </h2>*/}
-                            {/*</div>*/}
-                            {/*<div className="col-md-2"></div>*/}
                         </div>
                     </div>
                 </div>
@@ -152,6 +147,10 @@ class Notes extends Component {
                                     <button type="submit" className="btn btn-primary btn-lg">
                                         Create Note
                                     </button>
+                                    <FormControlLabel
+                                        control={<Checkbox checked={this.state.favorite} onChange={handleChange} name="checkedA" />}
+                                        label="Favorite"
+                                    />
                                 </div>
                             </form>
                         </div>
