@@ -13,7 +13,8 @@ class Profile extends Component {
             username: '',
             studyprogram: '',
             email: '',
-            notes: [5,6,8],
+            notes: [],
+            favoriteNote: ''
 
         }
     }
@@ -25,7 +26,8 @@ class Profile extends Component {
             username: decoded.identity.username,
             studyprogram: decoded.identity.studyprogram,
             email: decoded.identity.email,
-            notes: decoded.identity.notes
+            notes: decoded.identity.notes,
+            favoriteNote: decoded.identity.favoriteNote
         })
     }
 
@@ -40,7 +42,7 @@ class Profile extends Component {
                 <div className="row header-row">
                     <div className="col-md-5">
                         <h1 className="heading text-center display-1">{this.state.username}'s Homepage</h1>
-                        <p>Note: {this.state.notes} : {testarray}</p>
+                        <p>test: {this.state.favoriteNote} hmm</p>
                     </div>
                     <div className="col-md-2"></div>
                     <div className="col-md-5"></div>
