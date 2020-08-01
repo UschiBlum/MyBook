@@ -6,9 +6,9 @@ MyBook helps you organise your Study and private life.
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Contributors
-Constanze Becker
-Tammana
-Jule Zirger
+Constanze Becker, 
+Tammana, 
+Jule Zirger, 
 
 ## Features
 
@@ -30,7 +30,7 @@ The Design is made with Bootstrap
 ## Installation
 
 ##### Installing the latest version of Node.js
--For Windows, download and install Node.js (LTS version) on your local machine from the
+- For Windows, download and install Node.js (LTS version) on your local machine from the
 official Node.js website (https://nodejs.org/en/download/)
 - Details on installing Node.js on different operating systems can be found on the website
 (https://nodejs.org/en/download/package-manager/)
@@ -43,7 +43,7 @@ official Node.js website (https://nodejs.org/en/download/)
 
 ##### Open a terminal in the project folder MyBook and type the following commands
 - npm install (install needed node packages)
-- npm install @material-ui/core
+- npm start (start the react app)
 - cd api (Change the Directory)
 - venv\Scripts\activate (activate the virtual environment for windows)
 - source venv/bin/activate (activate the virtual environment for linux/macOS)
@@ -55,6 +55,8 @@ official Node.js website (https://nodejs.org/en/download/)
 - pip install flask-cors
 - pip install flask-jwt-extended
 - pip install zeep
+- run flask (Start flask)
+
 
 
 
