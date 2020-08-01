@@ -1,5 +1,4 @@
 import time
-
 import pymongo
 from flask import Flask, jsonify, request, json
 from flask_pymongo import PyMongo, MongoClient
@@ -72,7 +71,6 @@ def add_note():
     else:
         noteslist = result
 
-    # array nur timestemp content dann nach timestemp sortieren und dann nur content weitergeben
     access_token = create_access_token(identity={
         'notes': noteslist,
         'username':username,
