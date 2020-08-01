@@ -35,7 +35,7 @@ def add_note():
     newnote = request.get_json()['newnote']
     username= request.get_json()['username']
     ntimestemp = datetime.utcnow()
-    nfavorite = request.get_json()['nfavorite']
+    favoriteNote = request.get_json()['favoriteNote']
     favorite = request.get_json()['favorite']
     resultNotes =''
 
@@ -43,7 +43,7 @@ def add_note():
     print(newnote)
 
     if(favorite):
-        users.update_one({'username': username, 'notes.content': nfavorite}, {'$set': {'notes': {'nfavorite':False}}})
+        users.update_one({'username': username, 'notes.content': favoriteNote}, {'$set': {'notes': {'nfavorite':False}}})
 
     users.update_one({'username': username},
                     {'$push': {'notes': {'_nid': ObjectId(), 'content': newnote, 'ntimestemp':ntimestemp, 'nfavorite':favorite}}})
