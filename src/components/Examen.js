@@ -17,6 +17,8 @@ class Examen extends Component {
         };
         this.deleteItem = this.deleteItem.bind(this);
         this.addItem = this.addItem.bind(this);
+        this.editItem = this.editItem.bind(this);
+        this.editInput = this.editItem.bind(this);
         this.compleateItem = this.compleateItem.bind(this);
       }
 
@@ -38,6 +40,7 @@ class Examen extends Component {
           }
          )
       }
+      
 
       compleateItem = (item) =>{
         const {items} = this.state;
@@ -52,6 +55,46 @@ class Examen extends Component {
         
       }
 
+    //   editInput = (item) =>{
+    //       var editInput = items.createElement("input");
+    //       item.id = items;
+    //       item.edit = false;
+    //       item.compleateItem = "";
+    //       let updateList = [...items, item];
+    //       this.setState({
+    //          items: updateList
+    //        }
+    //       )
+    //    }
+
+    // onToggleEdit = itemId => {
+    //     let tasks = this.state.tasks.map(item => {
+    //       if (item.id == itemId) {
+    //         item.edit = !item.edit;
+    //       }
+    //       return item;
+    //     });
+    //     this.setState({tasks});
+    //   }
+
+
+
+
+
+    editInput(e){ this.setState({ items: e.target.value }) }
+
+      editItem = (item) =>{
+        const {items} = this.state;
+          item.id = items.edit;
+          item.edit = true;
+          item.compleateItem = true;
+          let updateList = [...items, item];
+          this.setState({
+             items: updateList
+           }
+          )
+       }
+     
 
 
 
@@ -77,14 +120,14 @@ class Examen extends Component {
                     </div>
                     <Input addItem={this.addItem}/>
                         <div>
-                             <Items items = {this.state.items} deleteItem={this.deleteItem} compleateItem={this.compleateItem} className="items"/>
+                             <Items items = {this.state.items} deleteItem={this.deleteItem} editItem={this.editItem} compleateItem={this.compleateItem} className="items"/>
                         </div> 
             </div>
         );
     }
 }
 
-const Items = ({items, deleteItem, compleateItem}) => {
+const Items = ({items, deleteItem, editItem, compleateItem}) => {
     const itemList = items.length ? (
         items.map(item=>
             <div key={item.id}>
@@ -92,6 +135,7 @@ const Items = ({items, deleteItem, compleateItem}) => {
                     <p className="item-block">
                     <span className="item-name" style={{ textDecoration: item.isCompleted ? "line-through" : "" }}>{item.text}</span>
                     <Button onClick={()=>{compleateItem(item)}} className={"Button"}>&#10004;</Button>
+                    <Button onClick={()=>{editItem(item)}} className={"Button"}>Edit</Button>
                     <Button onClick={()=>{deleteItem(item.id)}} className={"Button delete"}>-</Button>
                     </p>
                 </span>
@@ -99,7 +143,7 @@ const Items = ({items, deleteItem, compleateItem}) => {
         )
     ) 
     : (
-        <p> You have no items</p>
+        <p><h1>You are done with all Exams</h1></p>
     );
     return(
         <div>
@@ -141,12 +185,14 @@ class Input extends React.Component {
             <div className="col-xs-5">
             
             <form onSubmit={this.handleSubmit} className="input">
+                
                 <input
                     className="add-input"
                     type = "text"
                     value = {this.state.text}
                     onChange={this.handleChange}
                     required="required"
+                    placeholder="Enter your Exam"
                 >
                 </input>
             

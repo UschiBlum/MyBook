@@ -4,8 +4,9 @@ import './Assignments.css'
 import { Form } from 'semantic-ui-react'
 
 const items = [
-  {id:1, text:'Learn React', isCompleted: false},
-  {id:2, text: 'Work on project', isCompleted: false} 
+  { id:1, text:'Learn React', isCompleted: false},
+  { id:2, text: 'Work on project', isCompleted: false}, 
+  { id:3, text: 'Learn Flask', isCompleted: true} 
 ]
   
 class Assignments extends React.Component {
@@ -15,7 +16,7 @@ class Assignments extends React.Component {
     super(props);
     this.state = {
       items: items,
-      date: "",
+      date: Date.now(),
       description: ""
     };
     this.deleteItem = this.deleteItem.bind(this);
@@ -41,6 +42,7 @@ class Assignments extends React.Component {
   addItem = (item) =>{
     const {items} = this.state;
      item.id = items.length+1;
+     item.edit = false;
      item.compleateItem = false;
      let updateList = [...items, item];
      this.setState({
@@ -49,16 +51,37 @@ class Assignments extends React.Component {
      )
   }
 
-  editItem = (item) =>{
-    const {items} = this.state;
-     item.id = items.length+1;
-     item.compleateItem = false;
-     let updateList = [...items, item];
+  editItem = (id, item, e) =>{
+   const {items} = this.state;
+      item.id = items.length+1;
+      item.edit = true;
+      item.compleateItem = false;
+      let updateList = [...items, item];
      this.setState({
         items: updateList
       }
      )
   }
+
+//   editItem = itemId => {
+//     let tasks = this.map(item => {
+//       if (item.id == itemId) {
+//         item.edit = !item.edit;
+//       }
+//       return item;
+//     });
+//     this.setState({tasks});
+//   }
+// onEdit = (item, itemid, e) => {
+//     e.preventDefault()
+//     this.setState({
+//         id: itemid,
+//         term: item
+//     })
+//     console.log(itemid)
+// }
+
+
 
 
 
@@ -114,9 +137,9 @@ class Assignments extends React.Component {
                 </div> */}
                 
                     
-                    <Input addItem={this.addItem}/>
+                    <Input addItem={this.addItem} super={this.setState}/>
                     <div>
-                    <Items items = {this.state.items} deleteItem={this.deleteItem} compleateItem={this.compleateItem} className="items"/>
+                    <Items items = {this.state.items} deleteItem={this.deleteItem} compleateItem={this.compleateItem} editItem={this.editItem} super={this.setState} className="items"/>
                     </div>
             </div>
             
@@ -144,7 +167,7 @@ const Items = ({items, deleteItem, editItem, compleateItem}) => {
 
     
     : (
-        <p> You have no items</p>
+        <p><h1>You have no Assignments to do</h1> </p>
         
     );
 
@@ -193,6 +216,18 @@ class Input extends React.Component {
         )
         
     }
+    handleEdit = (e) => {
+        e.preventDefault();
+        this.props.editItem(this.state);
+        this.setState(
+            {
+                text: ''
+            }
+        )
+        
+    }
+
+
     
     render(){
         return(
@@ -209,6 +244,7 @@ class Input extends React.Component {
                     value = {this.state.text}
                     onChange={this.handleChange}
                     required="required"
+                    placeholder="Enter your Assignment"
                 >
                 </input> 
                 
