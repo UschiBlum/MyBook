@@ -1,24 +1,19 @@
 import React, {Component} from 'react'
 import paper_plane from './paper_plane.png'
 import {HuePicker} from 'react-color'
-import {createLecture} from "./TimeTablFunction";
+import {createLecture} from "./UserFunction";
 import './timttable.css'
-import nextId from "react-id-generator";
+// import nextId from "react-id-generator";
+import jwt_decode from 'jwt-decode'
 
 
-const lectureList =[]
+
 
 class Timetable extends Component {
-    lecId = nextId()
-    constructor() {
-        super()
+    constructor(props) {
+        super(props)
         this.state = {
-            lecture: '',
-            monday: false,
-            tuesday: false,
-            wednesday: false,
-            thursday: false,
-            friday: false,
+            newlecture: '',
             color: '#8ff',
             starttimemonday: '',
             endtimemonday:'',
@@ -30,44 +25,32 @@ class Timetable extends Component {
             endtimethursday:'',
             starttimefriday: '',
             endtimefriday:'',
-            lectureList: lectureList,
-            lectures: [
-                // {id: lecId, lecName: this.state.lecture, startMo: this.state.starttimemonday, endMo:this.state.endtimemonday, startTu: this.state.starttimetuesday, endTu:this.state.endtimetuesday, startWe:this.state.starttimewednesday, endWe: this.state.endtimewednesday, startTh:this.state.starttimethursday, endTh:this.state.endtimethursday, startFr:this.state.starttimefriday, endFr:this.state.endtimefriday, color:this.state.color},
-                {id:1, lecName:'test1', startMo: '12:00', endMo:'14:00', startTu: '', endTu:'', startWe:'', endWe: '', startTh:'', endTh:'', startFr:'', endFr:'',},
-                {id:2, lecName:'test2', startMo: '', endMo:'', startTu: '14:00', endTu:'16:00', startWe:'', endWe: '', startTh:'', endTh:'', startFr:'', endFr:''},
-                {id:3, lecName:'test3', startMo: '10:00', endMo:'12:00', startTu: '', endTu:'', startWe:'', endWe: '', startTh:'16:00', endTh:'18:00', startFr:'', endFr:''},
-                {id:4, lecName:'test4', startMo: '', endMo:'', startTu: '', endTu:'', startWe:'', endWe: '', startTh:'', endTh:'', startFr:'10:00', endFr:'12:00'}
-                ]
+            username: '',
+            lectureList: []
+            // lectureList: lectureList,
+            // lectures: [
+            //     // {id: lecId, lecName: this.state.lecture, startMo: this.state.starttimemonday, endMo:this.state.endtimemonday, startTu: this.state.starttimetuesday, endTu:this.state.endtimetuesday, startWe:this.state.starttimewednesday, endWe: this.state.endtimewednesday, startTh:this.state.starttimethursday, endTh:this.state.endtimethursday, startFr:this.state.starttimefriday, endFr:this.state.endtimefriday, color:this.state.color},
+            //     {id:1, lecName:'test1', startMo: '12:00', endMo:'14:00', startTu: '', endTu:'', startWe:'', endWe: '', startTh:'', endTh:'', startFr:'', endFr:'',},
+            //     {id:2, lecName:'test2', startMo: '', endMo:'', startTu: '14:00', endTu:'16:00', startWe:'', endWe: '', startTh:'', endTh:'', startFr:'', endFr:''},
+            //     {id:3, lecName:'test3', startMo: '10:00', endMo:'12:00', startTu: '', endTu:'', startWe:'', endWe: '', startTh:'16:00', endTh:'18:00', startFr:'', endFr:''},
+            //     {id:4, lecName:'test4', startMo: '', endMo:'', startTu: '', endTu:'', startWe:'', endWe: '', startTh:'', endTh:'', startFr:'10:00', endFr:'12:00'}
+            //     ]
 
         }
         this.onChange = this.onChange.bind(this)
         this.onSubmit = this.onSubmit.bind(this)
-        this.addItem = this.addItem.bind(this)
-        this.compleateItem = this. compleateItem.bind(this)
+        this.handleChangeComplete = this.handleChangeComplete.bind(this)
     }
 
-    addItem = (item) => {
-        const {lectureList} = this.state
-        item.id = this.lecId
-        item.compleateItem = false
-        let updateList = [...lectureList, item]
+    componentDidMount() {
+        const token = localStorage.lecturetoken
+        const token2 = localStorage.usertoken
+        const decoded = jwt_decode(token)
+        const decoded2 = jwt_decode(token2)
         this.setState({
-            lectureList: updateList
+            lectureList: decoded.identity.lectures,
+            username: decoded2.identity.username
         })
-
-    }
-
-    compleateItem = (item) =>{
-        const {items} = this.state;
-
-        item.isCompleted
-            ? item.isCompleted = false
-            : item.isCompleted = true
-
-        this.setState({
-            items
-        });
-
     }
 
     onChange(e) {
@@ -77,35 +60,35 @@ class Timetable extends Component {
         this.setState({color : color.hex})
     }
 
-    addLecture = (lecture) =>{
-        const {lectureList} = this.state
-        lecture.id = this.lecId
-        let updateList = [...lectureList, lecture]
-        this.setState({
-            lectureList: updateList
-        })
-    }
+    // addLecture = (lecture) =>{
+    //     const {lectureList} = this.state
+    //     lecture.id = this.lecId
+    //     let updateList = [...lectureList, lecture]
+    //     this.setState({
+    //         lectureList: updateList
+    //     })
+    // }
 
     onSubmit(e){
         e.preventDefault()
-        this.addItem(this.state)
-        this.setState({
-            lecture: this.state.lecture,
-            color: this.state.color,
-            starttimemonday: this.state.starttimemonday,
-            endtimemonday:this.state.endtimemonday,
-            starttimetuesday: this.state.starttimetuesday,
-            endtimetuesday:this.state.endtimetuesday,
-            starttimewednesday: this.state.starttimewednesday,
-            endtimewednesday: this.state.endtimewednesday,
-            starttimethursday: this.state.starttimethursday,
-            endtimethursday:this.state.endtimethursday,
-            starttimefriday: this.state.starttimefriday,
-            endtimefriday: this.state.endtimefriday,
-        })
+        // this.setState({
+        //     newlecture: this.state.lecture,
+        //     color: this.state.color,
+        //     starttimemonday: this.state.starttimemonday,
+        //     endtimemonday:this.state.endtimemonday,
+        //     starttimetuesday: this.state.starttimetuesday,
+        //     endtimetuesday:this.state.endtimetuesday,
+        //     starttimewednesday: this.state.starttimewednesday,
+        //     endtimewednesday: this.state.endtimewednesday,
+        //     starttimethursday: this.state.starttimethursday,
+        //     endtimethursday:this.state.endtimethursday,
+        //     starttimefriday: this.state.starttimefriday,
+        //     endtimefriday: this.state.endtimefriday,
+        //     username: this.state.username
+        // })
 
         const newLecture = {
-            lecture: this.state.lecture,
+            newlecture: this.state.newlecture,
             color: this.state.color,
             starttimemonday: this.state.starttimemonday,
             endtimemonday:this.state.endtimemonday,
@@ -117,22 +100,26 @@ class Timetable extends Component {
             endtimethursday:this.state.endtimethursday,
             starttimefriday: this.state.starttimefriday,
             endtimefriday: this.state.endtimefriday,
+            username: this.state.username
         }
+
+        createLecture(newLecture).then(res => {
+            window.location.reload()
+        }).catch(err =>{
+            console.log(err)
+        })
 
     }
 
     renderTableData(){
-        return this.state.lectures.map((lectures, index) => {
-            const {id, lecName, startMo, endMo, startTu, endTu, startWe, endWe, startTh, endTh, startFr, endFr, color} = lectures
-            var numStartMo = parseInt(startMo, 10)
-            var numStartTu = parseInt(startTu, 10)
-            var numStartWe = parseInt(startWe, 10)
-            var numStartTh = parseInt(startTh, 10)
-            var numStartFr = parseInt(startFr, 10)
+        return this.state.lectureList.map((lectures, index) => {
+            const {lecture, color, startMo, endMo, startTu, endTu, startWe, endWe, startTh, endTh, startFr, endFr} = lectures
+            var colour = {color}
+            colour = colour.hex
 
             return(
-                <tr key={id} style={{backgroundColor: this.state.color}}>
-                    <td>{lecName}</td>
+                <tr key={lecture} style={{backgroundColor: colour}}>
+                    <td>{lecture}</td>
                     <td>{startMo} - {endMo}</td>
                     <td>{startTu} - {endTu}</td>
                     <td>{startWe} - {endWe}</td>
@@ -174,6 +161,7 @@ class Timetable extends Component {
                                 </thead>
                                 <tbody>
                                     {this.renderTableData()}
+                                    {/*<tr>{this.state.lectureList}</tr>*/}
                                 </tbody>
                             </table>
                         </div>
@@ -182,10 +170,11 @@ class Timetable extends Component {
                             <div className="form-group">
                                 <input type="text"
                                        className="form-control form-control-lg"
-                                       name="lecture"
+                                       name="newlecture"
                                        placeholder="Lecture"
-                                       value={this.state.lecture}
-                                       onChange={this.onChange}/>
+                                       value={this.state.newlecture}
+                                       onChange={this.onChange}
+                                />
                             </div>
                         </div>
                     </div>

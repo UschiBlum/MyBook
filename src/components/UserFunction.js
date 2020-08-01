@@ -49,6 +49,34 @@ export const add_note = newNote => {
         })
 }
 
+export const createLecture = newLecture => {
+    return axios
+        .post("users/timetable", {
+            newlecture: newLecture.newlecture,
+            color: newLecture.color,
+            starttimemonday: newLecture.starttimemonday,
+            endtimemonday: newLecture.endtimemonday,
+            starttimetuesday: newLecture.starttimetuesday,
+            endtimetuesday: newLecture.endtimetuesday,
+            starttimewednesday: newLecture.starttimewednesday,
+            endtimewednesday: newLecture.endtimewednesday,
+            starttimethursday: newLecture.starttimethursday,
+            endtimethursday: newLecture.endtimethursday,
+            starttimefriday: newLecture.starttimefriday,
+            endtimefriday: newLecture.endtimefriday,
+            username: newLecture.username
+        })
+        .then(response =>{
+            console.log("New Lecture")
+            localStorage.setItem('lecturetoken', response.data.token)
+            return response.data.token
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+
+
 export const assignments = newAss => {
     return axios
         .post("users/assignments",{

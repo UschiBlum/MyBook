@@ -28,8 +28,44 @@ jwt = JWTManager(app)
 
 CORS(app)
 
+usernamesession = ''
 
+@app.route('/users/timetable', methods=['GET','POST'])
+def create_timetable():
+    users = mongo.db.users
+    username = request.get_json()['username']
+    newlecture = request.get_json()['newlecture']
+    color = request.get_json()['color']
+    starttimemonday = request.get_json()['starttimemonday']
+    endtimemonday = request.get_json()['endtimemonday']
+    starttimetuesday = request.get_json()['starttimetuesday']
+    endtimetuesday = request.get_json()['endtimetuesday']
+    starttimewednesday = request.get_json()['starttimewednesday']
+    endtimewednesday = request.get_json()['endtimewednesday']
+    starttimethursday = request.get_json()['starttimethursday']
+    endtimethursday = request.get_json()['endtimethursday']
+    starttimefriday = request.get_json()['starttimefriday']
+    endtimefriday = request.get_json()['endtimefriday']
+    resultlectures = ''
 
+    users.update_one({'username': username}, {'$push': {'timetable': {'_lid': ObjectId(), 'lecture': newlecture, 'color': color, 'startMo': starttimemonday, 'endMo': endtimemonday, 'startTu': starttimetuesday, 'endTu': endtimetuesday, 'startWe': starttimewednesday, 'endWe': endtimewednesday, 'startTh': starttimethursday, 'endTh': endtimethursday, 'startFr': starttimefriday, 'endFr': endtimefriday}}})
+    alllectures = users.distinct("timetable", {'username': username})
+    result = []
+
+    # for n in alllectures:
+    #     result.append('lecture': n['lecture'], 'color': n['color'], 'startMo': n['startMo'], 'endMo': n['endMo'],'startMo': n['startTu'], 'endTu': n['endTu'],'startWe': n['startWe'], 'endWe': n['endWe'],'startTh': n['startTh'], 'endTh': n['endTh'],'startFr': n['startFr'], 'endFr': n['endMo'])
+
+    access_token = create_access_token(identity={
+        'lectures': result,
+        'username': username
+    })
+
+    resultlectures = jsonify({'token': access_token})
+    print(newlecture)
+    print(alllectures)
+    print("username")
+    print(username)
+    return resultlectures
 
 @app.route('/users/note', methods=['GET', 'POST'])
 def add_note():
@@ -124,8 +160,10 @@ def login():
     username = request.get_json()['username']
     password = request.get_json()['password']
     result = ""
+    usernamesession=username
 
     response = users.find_one({'username':username})
+    alllectures = users.distinct("timetable.lecture", {'username':username})
     allnotes = users.distinct("notes.content", {'username': username})
     noteslist = []
 
@@ -138,15 +176,17 @@ def login():
 
     if response:
         if bcrypt.check_password_hash(response['password'], password):
-            access_token = create_access_token(identity = {
+            access_token = create_access_token(identity={
                 'username': response['username'],
                 'email': response['email'],
                 'studyprogram': response['studyprogram'],
-                'notes': noteslist
+                'notes': noteslist,
+                'lectures': alllectures,
             })
             result= jsonify({'token': access_token})
             print(allnotes)
             print(noteslist)
+            print(alllectures)
 
         else:
             result = jsonify({"error":"Invalid username and password"})
