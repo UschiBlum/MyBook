@@ -38,7 +38,8 @@ export const add_note = newNote => {
         .post("users/note", {
             newnote: newNote.newnote,
             favorite : newNote.favorite,
-            username: newNote.username
+            username: newNote.username,
+            favoriteNote: newNote.favoriteNote
         })
         .then(response =>{
             console.log("New Note")

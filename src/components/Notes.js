@@ -47,11 +47,13 @@ class Notes extends Component {
             username:'',
             newnote: '',
             notesList: [],
-            favorite: false
+            favorite: false,
+            favoriteNote: ''
         }
 
         this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.handleCheckbox = this.handleCheckbox.bind(this)
     }
 
     componentDidMount () {
@@ -70,7 +72,7 @@ class Notes extends Component {
     }
    
     handleCheckbox(event){
-        this.setState({favorite: event.target.checked})
+        this.setState({favorite: !this.state.favorite})
     }
 
     handleSubmit(event) {
@@ -79,7 +81,8 @@ class Notes extends Component {
         const newNote = {
             newnote: this.state.newnote,
             username: this.state.username,
-            favorite:this.state.favorite
+            favorite:this.state.favorite,
+            favoriteNote: this.state.favoriteNote
 
         }
         add_note(newNote).then(res => {
