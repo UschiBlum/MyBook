@@ -261,7 +261,7 @@ def login():
     return result
 
 @app.route('/users/assignments', methods=['GET','POST'])
-def assignments():
+def create_assignments():
     users = mongo.db.users
     username = request.get_json()['username']
     newassignment = request.get_json['newassignment']
@@ -300,7 +300,7 @@ def create_todolist():
     return resulttodo
 
 @app.route('/users/examen', methods=['GET','POST'])
-def examen():
+def create_examen():
     users = mongo.db.users
     username = request.get_json()['username']
     newexamen = request.get_json['newexamen']
@@ -340,3 +340,41 @@ def deletetodo():
     resultdeletodos = jsonify({'token':access_token})
 
     return resultdeletodos
+
+
+@app.route('/users/deleteassignments', methods=['GET','POST'])
+def deleteassignments():
+    users = mongo.db.users
+    deleteassignments = request.get_json()['deleteassignment']
+    username = request.get_json()['username']
+    resultadeleteassignments = ''
+    print("delete assignment")
+    print(deleteassignments)
+    users.update_many({'username': username}, {'$pull':{'tasks':deleteassignments}})
+
+    allassignments= users.distinct("tasks",{'username':username})
+    access_token = create_access_token(identity={
+        'deleteassignmentslist':allassignments
+    })
+    resultadeleteassignments = jsonify({'token':access_token})
+
+    return resultadeleteassignments
+
+
+@app.route('/users/delete_examen', methods=['GET','POST'])
+def delete_examen():
+    users = mongo.db.users
+    delete_examen = request.get_json()['delete_examen']
+    username = request.get_json()['username']
+    resultdelete_examen = ''
+    print("delete examen")
+    print(delete_examen)
+    users.update_many({'username': username}, {'$pull':{'tasks':delete_examen}})
+
+    allexamen= users.distinct("tasks",{'username':username})
+    access_token = create_access_token(identity={
+        'delete_examenlist':allexamen
+    })
+    resultdelete_examen = jsonify({'token':access_token})
+
+    return resultdelete_examen
