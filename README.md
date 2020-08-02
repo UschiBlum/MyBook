@@ -27,6 +27,12 @@ The Design is made with Bootstrap
 
 ## Screenshots
 
+https://github.com/UschiBlum/MyBook/blob/master/Welcom.png
+
+https://github.com/UschiBlum/MyBook/blob/master/Login.png
+
+https://github.com/UschiBlum/MyBook/blob/master/signup.png
+
 ## Installation
 
 ##### Installing the latest version of Node.js
