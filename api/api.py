@@ -33,12 +33,14 @@ def get_data():
     users = mongo.db.users
     username = request.get_json()['username']
     allnotes = users.distinct("notes", {'username': username})
+    alltodos = users.distinct("tasks", {'username': username})
+    print(alltodos)
     favoriteNote= ''
     timetable = []
     alllectures = users.distinct("timetable", {'username': username})
 
     for n in alllectures:
-        timetable.append({'lecture': n['lecture'], 'color': n['color'], 'startMo': n['startMo'], 'endMo': n['endMo'],'startTu': n['startTu'], 'endTu': n['endTu'],'startWe': n['startWe'], 'endWe': n['endWe'],'startTh': n['startTh'], 'endTh': n['endTh'],'startFr': n['startFr'], 'endFr': n['endFr']})
+        timetable.append({'lecture': n['lecture'], 'color': n['color'], 'startMo': n['startMo'], 'endMo': n['endMo'], 'startTu': n['startTu'], 'endTu': n['endTu'],'startWe': n['startWe'], 'endWe': n['endWe'],'startTh': n['startTh'], 'endTh': n['endTh'],'startFr': n['startFr'], 'endFr': n['endFr']})
 
     for x in allnotes:
         if(x["nfavorite"]):
@@ -47,7 +49,8 @@ def get_data():
     access_token = create_access_token(identity = {
         'username': username,
         'timetable': timetable,
-        'favoriteNote': favoriteNote
+        'favoriteNote': favoriteNote,
+        'todolist': alltodos
     })
 
     
@@ -244,7 +247,8 @@ def login():
                 'noteslist':result,
                 'assignments': resulta,
                 'todolist': alltodos,
-                'timetable': resultl
+                'timetable': resultl,
+                'deletetodolist': alltodos
 
             })
             result= jsonify({'token': access_token})
@@ -319,13 +323,20 @@ def examen():
     return resultexamen
 
 
-@app.route('/users/todo/<task>')
-def delete_task(task):
+@app.route('/users/deletetodo', methods=['GET','POST'])
+def deletetodo():
     users = mongo.db.users
-    response = users.delete_many({'task':task})
-    if response.deleted_count ==1:
-        result = {'message': 'record deleted'}
-    else:
-        result = {'message': 'no record found'}
+    deletetodo = request.get_json()['deletetodo']
+    username = request.get_json()['username']
+    resultdeletodos = ''
+    print("delete todo")
+    print(deletetodo)
+    users.update_many({'username': username}, {'$pull':{'tasks':deletetodo}})
 
-    return jsonify({'result': result})
+    alltodos= users.distinct("tasks",{'username':username})
+    access_token = create_access_token(identity={
+        'deletetodolist':alltodos
+    })
+    resultdeletodos = jsonify({'token':access_token})
+
+    return resultdeletodos

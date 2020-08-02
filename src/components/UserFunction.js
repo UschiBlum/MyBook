@@ -37,7 +37,8 @@ export const get_data = newData =>{
         .post('users/profile', {
             username: newData.username,
             timetable: newData.timetable,
-            favoriteNote: newData.favoriteNote
+            favoriteNote: newData.favoriteNote,
+            todolist: newData.todolist
         })
         .then(response => {
             localStorage.setItem('usertoken', response.data.token)
@@ -125,14 +126,18 @@ export const create_todos = newTodo => {
         })
 }
 
-export const deleteTodo = term => {
+export const deleteTodo = deleteTodoItem => {
     return axios
-        .delete('users/todo/${term}'
+        .post('users/deletetodo', {
+            deletetodo: deleteTodoItem.deletetodo,
+            username: deleteTodoItem.username
+            }
         )
-        .then((response) => {
+        .then(response => {
             console.log(response)
+            localStorage.setItem('deletetodotoken', response.data.token)
         })
-        .catch((response)=>{
-            console.log(response)
+        .catch(err =>{
+            console.log(err)
         })
 }

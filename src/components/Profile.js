@@ -36,7 +36,8 @@ class Profile extends Component {
             favoriteNote: '',
             tt: [],
             todolist: [],
-            newtodo: ''
+            newtodo: '',
+            deletetodolist: []
 
         }
         this.handleChange = this.handleChange.bind(this)
@@ -50,6 +51,8 @@ class Profile extends Component {
         const decoded = jwt_decode(token)
         const token2 = localStorage.todotoken
         const decoded2 = jwt_decode(token2)
+        const token3 = localStorage.usertoken
+        const decoded3 = jwt_decode(token3)
         this.setState({
             username: decoded.identity.username,
             studyprogram: decoded.identity.studyprogram,
@@ -57,7 +60,8 @@ class Profile extends Component {
             notes: decoded.identity.notes,
             favoriteNote: decoded.identity.favoriteNote,
             todolist: decoded2.identity.todolist,
-            tt: decoded.identity.timetable
+            tt: decoded.identity.timetable,
+            deletetodolist: decoded3.identity.deletetodolist
         })
     }
 
@@ -81,11 +85,19 @@ class Profile extends Component {
 
     onDelete = (val, e) => {
         e.preventDefault()
-        deleteTodo(val)
         var data = [...this.state.todolist]
         data.filter((todo, index) =>{
             if (todo === val){
                 data.splice(index, 1)
+                const deleteTodoItem ={
+                    deletetodo: todo,
+                    username: this.state.username
+                }
+                deleteTodo(deleteTodoItem).then(res => {
+                    console.log(res)
+                }).catch(err => {
+                    console.log(err)
+                })
             }
             return true
         })
@@ -113,10 +125,13 @@ class Profile extends Component {
 
     onSubmit(e) {
         e.preventDefault()
+        const token = localStorage.usertoken
+        const decoded = jwt_decode(token)
         const newData = {
             username: this.state.username,
             timetable: this.state.tt,
-            favoriteNote: this.state.favoriteNote
+            favoriteNote: this.state.favoriteNote,
+            todolist: decoded.identity.todolist
         }
         get_data(newData).then(res => {
             window.location.reload()
