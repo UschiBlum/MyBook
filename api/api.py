@@ -1,4 +1,5 @@
 import time
+
 import pymongo
 from flask import Flask, jsonify, request, json
 from flask_pymongo import PyMongo, MongoClient
@@ -21,11 +22,42 @@ app.config['MONGO_URI'] = 'mongodb+srv://admin:admin123@mybook.fgysf.mongodb.net
 client = pymongo.MongoClient("mongodb+srv://admin:admin123@mybook.fgysf.mongodb.net/mybook?retryWrites=true&w=majority")
 db = client.test
 
+
 mongo = PyMongo(app)
 bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
 CORS(app)
+@app.route('/users/profile', methods=['POST'])
+def get_data():
+    users = mongo.db.users
+    username = request.get_json()['username']
+    allnotes = users.distinct("notes", {'username': username})
+    favoriteNote= ''
+    timetable = []
+    alllectures = users.distinct("timetable", {'username': username})
+
+    for n in alllectures:
+        timetable.append({'lecture': n['lecture'], 'color': n['color'], 'startMo': n['startMo'], 'endMo': n['endMo'],'startTu': n['startTu'], 'endTu': n['endTu'],'startWe': n['startWe'], 'endWe': n['endWe'],'startTh': n['startTh'], 'endTh': n['endTh'],'startFr': n['startFr'], 'endFr': n['endFr']})
+
+    for x in allnotes:
+        if(x["nfavorite"]):
+            favoriteNote = x['content']
+
+    access_token = create_access_token(identity = {
+        'username': username,
+        'timetable': timetable,
+        'favoriteNote': favoriteNote
+    })
+
+    
+    
+    result= jsonify({'token': access_token})
+
+    return result
+
+
+
 
 @app.route('/users/timetable', methods=['GET','POST'])
 def create_timetable():
@@ -58,10 +90,7 @@ def create_timetable():
     })
 
     resultlectures = jsonify({'token': access_token})
-    print(newlecture)
-    print(alllectures)
-    print("username")
-    print(username)
+    
     return resultlectures
 
 
@@ -72,51 +101,28 @@ def add_note():
     newnote = request.get_json()['newnote']
     username= request.get_json()['username']
     ntimestemp = datetime.utcnow()
-    favoriteNote = request.get_json()['favoriteNote']
-    favorite = request.get_json()['favorite']
+    nfavorite = False
     resultNotes =''
 
-    print("newnote")
-    print(newnote)
-
-    if(favorite):
-        users.update_one({'username': username, 'notes.content': favoriteNote}, {'$set': {'notes': {'nfavorite':False}}})
-
     users.update_one({'username': username},
-                    {'$push': {'notes': {'_nid': ObjectId(), 'content': newnote, 'ntimestemp':ntimestemp, 'nfavorite':favorite}}})
+                    {'$push': {'notes': {'_nid': ObjectId(), 'content': newnote, 'ntimestemp':ntimestemp, 'nfavorite':nfavorite}}})
 
-    allnotes = users.distinct("notes", {'username': username})
-    timestemps = []
-    result = []
-    for n in allnotes:
-        timestemps.append({'content': n['content'], "ntimestemp": n['ntimestemp']})
-
-    for i in range(len(timestemps) - 1):
-        for j in range(0, len(timestemps) - i - 1):
-            if timestemps[j]['ntimestemp'] > timestemps[j + 1]['ntimestemp']:
-                timestemps[j], timestemps[j + 1] = timestemps[j + 1], timestemps[j]
-
-    for n in timestemps:
-        result.append(n['content'])
-
+    allnotes = users.distinct("notes.content", {'username': username})
     noteslist = []
 
-    if len(result) >= 3:
+    if len(allnotes) >= 3:
         for x in range(-3, 0):
-            noteslist.append(result[x])
+            noteslist.append(allnotes[x])
             x = x - 1
     else:
-        noteslist = result
+        noteslist = allnotes
 
     access_token = create_access_token(identity={
         'notes': noteslist,
-        'username':username,
-        'nfavorite': newnote
+        'username':username
     })
     resultNotes = jsonify({'token': access_token})
 
-    print(allnotes)
-    print(noteslist)
     return resultNotes
 
 @app.route('/users/register', methods=['GET', 'POST'])
@@ -165,21 +171,7 @@ def login():
     result = ""
 
     response = users.find_one({'username':username})
-    allnotes = users.distinct("notes.content", {'username': username})
-    allnotes2 = users.distinct("notes", {'username': username})
-    noteslist = []
-    favoriteNote= ''
 
-    for x in allnotes2:
-        if(x["nfavorite"]):
-            favoriteNote = x['content']
-
-    if len(allnotes) >= 3:
-        for x in range(-3, 0):
-            noteslist.append(allnotes[x])
-            x = x - 1
-    else:
-        noteslist = allnotes
 
     alllectures = users.distinct("timetable", {'username': username})
     result = []
@@ -212,15 +204,16 @@ def login():
                 'noteslist':result,
                 'assignments': resulta,
                 'todolist': alltodos
+
             })
             result= jsonify({'token': access_token})
+
 
         else:
             result = jsonify({"error":"Invalid username and password"})
     else:
         result = jsonify({"result":"No results found"})
     return result
-
 
 @app.route('/users/assignments', methods=['GET','POST'])
 def assignments():
@@ -260,3 +253,27 @@ def create_todolist():
     })
     resulttodo = jsonify({'token':access_token})
     return resulttodo
+
+@app.route('/users/examen', methods=['GET','POST'])
+def examen():
+    users = mongo.db.users
+    username = request.get_json()['username']
+    newexamen = request.get_json['newexamen']
+    submission = request.get_json['submission']
+    resultexamen = ''
+
+    users.update_one({'username': username}, {'$push': {'examen': {'_aid':ObjectId(), 'examen':newexamen, 'submission':submission}}})
+    allexamen = users.distinct("examen", {'username': username})
+    result = []
+
+    for n in allexamen:
+        result.append({'examen':n['examen'], 'submission':n['submission']})
+
+    access_token = create_access_token(identity={
+        'examen': result,
+        'username': username
+    })
+    resultexamen = jsonify({'token': access_token})
+
+    return resultexamen
+

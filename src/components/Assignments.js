@@ -4,11 +4,6 @@ import './Assignments.css'
 import { Form } from 'semantic-ui-react'
 import {add_assignments} from "./UserFunction";
 import jwt_decode from 'jwt-decode'
-
-// const items = [
-//   {id:1, text:'Learn React', isCompleted: false},
-//   {id:2, text: 'Work on project', isCompleted: false}
-// ]
   
 class Assignments extends React.Component {
 
@@ -16,11 +11,9 @@ class Assignments extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
+
         items: [],
-        // date: "",
-        // description: "",
         newassignment: '',
-        // assignments: [],
         submission: '',
         username: '',
         isCompleted: false
@@ -33,8 +26,8 @@ class Assignments extends React.Component {
     this.handleChange = this.handleChange.bind(this)
     this.handleSubmit = this.handleSubmit.bind(this)
 
-    
     }
+
 
     componentDidMount() {
       const token = localStorage.usertoken
@@ -78,6 +71,7 @@ class Assignments extends React.Component {
     }
 
     deleteItem=(id)=>{
+
     const {items} = this.state;
     const isNotId = item => item.id !== id;
     const updateList = items.filter(isNotId);
@@ -89,6 +83,7 @@ class Assignments extends React.Component {
   addItem = (item) =>{
     const {items} = this.state;
      item.id = items.length+1;
+     item.edit = false;
      item.compleateItem = false;
      let updateList = [...items, item];
      this.setState({
@@ -109,17 +104,35 @@ class Assignments extends React.Component {
       })
   }
 
-  editItem = (item) =>{
-    const {items} = this.state;
-     item.id = items.length+1;
-     item.compleateItem = false;
-     let updateList = [...items, item];
+  editItem = (id, item, e) =>{
+   const {items} = this.state;
+      item.id = items.length+1;
+      item.edit = true;
+      item.compleateItem = false;
+      let updateList = [...items, item];
      this.setState({
         items: updateList
       }
      )
   }
 
+//   editItem = itemId => {
+//     let tasks = this.map(item => {
+//       if (item.id == itemId) {
+//         item.edit = !item.edit;
+//       }
+//       return item;
+//     });
+//     this.setState({tasks});
+//   }
+// onEdit = (item, itemid, e) => {
+//     e.preventDefault()
+//     this.setState({
+//         id: itemid,
+//         term: item
+//     })
+//     console.log(itemid)
+// }
 
 
   compleateItem = (item) =>{
@@ -174,9 +187,9 @@ class Assignments extends React.Component {
                 </div> */}
                 
                     
-                    <Input addItem={this.addItem}/>
+                    <Input addItem={this.addItem} super={this.setState}/>
                     <div>
-                    <Items items = {this.state.items} deleteItem={this.deleteItem} compleateItem={this.compleateItem} className="items"/>
+                    <Items items = {this.state.items} deleteItem={this.deleteItem} compleateItem={this.compleateItem} editItem={this.editItem} super={this.setState} className="items"/>
                     </div>
             </div>
             
@@ -194,7 +207,7 @@ const Items = ({items, deleteItem, editItem, compleateItem}) => {
                     <p className="item-block">
                     <span className="item-name" style={{ textDecoration: item.isCompleted ? "line-through" : "" }}>{item.text}</span>
                     <Button onClick={()=>{compleateItem(item)}} className={"Button"}>&#10004;</Button>
-                    <Button onClick={()=>{editItem(item)}} className={"Button"}>Edit</Button>
+                    <Button onClick={()=>{editItem(item)}} className={"Button edit"}>Edit</Button>
                     <Button onClick={()=>{deleteItem(item.id)}} className={"Button delete"}>-</Button>
                     </p>
                 </span>
@@ -204,7 +217,7 @@ const Items = ({items, deleteItem, editItem, compleateItem}) => {
 
     
     : (
-        <p> You have no items</p>
+        <p><h1>You have no Assignments to do</h1> </p>
         
     );
 
@@ -253,6 +266,18 @@ class Input extends React.Component {
         )
         
     }
+    handleEdit = (e) => {
+        e.preventDefault();
+        this.props.editItem(this.state);
+        this.setState(
+            {
+                text: ''
+            }
+        )
+        
+    }
+
+
     
     render(){
         return(
@@ -269,6 +294,7 @@ class Input extends React.Component {
                     value = {this.state.text}
                     onChange={this.handleChange}
                     required="required"
+                    placeholder="Enter your Assignment"
                 >
                 </input> 
                 
