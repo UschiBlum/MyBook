@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import jwt_decode from 'jwt-decode'
-import {add_exam} from "./UserFunction";
+import {add_exam, deleteExam} from "./UserFunction";
 
 class Examen extends Component {
     constructor() {
@@ -11,7 +11,7 @@ class Examen extends Component {
             submission: '',
             isCompleted: false,
             examlist: [],
-            //deleteassignmentlist: [],
+            deleteExamlist: [],
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -46,27 +46,32 @@ class Examen extends Component {
         })
 
     }
-       // onDelete = (val, e) => {
-    //     e.preventDefault()
-    //     var data = [...this.state.list]
-    //     data.filter((exam, index) =>{
-    //         if (exam === val){
-    //             data.splice(index, 1)
-    //             const deleteExamItem ={
-    //                 deleteexam: exam,
-    //                 username: this.state.username
-    //             }
-    //             deleteExam(deleteExamItem).then(res => {
-    //                 console.log(res)
-    //             }).catch(err => {
-    //                 console.log(err)
-    //             })
-    //         }
-    //         return true
-    //     })
-    //     this.setState({alist: [...data]})
-    // }
+
+
+
+       onDelete = (val, e) => {
+        e.preventDefault()
+        var data = [...this.state.examlist]
+        data.filter((exam, index) =>{
+            if (exam === val){
+                data.splice(index, 1)
+                const deleteExamItem ={
+                    deleteexam: exam,
+                    username: this.state.username
+                }
+                deleteExam(deleteExamItem).then(res => {
+                    console.log(res)
+                }).catch(err => {
+                    console.log(err)
+                })
+            }
+            return true
+        })
+        this.setState({alist: [...data]})
+    }
     
+
+
 
     renderExamList(){
         return this.state.examlist.map((exams, index) =>{
@@ -127,7 +132,9 @@ class Examen extends Component {
                     <div className="col-md-5">
                         {this.renderExamList()}
                     </div>
-                    <div className="col-md-2"></div>
+                    <div className="col-md-2">
+                    <h1 className="heading text-center display-3"> Add Your Exams</h1>
+                    </div>
                     <div className="col-md-5">
                         <form onSubmit={this.handleSubmit} className="input">
                             <div>
@@ -135,20 +142,24 @@ class Examen extends Component {
                                     className="add-input"
                                     type="text"
                                     name="newexam"
+                                    placeholder="Enter Exam"
                                     value={this.state.newexam}
                                     onChange={this.handleChange}
                                     required="required"
                                 />
                             </div>
+                            <br/>
                             <div>
                                 <input
                                     className="add-input"
                                     type="text"
                                     name="submission"
+                                    placeholder="DD/MM/YY"
                                     value={this.state.submission}
                                     onChange={this.handleChange}
                                 />
                             </div>
+                            <br/>
                             <div>
                                 <button type={"submit"} className={"Button"}>
                                     Add
