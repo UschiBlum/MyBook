@@ -2,6 +2,8 @@ import React, {Component} from 'react'
 import './Assignments.css'
 //import {Link, RichText, Date} from 'prismic-reactjs';
 import { Form } from 'semantic-ui-react'
+import jwt_decode from 'jwt-decode'
+import  {create_todos} from "./UserFunction";
 
 const items = [
     {id:1, text:'Learn React', isCompleted: false},
@@ -14,9 +16,10 @@ class List extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            items: items,
-            date: "",
-            description: ""
+            items: [],
+            newtodo: "",
+            description: "",
+            username: ''
         };
         this.deleteItem = this.deleteItem.bind(this);
         this.addItem = this.addItem.bind(this);
@@ -27,6 +30,14 @@ class List extends React.Component {
 
     }
 
+    componentDidMount() {
+        const token = localStorage.usertoken
+        const decoded = jwt_decode(token)
+        this.setState({
+            items: decoded.identity.todolist,
+            username: decoded.identity.username
+        })
+    }
 
 
     deleteItem=(id)=>{
@@ -44,9 +55,19 @@ class List extends React.Component {
         item.compleateItem = false;
         let updateList = [...items, item];
         this.setState({
-                items: updateList
+                items: updateList,
+                newtodo: this.state
             }
         )
+        const newTodo = {
+            newtodo: this.state.newtodo,
+            username: this.state.username
+        }
+        create_todos(newTodo).then(res => {
+            this.props.history.push('/profile')
+        }).catch(err => {
+            console.log(err)
+        })
     }
 
     editItem = (item) =>{

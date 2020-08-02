@@ -93,13 +93,32 @@ export const createLecture = newLecture => {
         })
 }
 
-export const assignments = newAss => {
+export const add_assignments = newAss => {
     return axios
         .post("users/assignments",{
-            assignments: newAss.items
+            newassignment: newAss.newassignment,
+            submission: newAss.submission,
+            isCompleted: newAss.isCompleted,
+            username: newAss.username
         })
         .then(response =>{
             console.log("added assignments")
+            localStorage.setItem('assignmenttoken', response.data.token)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+
+export const create_todos = newTodo => {
+    return axios
+        .post('users/todo', {
+            newtodo: newTodo.newtodo,
+            username: newTodo.username
+        })
+        .then(respone => {
+            console.log("new todo")
+            localStorage.setItem('todotoken', respone.data.token)
         })
         .catch(err => {
             console.log(err)

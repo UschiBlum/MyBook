@@ -58,6 +58,7 @@ class Register extends Component {
     onChange(e) {
     //     this.setState({[e.target.name]: e.target.value})
         this.setState({studyprogram: e.target.value})
+        alert(this.state.studyprogram)
     }
 
     handleChange = (e) => {
@@ -230,7 +231,7 @@ class Register extends Component {
                             <div className="form-group">
                                 <label htmlFor="studyprogram" className="text-primary">Study program</label>
                                 <select value={this.state.studyprogram} onChange={this.onChange} className="form-control form-control-lg" >
-                                    <option value="mai">Master Angewandte Informatik</option>
+                                    <option s="mai">Master Angewandte Informatik</option>
                                     <option value="ise">Master Computer Engineering</option>
                                     <option value="komedia">Master Angewandte Kognitions- und Medienwissenschaft</option>
                                     <option value="otherprogram">Other</option>

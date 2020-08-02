@@ -181,15 +181,29 @@ def login():
                        'startTu': n['startTu'], 'endTu': n['endTu'], 'startWe': n['startWe'], 'endWe': n['endWe'],
                        'startTh': n['startTh'], 'endTh': n['endTh'], 'startFr': n['startFr'], 'endFr': n['endFr']})
 
+    allasignments1 = users.distinct("assignments.assignment", {'username': username})
+    allasignments = users.distinct("assignments", {'username': username})
+    resulta = []
+
+    for n in allasignments:
+        resulta.append({'assignment': n['assignment'], 'submission': n['submission'], 'completed': n['completed']})
+
+    print(allasignments1)
+    print(resulta)
+    alltodos = users.distinct('tasks', {'username': username})
+    print("todos")
+    print(alltodos)
     if response:
         if bcrypt.check_password_hash(response['password'], password):
-            access_token = create_access_token(identity = {
+            access_token = create_access_token(identity={
                 'username': response['username'],
                 'email': response['email'],
                 'studyprogram': response['studyprogram'],
                 'notes': noteslist,
                 'favoriteNote': favoriteNote,
                 'noteslist':result,
+                'assignments': resulta,
+                'todolist': alltodos
 
             })
             result= jsonify({'token': access_token})
@@ -207,23 +221,38 @@ def assignments():
     username = request.get_json()['username']
     newassignment = request.get_json['newassignment']
     submission = request.get_json['submission']
+    isCompleted = request.get_json['isCompleted']
     resultassignments = ''
 
-    users.update_one({'username': username}, {'$push': {'assignments': {'_aid':ObjectId(), 'assignment':newassignment, 'submission':submission}}})
+    users.update_one({'username': username}, {'$push': {'assignments': {'_aid':ObjectId(), 'assignment': newassignment, 'submission': submission, 'completed': isCompleted}}})
     allasignments = users.distinct("assignments", {'username': username})
-    result = []
+    resulta = []
 
     for n in allasignments:
-        result.append({'assignment':n['assignment'],'submission':n['submission']})
+        resulta.append({'assignment':n['assignment'],'submission':n['submission'], 'completed':n['completed']})
 
     access_token = create_access_token(identity={
-        'assignments': result,
+        'assignments': resulta,
         'username': username
     })
     resultassignments = jsonify({'token': access_token})
-
     return resultassignments
 
+@app.route('/users/todo', methods=['GET','POST'])
+def create_todolist():
+    users = mongo.db.users
+    username = request.get_json()['username']
+    newtask = request.get_json()['newtodo']
+    resulttodo = ''
+
+    users.update_one({'username': username}, {'$push': {'tasks':newtask}})
+    alltodos = users.distinct('tasks',{'username':username})
+    access_token = create_access_token(identity={
+        'todolist':alltodos,
+        'username':username
+    })
+    resulttodo = jsonify({'token':access_token})
+    return resulttodo
 
 @app.route('/users/examen', methods=['GET','POST'])
 def examen():
@@ -247,7 +276,4 @@ def examen():
     resultexamen = jsonify({'token': access_token})
 
     return resultexamen
-
-
-
 
