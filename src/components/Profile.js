@@ -5,7 +5,7 @@ import List from "./List";
 import Timetable from "./Timetable";
 import paper_plane from "./paper_plane.png";
 
-var colors = ['#58D3F7', '#F781F3', '#8000FF', '#A9F5D0', '#F5BCA9'];
+var colors = ['#58D3F7', '#F781F3', '#8000FF', '#A9F5D0', '#F5BCA9', '#8af'];
 
     var min = 0;
     var max = 4;

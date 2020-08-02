@@ -32,6 +32,21 @@ export const login = user => {
         })
 }
 
+export const get_data = user =>{
+    return axios
+        .post('users/profile', {
+            username: user.username,
+            timetable: user.timetable,
+            favoriteNote: user.favoriteNote
+        })
+        .then(response => {
+            localStorage.setItem('usertoken', response.data.token)
+            return response.data.token
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
 
 export const add_note = newNote => {
     return axios
