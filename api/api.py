@@ -35,17 +35,22 @@ def get_data():
     allnotes = users.distinct("notes", {'username': username})
     favoriteNote= ''
     timetable = []
+    alllectures = users.distinct("timetable", {'username': username})
+
+    for n in alllectures:
+        timetable.append({'lecture': n['lecture'], 'color': n['color'], 'startMo': n['startMo'], 'endMo': n['endMo'],'startTu': n['startTu'], 'endTu': n['endTu'],'startWe': n['startWe'], 'endWe': n['endWe'],'startTh': n['startTh'], 'endTh': n['endTh'],'startFr': n['startFr'], 'endFr': n['endFr']})
 
     for x in allnotes:
         if(x["nfavorite"]):
             favoriteNote = x['content']
-    
-    print(favoriteNote)
+
     access_token = create_access_token(identity = {
         'username': username,
         'timetable': timetable,
         'favoriteNote': favoriteNote
     })
+
+    
     
     result= jsonify({'token': access_token})
 
@@ -85,10 +90,7 @@ def create_timetable():
     })
 
     resultlectures = jsonify({'token': access_token})
-    print(newlecture)
-    print(alllectures)
-    print("username")
-    print(username)
+    
     return resultlectures
 
 
@@ -102,8 +104,6 @@ def add_note():
     nfavorite = False
     resultNotes =''
 
-    print("newnote")
-    print(newnote)
     users.update_one({'username': username},
                     {'$push': {'notes': {'_nid': ObjectId(), 'content': newnote, 'ntimestemp':ntimestemp, 'nfavorite':nfavorite}}})
 
@@ -123,8 +123,6 @@ def add_note():
     })
     resultNotes = jsonify({'token': access_token})
 
-    print(allnotes)
-    print(noteslist)
     return resultNotes
 
 @app.route('/users/register', methods=['GET', 'POST'])
@@ -203,7 +201,7 @@ def login():
         result = jsonify({"result":"No results found"})
     return result
 
-@app.route('users/assignments', methods=['GET','POST'])
+@app.route('/users/assignments', methods=['GET','POST'])
 def assignments():
     users = mongo.db.users
     username = request.get_json()['username']
@@ -227,7 +225,7 @@ def assignments():
     return resultassignments
 
 
-@app.route('users/examen', methods=['GET','POST'])
+@app.route('/users/examen', methods=['GET','POST'])
 def examen():
     users = mongo.db.users
     username = request.get_json()['username']
@@ -250,32 +248,6 @@ def examen():
 
     return resultexamen
 
-
-    #@app.route('/notes', methods=['GET', 'POST'])
-    #def notes():
-      #  if session['login'] == 'True':
-     #       form = LoginForm()
-     #       if request.method == 'POST':
-     #           user = mongo.db.user
-     #           login_user = user.find_one({'email': request.form.get("email")})
-     #           print("Login_user:")
-     #           print(login_user)
-     #           if login_user:
-     #               if bcrypt.checkpw(request.form.get('password').encode('utf-8'), login_user['password'].encode('utf-8')):
-     #                   session['firstname'] = login_user['firstname']
-     #                   session['lastname'] = login_user['lastname']
-     #                   session['birthday'] = login_user['birthday']
-     #                   session['email'] = login_user['email']
-    #                    session['logged_in'] = True
-   #                     return render_template('profil.html')
-  #                  session['logged_in'] = False
- #               return render_template('failLogin.html')
-#
-     #   return render_template('login.html', form=form)''
-
-@app.route('/time')
-def get_current_time():
-    return {'time': time.time()}
 
 
 

@@ -67,6 +67,25 @@ class Profile extends Component {
 
     }
 
+    renderTableData(){
+        return this.state.timetable.map((lectures, index) => {
+            const {lecture, color, startMo, endMo, startTu, endTu, startWe, endWe, startTh, endTh, startFr, endFr} = lectures
+
+
+            return(
+                <tr key={lecture} style={{backgroundColor: this.state.color}}>
+                    <td>{lecture}</td>
+                    <td>{startMo} - {endMo}</td>
+                    <td>{startTu} - {endTu}</td>
+                    <td>{startWe} - {endWe}</td>
+                    <td>{startTh} - {endTh}</td>
+                    <td>{startFr} - {endFr}</td>
+                </tr>
+
+            )
+        })
+    }
+
     render () {
         return (
             <div className="container">
@@ -90,51 +109,20 @@ class Profile extends Component {
                     <div className="col-md-2" ></div>
                     <div className="col-md-5 ">
                         <table id='lectures'>
-                            <thead>
-                            <tr>
-                                <th>Lecture</th>
-                                <th>Monday</th>
-                                <th>Tuesday</th>
-                                <th>Wednesday</th>
-                                <th>Thursday</th>
-                                <th>Friday</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr style={{backgroundColor: '#8ff'}}>
-                                <td>AWT</td>
-                                <td>12:00 - 13:00</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                            <tr style={{backgroundColor: '#8ff'}}>
-                                <td>AWT</td>
-                                <td>13:00 - 14:00</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                            <tr style={{backgroundColor: '#8ff'}}>
-                                <td>AWT</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>14:00 - 15:00</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                            <tr style={{backgroundColor: '#8ff'}}>
-                                <td>AWT</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>15:00 - 16:00</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                                <thead>
+                                <tr>
+                                    <th>Lecture</th>
+                                    <th>Monday</th>
+                                    <th>Tuesday</th>
+                                    <th>Wednesday</th>
+                                    <th>Thursday</th>
+                                    <th>Friday</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {this.renderTableData()}
+                                </tbody>
+                            </table>
                     </div>
                 </div>
                 <div className="row">
