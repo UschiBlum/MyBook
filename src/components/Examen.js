@@ -66,6 +66,7 @@ class Examen extends Component {
     //     })
     //     this.setState({alist: [...data]})
     // }
+    
 
     renderExamList(){
         return this.state.examlist.map((Exam, index) =>{

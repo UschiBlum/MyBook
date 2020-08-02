@@ -114,6 +114,26 @@ export const add_assignments = newAss => {
 }
 
 
+export const add_exam = newExam => {
+    return axios
+        .post("users/assignments",{
+            newexam: newExam.newassignment,
+            submission: newExam.submission,
+            isCompleted: newExam.isCompleted,
+            username: newExam.username,
+            
+        })
+        .then(response =>{
+            console.log("added exam")
+            localStorage.setItem('examtoken', response.data.token)
+            return response.data.token
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+
+
 export const create_todos = newTodo => {
     return axios
         .post('users/todo', {
@@ -144,3 +164,4 @@ export const deleteTodo = deleteTodoItem => {
             console.log(err)
         })
 }
+

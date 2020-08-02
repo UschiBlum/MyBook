@@ -141,7 +141,6 @@ class Profile extends Component {
         //     })
         // }
 
-
     }
 
 

@@ -261,6 +261,7 @@ def login():
     return result
 
 
+
 @app.route('/users/assignments', methods=['GET', 'POST'])
 def add_assignments():
     users = mongo.db.users
@@ -283,6 +284,7 @@ def add_assignments():
     })
     resultassignments = jsonify({'token': access_token})
     return resultassignments
+
 
 @app.route('/users/examen', methods=['GET', 'POST'])
 def add_exam():
