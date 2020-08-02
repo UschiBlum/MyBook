@@ -131,11 +131,12 @@ def login():
         result = jsonify({"result":"No results found"})
     return result
 
-@app.route('users/assignments', methods=['GET','POST'])
+@app.route('/users/assignments', methods=['GET','POST'])
 def assignments():
     users = mongo.db.users
     username = request.get_json()['username']
     newassignment = request.get_json['newassignment']
+    print(newassignment)
     submission = request.get_json['submission']
     resultassignments = ''
 
@@ -155,7 +156,7 @@ def assignments():
     return resultassignments
 
 
-@app.route('users/examen', methods=['GET','POST'])
+@app.route('/users/examen', methods=['GET','POST'])
 def examen():
     users = mongo.db.users
     username = request.get_json()['username']
