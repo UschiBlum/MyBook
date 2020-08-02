@@ -4,6 +4,7 @@ import logo from "./Logopit.png";
 import List from "./List";
 import Timetable from "./Timetable";
 import paper_plane from "./paper_plane.png";
+import {create_todos} from './UserFunction'
 
 var colors = ['#58D3F7', '#F781F3', '#8000FF', '#A9F5D0', '#F5BCA9'];
 
@@ -31,20 +32,62 @@ class Profile extends Component {
             studyprogram: '',
             email: '',
             notes: [],
-            favoriteNote: ''
+            favoriteNote: '',
+            todolist: [],
+            newtodo: ''
 
         }
+        this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
     }
 
     componentDidMount () {
         const token = localStorage.usertoken
         const decoded = jwt_decode(token)
+        const token2 = localStorage.todotoken
+        const decoded2 = jwt_decode(token2)
         this.setState({
             username: decoded.identity.username,
             studyprogram: decoded.identity.studyprogram,
             email: decoded.identity.email,
             notes: decoded.identity.notes,
-            favoriteNote: decoded.identity.favoriteNote
+            favoriteNote: decoded.identity.favoriteNote,
+            todolist: decoded2.identity.todolist
+        })
+    }
+
+    handleChange(e){
+        this.setState({newtodo: e.target.value})
+    }
+
+    handleSubmit(e){
+        e.preventDefault()
+        const newTodo = {
+            newtodo: this.state.newtodo,
+            username: this.state.username
+        }
+        create_todos(newTodo).then(res => {
+            window.location.reload()
+        })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+    renderTodoList(){
+        return this.state.todolist.map((todo, ) => {
+            const {tasks} = todo
+            return (
+                <div>
+                    <span className="item">
+                        <p className="item-block">
+                            <span className="item-name">
+                                {todo}
+                            </span>
+                        </p>
+                    </span>
+                </div>
+            )
         })
     }
 
@@ -66,7 +109,22 @@ class Profile extends Component {
                 </div>
                 <div className="row second-row">
                     <div className="col-md-5 ">
-                        <List />
+                        <form onSubmit={this.handleSubmit} className="input">
+                            <input
+                                className="add-input"
+                                type = "text"
+                                value = {this.state.newtodo}
+                                onChange={this.handleChange}
+                                required="required"
+                            >
+                            </input>
+                            <button type={"submit"} className={"Button"}>
+                                Submit
+                            </button>
+                        </form>
+                        <div>
+                            {this.renderTodoList()}
+                        </div>
                     </div>
                     <div className="col-md-2" ></div>
                     <div className="col-md-5 ">
@@ -129,8 +187,6 @@ class Profile extends Component {
 
                     </div>
                 </div>
-
-
                 </div>
         )
     }

@@ -2,11 +2,13 @@ import React, {Component} from 'react'
 import './Assignments.css'
 //import {Link, RichText, Date} from 'prismic-reactjs';
 import { Form } from 'semantic-ui-react'
+import {add_assignments} from "./UserFunction";
+import jwt_decode from 'jwt-decode'
 
-const items = [
-  {id:1, text:'Learn React', isCompleted: false},
-  {id:2, text: 'Work on project', isCompleted: false} 
-]
+// const items = [
+//   {id:1, text:'Learn React', isCompleted: false},
+//   {id:2, text: 'Work on project', isCompleted: false}
+// ]
   
 class Assignments extends React.Component {
 
@@ -14,22 +16,68 @@ class Assignments extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      items: items,
-      date: "",
-      description: ""
+        items: [],
+        // date: "",
+        // description: "",
+        newassignment: '',
+        // assignments: [],
+        submission: '',
+        username: '',
+        isCompleted: false
+
     };
     this.deleteItem = this.deleteItem.bind(this);
     this.addItem = this.addItem.bind(this);
     this.editItem = this.editItem.bind(this);
     this.compleateItem = this.compleateItem.bind(this);
-    
+    this.handleChange = this.handleChange.bind(this)
+    this.handleSubmit = this.handleSubmit.bind(this)
 
     
     }
-   
 
+    componentDidMount() {
+      const token = localStorage.usertoken
+        const decoded = jwt_decode(token)
+        this.setState({
+            items: decoded.identity.assignments,
+            username: decoded.identity.username
 
-  deleteItem=(id)=>{
+        })
+    }
+
+    handleChange(e) {
+      this.setState({[e.target.name]: e.target.value})
+    }
+
+    handleSubmit(e) {
+        e.preventDefault()
+
+        const newAss = {
+            newassignment: this.state.newassignment,
+            username: this.state.username,
+            submission: this.state.submission,
+            isCompleted: this.state.isCompleted
+        }
+        add_assignments(newAss).then(res =>{
+            window.location.reload()
+        }).catch(err =>{
+            console.log(err)
+        })
+    }
+
+    renderAssignmentsData(){
+      return this.state.assignments.map((ass, )=>{
+          const {assignment, submission} = ass
+          return(
+              <div>
+                  {assignment} on {submission}
+              </div>
+          )
+      })
+    }
+
+    deleteItem=(id)=>{
     const {items} = this.state;
     const isNotId = item => item.id !== id;
     const updateList = items.filter(isNotId);
@@ -47,6 +95,18 @@ class Assignments extends React.Component {
         items: updateList
       }
      )
+      const newAss = {
+          newassignment: this.state.newassignment,
+          username: this.state.username,
+          submission: this.state.submission,
+          isCompleted: this.state.isCompleted
+      }
+      add_assignments(newAss).then(res =>{
+          // window.location.reload()
+          console.log("add new item")
+      }).catch(err =>{
+          console.log(err)
+      })
   }
 
   editItem = (item) =>{

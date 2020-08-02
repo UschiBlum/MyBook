@@ -6,6 +6,10 @@ import './timttable.css'
 // import nextId from "react-id-generator";
 import jwt_decode from 'jwt-decode'
 
+/**
+ * @todo update table always when you refresh the page
+ * @todo fix design
+ */
 
 class Timetable extends Component {
     constructor(props) {
@@ -25,14 +29,7 @@ class Timetable extends Component {
             endtimefriday:'',
             username: '',
             lectureList: []
-            // lectureList: lectureList,
-            // lectures: [
-            //     // {id: lecId, lecName: this.state.lecture, startMo: this.state.starttimemonday, endMo:this.state.endtimemonday, startTu: this.state.starttimetuesday, endTu:this.state.endtimetuesday, startWe:this.state.starttimewednesday, endWe: this.state.endtimewednesday, startTh:this.state.starttimethursday, endTh:this.state.endtimethursday, startFr:this.state.starttimefriday, endFr:this.state.endtimefriday, color:this.state.color},
-            //     {id:1, lecName:'test1', startMo: '12:00', endMo:'14:00', startTu: '', endTu:'', startWe:'', endWe: '', startTh:'', endTh:'', startFr:'', endFr:'',},
-            //     {id:2, lecName:'test2', startMo: '', endMo:'', startTu: '14:00', endTu:'16:00', startWe:'', endWe: '', startTh:'', endTh:'', startFr:'', endFr:''},
-            //     {id:3, lecName:'test3', startMo: '10:00', endMo:'12:00', startTu: '', endTu:'', startWe:'', endWe: '', startTh:'16:00', endTh:'18:00', startFr:'', endFr:''},
-            //     {id:4, lecName:'test4', startMo: '', endMo:'', startTu: '', endTu:'', startWe:'', endWe: '', startTh:'', endTh:'', startFr:'10:00', endFr:'12:00'}
-            //     ]
+
 
         }
         this.onChange = this.onChange.bind(this)
@@ -42,9 +39,7 @@ class Timetable extends Component {
 
     componentDidMount() {
         const token = localStorage.lecturetoken
-        const token2 = localStorage.usertoken
         const decoded = jwt_decode(token)
-        const decoded2 = jwt_decode(token2)
         this.setState({
             lectureList: decoded.identity.lectures,
             username: decoded.identity.username
