@@ -1,6 +1,6 @@
 import React, {Component} from "react";
 import jwt_decode from 'jwt-decode'
-import {add_assignments} from "./UserFunction";
+import {add_assignments, deleteAssignment} from "./UserFunction";
 
 class Assignments extends Component {
     constructor() {
@@ -26,7 +26,7 @@ class Assignments extends Component {
             assignmentlist: decoded.identity.assignmentlist
         })
     }
-    
+
 
     handleChange(e){
         this.setState({[e.target.name]:e.target.value})
@@ -47,26 +47,31 @@ class Assignments extends Component {
         })
 
     }
-       // onDelete = (val, e) => {
-    //     e.preventDefault()
-    //     var data = [...this.state.list]
-    //     data.filter((assignment, index) =>{
-    //         if (assignment === val){
-    //             data.splice(index, 1)
-    //             const deleteAssignmentItem ={
-    //                 deleteassignment: assignment,
-    //                 username: this.state.username
-    //             }
-    //             deleteAssignment(deleteAssignmentItem).then(res => {
-    //                 console.log(res)
-    //             }).catch(err => {
-    //                 console.log(err)
-    //             })
-    //         }
-    //         return true
-    //     })
-    //     this.setState({alist: [...data]})
-    // }
+
+
+
+    onDelete = (val, e) => {
+        e.preventDefault()
+        var data = [...this.state.assignmentlist]
+        data.filter((assignment, index) =>{
+            if (assignment === val){
+                data.splice(index, 1)
+                const deleteAssignmentItem ={
+                    deleteassignment: assignment,
+                    username: this.state.username
+                }
+                deleteAssignment(deleteAssignmentItem).then(res => {
+                    console.log(res)
+                }).catch(err => {
+                    console.log(err)
+                })
+            }
+            return true
+        })
+        this.setState({alist: [...data]})
+    }
+
+
 
     renderAssignmentList(){
         return this.state.assignmentlist.map((assignments, index) =>{
@@ -118,7 +123,7 @@ class Assignments extends Component {
                 </div>
                 <div className="row header-row">
                     <div className="col-md-5">
-                        <h1 className="heading text-center display-1">{this.state.username}'s Assignments</h1>
+                        <h1 className="heading text-center display-3">{this.state.username}'s Assignments</h1>
                     </div>
                     <div className="col-md-2"></div>
                     <div className="col-md-5"></div>
@@ -127,7 +132,9 @@ class Assignments extends Component {
                     <div className="col-md-5">
                         {this.renderAssignmentList()}
                     </div>
-                    <div className="col-md-2"></div>
+                    <div className="col-md-2"> 
+                      <h1 className="heading text-center display-3"> Add Assignments</h1>
+                    </div>
                     <div className="col-md-5">
                         <form onSubmit={this.handleSubmit} className="input">
                             <div>
@@ -135,20 +142,24 @@ class Assignments extends Component {
                                     className="add-input"
                                     type="text"
                                     name="newassignment"
+                                    placeholder="Enter Assignment"
                                     value={this.state.newassignment}
                                     onChange={this.handleChange}
                                     required="required"
                                 />
                             </div>
+                            <br/>
                             <div>
                                 <input
                                     className="add-input"
                                     type="text"
                                     name="submission"
+                                    placeholder="DD/MM/YY"
                                     value={this.state.submission}
                                     onChange={this.handleChange}
                                 />
                             </div>
+                            <br/>
                             <div>
                                 <button type={"submit"} className={"Button"}>
                                     Add
