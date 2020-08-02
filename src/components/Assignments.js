@@ -2,76 +2,34 @@ import React, {Component} from 'react'
 import './Assignments.css'
 //import {Link, RichText, Date} from 'prismic-reactjs';
 import { Form } from 'semantic-ui-react'
-import {add_assignments} from "./UserFunction";
-import jwt_decode from 'jwt-decode'
-  
+
+
+
+const items = [
+  { id:1, text:'Learn React', isCompleted: false},
+  { id:2, text: 'Work on project', isCompleted: false},
+  { id:3, text: 'Learn Flask', isCompleted: true}
+]
+
 class Assignments extends React.Component {
 
-    
+
   constructor(props) {
     super(props);
     this.state = {
-
-        items: [],
-        newassignment: '',
-        submission: '',
-        username: '',
-        isCompleted: false
-
+      items: items,
+      date: Date.now(),
+      description: ""
     };
     this.deleteItem = this.deleteItem.bind(this);
     this.addItem = this.addItem.bind(this);
     this.editItem = this.editItem.bind(this);
     this.compleateItem = this.compleateItem.bind(this);
-    this.handleChange = this.handleChange.bind(this)
-    this.handleSubmit = this.handleSubmit.bind(this)
 
     }
 
 
-    componentDidMount() {
-      const token = localStorage.usertoken
-        const decoded = jwt_decode(token)
-        this.setState({
-            items: decoded.identity.assignments,
-            username: decoded.identity.username
-
-        })
-    }
-
-    handleChange(e) {
-      this.setState({[e.target.name]: e.target.value})
-    }
-
-    handleSubmit(e) {
-        e.preventDefault()
-
-        const newAss = {
-            newassignment: this.state.newassignment,
-            username: this.state.username,
-            submission: this.state.submission,
-            isCompleted: this.state.isCompleted
-        }
-        add_assignments(newAss).then(res =>{
-            window.location.reload()
-        }).catch(err =>{
-            console.log(err)
-        })
-    }
-
-    renderAssignmentsData(){
-      return this.state.assignments.map((ass, )=>{
-          const {assignment, submission} = ass
-          return(
-              <div>
-                  {assignment} on {submission}
-              </div>
-          )
-      })
-    }
-
-    deleteItem=(id)=>{
-
+  deleteItem=(id)=>{
     const {items} = this.state;
     const isNotId = item => item.id !== id;
     const updateList = items.filter(isNotId);
@@ -90,18 +48,6 @@ class Assignments extends React.Component {
         items: updateList
       }
      )
-      const newAss = {
-          newassignment: this.state.newassignment,
-          username: this.state.username,
-          submission: this.state.submission,
-          isCompleted: this.state.isCompleted
-      }
-      add_assignments(newAss).then(res =>{
-          // window.location.reload()
-          console.log("add new item")
-      }).catch(err =>{
-          console.log(err)
-      })
   }
 
   editItem = (id, item, e) =>{
@@ -135,17 +81,20 @@ class Assignments extends React.Component {
 // }
 
 
+
+
+
   compleateItem = (item) =>{
     const {items} = this.state;
-    
-    item.isCompleted 
+
+    item.isCompleted
       ? item.isCompleted = false
       : item.isCompleted = true
 
     this.setState({
       items
     });
-    
+
   }
     render() {
         return (
@@ -170,7 +119,7 @@ class Assignments extends React.Component {
                         </div> */}
                         <div className="col-sm-5 right header-row">
                             <h1 className="heading text-center display-3">Add Assignments</h1>
-                        
+
                         </div>
                     </div>
 
@@ -185,14 +134,14 @@ class Assignments extends React.Component {
                      <h1>Add Assignments</h1>
                     </div>
                 </div> */}
-                
-                    
+
+
                     <Input addItem={this.addItem} super={this.setState}/>
                     <div>
                     <Items items = {this.state.items} deleteItem={this.deleteItem} compleateItem={this.compleateItem} editItem={this.editItem} super={this.setState} className="items"/>
                     </div>
             </div>
-            
+
         );
     }
 }
@@ -213,20 +162,20 @@ const Items = ({items, deleteItem, editItem, compleateItem}) => {
                 </span>
             </div>
         )
-    ) 
+    )
 
-    
+
     : (
         <p><h1>You have no Assignments to do</h1> </p>
-        
+
     );
 
-    
+
     return(
-        
+
         <div className="row">
             <div className="col">{itemList}</div>
-                    
+
                 <div className="col">
                     {/* <Form>
                     <Form.Group widths='equal'>
@@ -235,13 +184,13 @@ const Items = ({items, deleteItem, editItem, compleateItem}) => {
                     </Form>
                  */}
                 </div>
-                    
+
         </div>
 
-   
+
 
     );
-    
+
 }
 class Input extends React.Component {
     state = {
@@ -254,7 +203,7 @@ class Input extends React.Component {
                 text: e.target.value
 
             }
-        ) 
+        )
     }
     handleSubmit = (e) => {
         e.preventDefault();
@@ -264,7 +213,7 @@ class Input extends React.Component {
                 text: ''
             }
         )
-        
+
     }
     handleEdit = (e) => {
         e.preventDefault();
@@ -274,11 +223,11 @@ class Input extends React.Component {
                 text: ''
             }
         )
-        
+
     }
 
 
-    
+
     render(){
         return(
             <div className="container">
@@ -286,7 +235,7 @@ class Input extends React.Component {
             <div className="col"></div>
             <div className="col"></div>
             <div className="col-xs-5">
-            
+
             <form onSubmit={this.handleSubmit} className="input">
                 <input
                     className="add-input"
@@ -296,17 +245,17 @@ class Input extends React.Component {
                     required="required"
                     placeholder="Enter your Assignment"
                 >
-                </input> 
-                
-            
+                </input>
+
+
                 <Button type={"submit"} className={"Button"}>
                     Submit
                 </Button>
             </form>
-            </div>   
             </div>
-             
-            
+            </div>
+
+
             </div>
 
 

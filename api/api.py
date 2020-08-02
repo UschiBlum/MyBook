@@ -329,3 +329,68 @@ def delete_task(task):
         result = {'message': 'no record found'}
 
     return jsonify({'result': result})
+
+
+
+
+
+
+@app.route('/users/assignment', methods=['GET'])
+def get_all_items():
+  users = mongo.db.users
+  result = []
+
+  for field in users.find():
+    result.append(
+      {
+        '_id': str(field['_id']),
+        'name': field['name']
+      }
+    )
+  return jsonify(result)
+
+@app.route('/users/assignment/<additem>', methods=['POST'])
+def add_items():
+  users = mongo.db.users
+  item = request.get_json()['item']
+
+  item_id = users.insert(
+    {
+      'name': name
+    }
+  )
+
+  new_user = users.find_one({'_id': name_id})
+
+  result = {'title': new_user['name']}
+
+  return jsonify({'result': result})
+
+@app.route('/api/users/<id>', methods=['PUT'])
+def update_user(id):
+  users = mongo.db.users
+  name = request.get_json()['name']
+
+  users.find_one_and_update({'_id': ObjectId(id)}, {'$set': {'name': name}}, upsert=False)
+  new_user = users.find_one({'_id': ObjectId(id)})
+
+  result = {'name': new_user['name']}
+
+  return jsonify({'result': result})
+
+@app.route('/api/users/<id>', methods=['DELETE'])
+def delete_user(id):
+  users = mongo.db.users
+
+  response = users.delete_one({'_id': ObjectId(id)})
+
+  if response.deleted_count == 1:
+    result = {'message': 'item deleted successfully'}
+  else:
+    result = {'message': 'failed to delete item'}
+
+  return jsonify({'result': result})
+
+
+
+
