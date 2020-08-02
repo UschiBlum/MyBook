@@ -114,6 +114,30 @@ export const add_assignments = newAss => {
 }
 
 
+
+export const deleteAssignment = deleteAssignmentItem => {
+    return axios
+        .post('users/deleteAssignment', {
+            deleteAssignment: deleteAssignmentItem.deleteAssignment,
+            username: deleteAssignmentItem.username
+            }
+        )
+        .then(response => {
+            console.log(response)
+            localStorage.setItem('deleteAssignmenttoken', response.data.token)
+        })
+        .catch(err =>{
+            console.log(err)
+        })
+}
+
+
+
+
+
+
+
+
 export const add_exam = newExam => {
     return axios
         .post("users/examen",{
@@ -132,6 +156,25 @@ export const add_exam = newExam => {
             console.log(err)
         })
 }
+
+
+export const deleteExam = deleteExamItem => {
+    return axios
+        .post("users/examen", {
+            deleteExam: deleteExamItem.deleteExam,
+            username: deleteExamItem.username
+            }
+        )
+        .then(response => {
+            console.log(response)
+            localStorage.setItem('deleteexamtoken', response.data.token)
+        })
+        .catch(err =>{
+            console.log(err)
+        })
+}
+
+
 
 
 export const create_todos = newTodo => {
