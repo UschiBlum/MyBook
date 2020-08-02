@@ -100,16 +100,19 @@ export const add_assignments = newAss => {
             newassignment: newAss.newassignment,
             submission: newAss.submission,
             isCompleted: newAss.isCompleted,
-            username: newAss.username
+            username: newAss.username,
+            
         })
         .then(response =>{
             console.log("added assignments")
             localStorage.setItem('assignmenttoken', response.data.token)
+            return response.data.token
         })
         .catch(err => {
             console.log(err)
         })
 }
+
 
 export const create_todos = newTodo => {
     return axios

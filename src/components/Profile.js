@@ -105,23 +105,46 @@ class Profile extends Component {
     }
 
     renderTodoList(){
-        return this.state.todolist.map((todo, index ) => {
-            const {tasks} = todo
-            return (
-                <div key={index}>
-                    <span className="item">
-                        <p className="item-block">
-                            <span className="item-name">
-                                {todo}
-                            </span>
-                            <button onClick={this.onDelete.bind(this, todo)} className={"Button delete"}>-</button>
-                        </p>
-                    </span>
-                </div>
-              )
-            
-        })
+        // if(othertodolist === null) {
+            return this.state.todolist.map((todo, index) => {
+                const {tasks} = todo
+                return (
+                    <div key={index}>
+                        <span className="item">
+                            <p className="item-block">
+                                <span className="item-name">
+                                    {todo}
+                                </span>
+                                <button onClick={this.onDelete.bind(this, todo)} className={"Button delete"}>-</button>
+                            </p>
+                        </span>
+                    </div>
+                )
+
+            })
+        // } else {
+        //     return othertodolist.map((todo, index) => {
+        //         const {tasks} = todo
+        //         return (
+        //             <div key={index}>
+        //                 <span className="item">
+        //                     <p className="item-block">
+        //                         <span className="item-name">
+        //                             {todo}
+        //                         </span>
+        //                         <button onClick={this.onDelete.bind(this, todo)} className={"Button delete"}>-</button>
+        //                     </p>
+        //                 </span>
+        //             </div>
+        //         )
+        //
+        //     })
+        // }
+
+
     }
+
+
 
     onSubmit(e) {
         e.preventDefault()
@@ -210,7 +233,7 @@ class Profile extends Component {
                             </button>
                         </form>
                         <div>
-                            {this.renderTodoList()}
+                            {this.renderTodoList(this.state.deletetodolist)}
                         </div>
                     </div>
                     <div className="col-md-2" ></div>

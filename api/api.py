@@ -28,6 +28,8 @@ bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
 CORS(app)
+
+
 @app.route('/users/profile', methods=['POST'])
 def get_data():
     users = mongo.db.users
@@ -58,8 +60,6 @@ def get_data():
     result= jsonify({'token': access_token})
 
     return result
-
-
 
 
 @app.route('/users/timetable', methods=['GET','POST'])
@@ -176,7 +176,7 @@ def register():
                 'password': password,
                 'created': created,
                 'notes': [],
-                'assignnents': [],
+                'assignments': [],
                 'exams':[],
                 'timetable':[],
                 "tasks": []
@@ -228,13 +228,13 @@ def login():
 
     for n in allasignments:
         resulta.append({'assignment': n['assignment'], 'submission': n['submission'], 'completed': n['completed']})
-
+    print("allassignments1")
     print(allasignments1)
+    print("resukta")
     print(resulta)
     alltodos = users.distinct('tasks', {'username': username})
     print("todos")
     print(alltodos)
-
 
     if response:
         if bcrypt.check_password_hash(response['password'], password):
@@ -245,7 +245,7 @@ def login():
                 'notes': noteslist,
                 'favoriteNote': favoriteNote,
                 'noteslist':result,
-                'assignments': resulta,
+                'assignmentlist': resulta,
                 'todolist': alltodos,
                 'timetable': resultl,
                 'deletetodolist': alltodos
@@ -260,13 +260,14 @@ def login():
         result = jsonify({"result":"No results found"})
     return result
 
-@app.route('/users/assignments', methods=['GET','POST'])
-def create_assignments():
+
+@app.route('/users/assignments', methods=['GET', 'POST'])
+def add_assignments():
     users = mongo.db.users
     username = request.get_json()['username']
-    newassignment = request.get_json['newassignment']
-    submission = request.get_json['submission']
-    isCompleted = request.get_json['isCompleted']
+    newassignment = request.get_json()['newassignment']
+    submission = request.get_json()['submission']
+    isCompleted = request.get_json()['isCompleted']
     resultassignments = ''
 
     users.update_one({'username': username}, {'$push': {'assignments': {'_aid':ObjectId(), 'assignment': newassignment, 'submission': submission, 'completed': isCompleted}}})
@@ -277,11 +278,36 @@ def create_assignments():
         resulta.append({'assignment':n['assignment'],'submission':n['submission'], 'completed':n['completed']})
 
     access_token = create_access_token(identity={
-        'assignments': resulta,
+        'assignmentlist': resulta,
         'username': username
     })
     resultassignments = jsonify({'token': access_token})
     return resultassignments
+
+@app.route('/users/examen', methods=['GET', 'POST'])
+def add_exam():
+    users = mongo.db.users
+    username = request.get_json()['username']
+    newexam = request.get_json()['newexam']
+    submission = request.get_json()['submission']
+    isCompleted = request.get_json()['isCompleted']
+    resultexam = ''
+
+    users.update_one({'username': username}, {'$push': {'exam': {'_aid':ObjectId(), 'exam': newexam, 'submission': submission, 'completed': isCompleted}}})
+    allexams = users.distinct("exam", {'username': username})
+    result = []
+
+    for n in allexams:
+        result.append({'exam':n['exam'],'submission':n['submission'], 'completed':n['completed']})
+
+    access_token = create_access_token(identity={
+        'examlist': result,
+        'username': username
+    })
+    resultexam = jsonify({'token': access_token})
+    return resultexam
+
+
 
 @app.route('/users/todo', methods=['GET','POST'])
 def create_todolist():
@@ -299,28 +325,7 @@ def create_todolist():
     resulttodo = jsonify({'token':access_token})
     return resulttodo
 
-@app.route('/users/examen', methods=['GET','POST'])
-def create_examen():
-    users = mongo.db.users
-    username = request.get_json()['username']
-    newexamen = request.get_json['newexamen']
-    submission = request.get_json['submission']
-    resultexamen = ''
 
-    users.update_one({'username': username}, {'$push': {'examen': {'_aid':ObjectId(), 'examen':newexamen, 'submission':submission}}})
-    allexamen = users.distinct("examen", {'username': username})
-    result = []
-
-    for n in allexamen:
-        result.append({'examen':n['examen'], 'submission':n['submission']})
-
-    access_token = create_access_token(identity={
-        'examen': result,
-        'username': username
-    })
-    resultexamen = jsonify({'token': access_token})
-
-    return resultexamen
 
 
 @app.route('/users/deletetodo', methods=['GET','POST'])
@@ -341,40 +346,3 @@ def deletetodo():
 
     return resultdeletodos
 
-
-@app.route('/users/deleteassignments', methods=['GET','POST'])
-def deleteassignments():
-    users = mongo.db.users
-    deleteassignments = request.get_json()['deleteassignment']
-    username = request.get_json()['username']
-    resultadeleteassignments = ''
-    print("delete assignment")
-    print(deleteassignments)
-    users.update_many({'username': username}, {'$pull':{'tasks':deleteassignments}})
-
-    allassignments= users.distinct("tasks",{'username':username})
-    access_token = create_access_token(identity={
-        'deleteassignmentslist':allassignments
-    })
-    resultadeleteassignments = jsonify({'token':access_token})
-
-    return resultadeleteassignments
-
-
-@app.route('/users/delete_examen', methods=['GET','POST'])
-def delete_examen():
-    users = mongo.db.users
-    delete_examen = request.get_json()['delete_examen']
-    username = request.get_json()['username']
-    resultdelete_examen = ''
-    print("delete examen")
-    print(delete_examen)
-    users.update_many({'username': username}, {'$pull':{'tasks':delete_examen}})
-
-    allexamen= users.distinct("tasks",{'username':username})
-    access_token = create_access_token(identity={
-        'delete_examenlist':allexamen
-    })
-    resultdelete_examen = jsonify({'token':access_token})
-
-    return resultdelete_examen
