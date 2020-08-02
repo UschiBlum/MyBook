@@ -4,8 +4,10 @@ import logo from "./Logopit.png";
 import List from "./List";
 import Timetable from "./Timetable";
 import paper_plane from "./paper_plane.png";
+import {create_todos, get_data, deleteTodo} from './UserFunction'
+// import {get_data} from './UserFunction'
 
-var colors = ['#58D3F7', '#F781F3', '#8000FF', '#A9F5D0', '#F5BCA9'];
+var colors = ['#58D3F7', '#F781F3', '#8000FF', '#A9F5D0', '#F5BCA9', '#8af'];
 
     var min = 0;
     var max = 4;
@@ -31,20 +33,133 @@ class Profile extends Component {
             studyprogram: '',
             email: '',
             notes: [],
-            favoriteNote: ''
+            favoriteNote: '',
+            tt: [],
+            todolist: [],
+            newtodo: ''
 
         }
-    }
+        this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
+        this.onSubmit = this.onSubmit.bind(this)
+
+        }
 
     componentDidMount () {
         const token = localStorage.usertoken
         const decoded = jwt_decode(token)
+        const token2 = localStorage.todotoken
+        const decoded2 = jwt_decode(token2)
         this.setState({
             username: decoded.identity.username,
             studyprogram: decoded.identity.studyprogram,
             email: decoded.identity.email,
             notes: decoded.identity.notes,
-            favoriteNote: decoded.identity.favoriteNote
+            favoriteNote: decoded.identity.favoriteNote,
+            todolist: decoded2.identity.todolist,
+            tt: decoded.identity.timetable
+        })
+    }
+
+    handleChange(e){
+        this.setState({newtodo: e.target.value})
+    }
+
+    handleSubmit(e){
+        e.preventDefault()
+        const newTodo = {
+            newtodo: this.state.newtodo,
+            username: this.state.username
+        }
+        create_todos(newTodo).then(res => {
+            window.location.reload()
+        })
+            .catch(err => {
+                console.log(err)
+            })
+    }
+
+    onDelete = (val, e) => {
+        e.preventDefault()
+        deleteTodo(val)
+        var data = [...this.state.todolist]
+        data.filter((todo, index) =>{
+            if (todo === val){
+                data.splice(index, 1)
+            }
+            return true
+        })
+        this.setState({todolist: [...data]})
+    }
+
+    renderTodoList(){
+        return this.state.todolist.map((todo, index ) => {
+            const {tasks} = todo
+            return (
+                <div key={index}>
+                    <span className="item">
+                        <p className="item-block">
+                            <span className="item-name">
+                                {todo}
+                            </span>
+                            <button onClick={this.onDelete.bind(this, todo)} className={"Button delete"}>-</button>
+                        </p>
+                    </span>
+                </div>
+              )
+            
+        })
+    }
+
+    onSubmit(e) {
+        e.preventDefault()
+        const newData = {
+            username: this.state.username,
+            timetable: this.state.tt,
+            favoriteNote: this.state.favoriteNote
+        }
+        get_data(newData).then(res => {
+            window.location.reload()
+        }).catch(err =>{
+            console.log(err)
+        });
+
+    }
+
+    // renderTableData(){
+    //     return this.state.timetable.map((lectures, index) => {
+    //         const {lecture, color, startMo, endMo, startTu, endTu, startWe, endWe, startTh, endTh, startFr, endFr} = lectures
+    //
+    //
+    //         return(
+    //             <tr key={lecture} style={{backgroundColor: this.state.color}}>
+    //                 <td>{lecture}</td>
+    //                 <td>{startMo} - {endMo}</td>
+    //                 <td>{startTu} - {endTu}</td>
+    //                 <td>{startWe} - {endWe}</td>
+    //                 <td>{startTh} - {endTh}</td>
+    //                 <td>{startFr} - {endFr}</td>
+    //             </tr>
+    //
+    //
+    //         )
+    //     })
+    // }
+
+    renderTableData(){
+        return this.state.tt.map((lectures,index  ) => {
+            const {lecture, startMo, endMo, startTu, endTu, startWe, endWe, startTh, endTh, startFr, endFr} = lectures
+
+            return(
+                <tr key={lecture}>
+                    <td>{lecture}</td>
+                    <td>{startMo} - {endMo}</td>
+                    <td>{startTu} - {endTu}</td>
+                    <td>{startWe} - {endWe}</td>
+                    <td>{startTh} - {endTh}</td>
+                    <td>{startFr} - {endFr}</td>
+                </tr>
+            )
         })
     }
 
@@ -66,60 +181,44 @@ class Profile extends Component {
                 </div>
                 <div className="row second-row">
                     <div className="col-md-5 ">
-                        <List />
+                        <form onSubmit={this.handleSubmit} className="input">
+                            <input
+                                className="add-input"
+                                type = "text"
+                                value = {this.state.newtodo}
+                                onChange={this.handleChange}
+                                required="required"
+                            >
+                            </input>
+                            <button type={"submit"} className={"Button"}>
+                                Submit
+                            </button>
+                        </form>
+                        <div>
+                            {this.renderTodoList()}
+                        </div>
                     </div>
                     <div className="col-md-2" ></div>
                     <div className="col-md-5 ">
                         <table id='lectures'>
-                            <thead>
-                            <tr>
-                                <th>Lecture</th>
-                                <th>Monday</th>
-                                <th>Tuesday</th>
-                                <th>Wednesday</th>
-                                <th>Thursday</th>
-                                <th>Friday</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr style={{backgroundColor: '#8ff'}}>
-                                <td>AWT</td>
-                                <td>12:00 - 13:00</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                            <tr style={{backgroundColor: '#8ff'}}>
-                                <td>AWT</td>
-                                <td>13:00 - 14:00</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                            <tr style={{backgroundColor: '#8ff'}}>
-                                <td>AWT</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>14:00 - 15:00</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                            <tr style={{backgroundColor: '#8ff'}}>
-                                <td>AWT</td>
-                                <td>-</td>
-                                <td>-</td>
-                                <td>15:00 - 16:00</td>
-                                <td>-</td>
-                                <td>-</td>
-                            </tr>
-                            </tbody>
-                        </table>
+                                <thead>
+                                <tr>
+                                    <th>Lecture</th>
+                                    <th>Monday</th>
+                                    <th>Tuesday</th>
+                                    <th>Wednesday</th>
+                                    <th>Thursday</th>
+                                    <th>Friday</th>
+                                </tr>
+                                </thead>
+                                <tbody>
+                                {this.renderTableData()}
+                                </tbody>
+                            </table>
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-md-5 left papper">
+                    <div className="col-md-5 left papper"> 
                     </div>
                     <div className="col-md-2">
                     <h2 style = {notestyle}>{this.state.favoriteNote}</h2>
@@ -128,9 +227,10 @@ class Profile extends Component {
                         <img src={paper_plane} width="200" alt="Paper Plane" />
 
                     </div>
+                    <button type="submit" className="btn btn-lg btn-primary" onClick = {this.onSubmit} >
+                        Refresh
+                    </button>
                 </div>
-
-
                 </div>
         )
     }

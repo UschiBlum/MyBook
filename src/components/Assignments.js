@@ -2,18 +2,18 @@ import React, {Component} from 'react'
 import './Assignments.css'
 //import {Link, RichText, Date} from 'prismic-reactjs';
 import { Form } from 'semantic-ui-react'
-  
+
 
 
 const items = [
   { id:1, text:'Learn React', isCompleted: false},
-  { id:2, text: 'Work on project', isCompleted: false}, 
-  { id:3, text: 'Learn Flask', isCompleted: true} 
+  { id:2, text: 'Work on project', isCompleted: false},
+  { id:3, text: 'Learn Flask', isCompleted: true}
 ]
-  
+
 class Assignments extends React.Component {
 
-    
+
   constructor(props) {
     super(props);
     this.state = {
@@ -25,9 +25,9 @@ class Assignments extends React.Component {
     this.addItem = this.addItem.bind(this);
     this.editItem = this.editItem.bind(this);
     this.compleateItem = this.compleateItem.bind(this);
-        
+
     }
-   
+
 
   deleteItem=(id)=>{
     const {items} = this.state;
@@ -86,15 +86,15 @@ class Assignments extends React.Component {
 
   compleateItem = (item) =>{
     const {items} = this.state;
-    
-    item.isCompleted 
+
+    item.isCompleted
       ? item.isCompleted = false
       : item.isCompleted = true
 
     this.setState({
       items
     });
-    
+
   }
     render() {
         return (
@@ -119,7 +119,7 @@ class Assignments extends React.Component {
                         </div> */}
                         <div className="col-sm-5 right header-row">
                             <h1 className="heading text-center display-3">Add Assignments</h1>
-                        
+
                         </div>
                     </div>
 
@@ -134,14 +134,14 @@ class Assignments extends React.Component {
                      <h1>Add Assignments</h1>
                     </div>
                 </div> */}
-                
-                    
+
+
                     <Input addItem={this.addItem} super={this.setState}/>
                     <div>
                     <Items items = {this.state.items} deleteItem={this.deleteItem} compleateItem={this.compleateItem} editItem={this.editItem} super={this.setState} className="items"/>
                     </div>
             </div>
-            
+
         );
     }
 }
@@ -162,20 +162,20 @@ const Items = ({items, deleteItem, editItem, compleateItem}) => {
                 </span>
             </div>
         )
-    ) 
+    )
 
-    
+
     : (
         <p><h1>You have no Assignments to do</h1> </p>
-        
+
     );
 
-    
+
     return(
-        
+
         <div className="row">
             <div className="col">{itemList}</div>
-                    
+
                 <div className="col">
                     {/* <Form>
                     <Form.Group widths='equal'>
@@ -184,13 +184,13 @@ const Items = ({items, deleteItem, editItem, compleateItem}) => {
                     </Form>
                  */}
                 </div>
-                    
+
         </div>
 
-   
+
 
     );
-    
+
 }
 class Input extends React.Component {
     state = {
@@ -203,7 +203,7 @@ class Input extends React.Component {
                 text: e.target.value
 
             }
-        ) 
+        )
     }
     handleSubmit = (e) => {
         e.preventDefault();
@@ -213,7 +213,7 @@ class Input extends React.Component {
                 text: ''
             }
         )
-        
+
     }
     handleEdit = (e) => {
         e.preventDefault();
@@ -223,11 +223,11 @@ class Input extends React.Component {
                 text: ''
             }
         )
-        
+
     }
 
 
-    
+
     render(){
         return(
             <div className="container">
@@ -235,7 +235,7 @@ class Input extends React.Component {
             <div className="col"></div>
             <div className="col"></div>
             <div className="col-xs-5">
-            
+
             <form onSubmit={this.handleSubmit} className="input">
                 <input
                     className="add-input"
@@ -245,17 +245,17 @@ class Input extends React.Component {
                     required="required"
                     placeholder="Enter your Assignment"
                 >
-                </input> 
-                
-            
+                </input>
+
+
                 <Button type={"submit"} className={"Button"}>
                     Submit
                 </Button>
             </form>
-            </div>   
             </div>
-             
-            
+            </div>
+
+
             </div>
 
 

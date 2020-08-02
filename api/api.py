@@ -28,8 +28,70 @@ bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
 CORS(app)
+@app.route('/users/profile', methods=['POST'])
+def get_data():
+    users = mongo.db.users
+    username = request.get_json()['username']
+    allnotes = users.distinct("notes", {'username': username})
+    favoriteNote= ''
+    timetable = []
+    alllectures = users.distinct("timetable", {'username': username})
+
+    for n in alllectures:
+        timetable.append({'lecture': n['lecture'], 'color': n['color'], 'startMo': n['startMo'], 'endMo': n['endMo'],'startTu': n['startTu'], 'endTu': n['endTu'],'startWe': n['startWe'], 'endWe': n['endWe'],'startTh': n['startTh'], 'endTh': n['endTh'],'startFr': n['startFr'], 'endFr': n['endFr']})
+
+    for x in allnotes:
+        if(x["nfavorite"]):
+            favoriteNote = x['content']
+
+    access_token = create_access_token(identity = {
+        'username': username,
+        'timetable': timetable,
+        'favoriteNote': favoriteNote
+    })
+
+    
+    
+    result= jsonify({'token': access_token})
+
+    return result
 
 
+
+
+@app.route('/users/timetable', methods=['GET','POST'])
+def create_timetable():
+    users = mongo.db.users
+    username = request.get_json()['username']
+    newlecture = request.get_json()['newlecture']
+    color = request.get_json()['color']
+    starttimemonday = request.get_json()['starttimemonday']
+    endtimemonday = request.get_json()['endtimemonday']
+    starttimetuesday = request.get_json()['starttimetuesday']
+    endtimetuesday = request.get_json()['endtimetuesday']
+    starttimewednesday = request.get_json()['starttimewednesday']
+    endtimewednesday = request.get_json()['endtimewednesday']
+    starttimethursday = request.get_json()['starttimethursday']
+    endtimethursday = request.get_json()['endtimethursday']
+    starttimefriday = request.get_json()['starttimefriday']
+    endtimefriday = request.get_json()['endtimefriday']
+    resultlectures = ''
+
+    users.update_one({'username': username}, {'$push': {'timetable': {'_lid': ObjectId(), 'lecture': newlecture, 'color': color, 'startMo': starttimemonday, 'endMo': endtimemonday, 'startTu': starttimetuesday, 'endTu': endtimetuesday, 'startWe': starttimewednesday, 'endWe': endtimewednesday, 'startTh': starttimethursday, 'endTh': endtimethursday, 'startFr': starttimefriday, 'endFr': endtimefriday}}})
+    alllectures = users.distinct("timetable", {'username': username})
+    result = []
+
+    for n in alllectures:
+        result.append({'lecture': n['lecture'], 'color': n['color'], 'startMo': n['startMo'], 'endMo': n['endMo'],'startTu': n['startTu'], 'endTu': n['endTu'],'startWe': n['startWe'], 'endWe': n['endWe'],'startTh': n['startTh'], 'endTh': n['endTh'],'startFr': n['startFr'], 'endFr': n['endFr']})
+
+    access_token = create_access_token(identity={
+        'lectures': result,
+        'username': username
+    })
+
+    resultlectures = jsonify({'token': access_token})
+    
+    return resultlectures
 
 
 @app.route('/users/note', methods=['GET', 'POST'])
@@ -39,33 +101,53 @@ def add_note():
     newnote = request.get_json()['newnote']
     username= request.get_json()['username']
     ntimestemp = datetime.utcnow()
-    nfavorite = False
+    favoriteNote = request.get_json()['favoriteNote']
+    favorite = request.get_json()['favorite']
     resultNotes =''
 
     print("newnote")
     print(newnote)
-    users.update_one({'username': username},
-                    {'$push': {'notes': {'_nid': ObjectId(), 'content': newnote, 'ntimestemp':ntimestemp, 'nfavorite':nfavorite}}})
 
-    allnotes = users.distinct("notes.content", {'username': username})
+    if(favorite):
+        users.update_one({'username': username, 'notes.content': favoriteNote}, {'$set': {'notes': {'nfavorite':False}}})
+
+    users.update_one({'username': username},
+                    {'$push': {'notes': {'_nid': ObjectId(), 'content': newnote, 'ntimestemp':ntimestemp, 'nfavorite':favorite}}})
+
+    allnotes = users.distinct("notes", {'username': username})
+    timestemps = []
+    result = []
+    for n in allnotes:
+        timestemps.append({'content': n['content'], "ntimestemp": n['ntimestemp']})
+
+    for i in range(len(timestemps) - 1):
+        for j in range(0, len(timestemps) - i - 1):
+            if timestemps[j]['ntimestemp'] > timestemps[j + 1]['ntimestemp']:
+                timestemps[j], timestemps[j + 1] = timestemps[j + 1], timestemps[j]
+
+    for n in timestemps:
+        result.append(n['content'])
+
     noteslist = []
 
-    if len(allnotes) >= 3:
+    if len(result) >= 3:
         for x in range(-3, 0):
-            noteslist.append(allnotes[x])
+            noteslist.append(result[x])
             x = x - 1
     else:
-        noteslist = allnotes
+        noteslist = result
 
     access_token = create_access_token(identity={
         'notes': noteslist,
-        'username':username
+        'username':username,
+        'nfavorite': newnote
     })
     resultNotes = jsonify({'token': access_token})
 
     print(allnotes)
     print(noteslist)
     return resultNotes
+
 
 @app.route('/users/register', methods=['GET', 'POST'])
 def register():
@@ -113,14 +195,57 @@ def login():
     result = ""
 
     response = users.find_one({'username':username})
+    allnotes = users.distinct("notes.content", {'username': username})
+    allnotes2 = users.distinct("notes", {'username': username})
+    noteslist = []
+    favoriteNote = ''
+
+    for x in allnotes2:
+        if (x["nfavorite"]):
+            favoriteNote = x['content']
+
+    if len(allnotes) >= 3:
+        for x in range(-3, 0):
+            noteslist.append(allnotes[x])
+            x = x - 1
+    else:
+        noteslist = allnotes
+
+    alllectures = users.distinct("timetable", {'username': username})
+    resultl = []
+
+    for n in alllectures:
+        resultl.append({'lecture': n['lecture'], 'color': n['color'], 'startMo': n['startMo'], 'endMo': n['endMo'],
+                       'startTu': n['startTu'], 'endTu': n['endTu'], 'startWe': n['startWe'], 'endWe': n['endWe'],
+                       'startTh': n['startTh'], 'endTh': n['endTh'], 'startFr': n['startFr'], 'endFr': n['endFr']})
+
+    allasignments1 = users.distinct("assignments.assignment", {'username': username})
+    allasignments = users.distinct("assignments", {'username': username})
+    resulta = []
+
+    for n in allasignments:
+        resulta.append({'assignment': n['assignment'], 'submission': n['submission'], 'completed': n['completed']})
+
+    print(allasignments1)
+    print(resulta)
+    alltodos = users.distinct('tasks', {'username': username})
+    print("todos")
+    print(alltodos)
 
 
     if response:
         if bcrypt.check_password_hash(response['password'], password):
-            access_token = create_access_token(identity = {
+            access_token = create_access_token(identity={
                 'username': response['username'],
                 'email': response['email'],
                 'studyprogram': response['studyprogram'],
+                'notes': noteslist,
+                'favoriteNote': favoriteNote,
+                'noteslist':result,
+                'assignments': resulta,
+                'todolist': alltodos,
+                'timetable': resultl
+
             })
             result= jsonify({'token': access_token})
 
@@ -138,23 +263,38 @@ def assignments():
     newassignment = request.get_json['newassignment']
     print(newassignment)
     submission = request.get_json['submission']
+    isCompleted = request.get_json['isCompleted']
     resultassignments = ''
 
-    users.update_one({'username': username}, {'$push': {'assignments': {'_aid':ObjectId(), 'assignment':newassignment, 'submission':submission}}})
+    users.update_one({'username': username}, {'$push': {'assignments': {'_aid':ObjectId(), 'assignment': newassignment, 'submission': submission, 'completed': isCompleted}}})
     allasignments = users.distinct("assignments", {'username': username})
-    result = []
+    resulta = []
 
     for n in allasignments:
-        result.append({'assignment':n['assignment'],'submission':n['submission']})
+        resulta.append({'assignment':n['assignment'],'submission':n['submission'], 'completed':n['completed']})
 
     access_token = create_access_token(identity={
-        'assignments': result,
+        'assignments': resulta,
         'username': username
     })
     resultassignments = jsonify({'token': access_token})
-
     return resultassignments
 
+@app.route('/users/todo', methods=['GET','POST'])
+def create_todolist():
+    users = mongo.db.users
+    username = request.get_json()['username']
+    newtask = request.get_json()['newtodo']
+    resulttodo = ''
+
+    users.update_one({'username': username}, {'$push': {'tasks':newtask}})
+    alltodos = users.distinct('tasks',{'username':username})
+    access_token = create_access_token(identity={
+        'todolist':alltodos,
+        'username':username
+    })
+    resulttodo = jsonify({'token':access_token})
+    return resulttodo
 
 @app.route('/users/examen', methods=['GET','POST'])
 def examen():
@@ -180,31 +320,78 @@ def examen():
     return resultexamen
 
 
-    #@app.route('/notes', methods=['GET', 'POST'])
-    #def notes():
-      #  if session['login'] == 'True':
-     #       form = LoginForm()
-     #       if request.method == 'POST':
-     #           user = mongo.db.user
-     #           login_user = user.find_one({'email': request.form.get("email")})
-     #           print("Login_user:")
-     #           print(login_user)
-     #           if login_user:
-     #               if bcrypt.checkpw(request.form.get('password').encode('utf-8'), login_user['password'].encode('utf-8')):
-     #                   session['firstname'] = login_user['firstname']
-     #                   session['lastname'] = login_user['lastname']
-     #                   session['birthday'] = login_user['birthday']
-     #                   session['email'] = login_user['email']
-    #                    session['logged_in'] = True
-   #                     return render_template('profil.html')
-  #                  session['logged_in'] = False
- #               return render_template('failLogin.html')
-#
-     #   return render_template('login.html', form=form)''
+@app.route('/users/todo/<task>')
+def delete_task(task):
+    users = mongo.db.users
+    response = users.delete_many({'task':task})
+    if response.deleted_count ==1:
+        result = {'message': 'record deleted'}
+    else:
+        result = {'message': 'no record found'}
 
-@app.route('/time')
-def get_current_time():
-    return {'time': time.time()}
+    return jsonify({'result': result})
+
+
+
+
+
+
+@app.route('/users/assignment', methods=['GET'])
+def get_all_items():
+  users = mongo.db.users
+  result = []
+
+  for field in users.find():
+    result.append(
+      {
+        '_id': str(field['_id']),
+        'name': field['name']
+      }
+    )
+  return jsonify(result)
+
+@app.route('/users/assignment/<additem>', methods=['POST'])
+def add_items():
+  users = mongo.db.users
+  item = request.get_json()['item']
+
+  item_id = users.insert(
+    {
+      'name': name
+    }
+  )
+
+  new_user = users.find_one({'_id': name_id})
+
+  result = {'title': new_user['name']}
+
+  return jsonify({'result': result})
+
+@app.route('/api/users/<id>', methods=['PUT'])
+def update_user(id):
+  users = mongo.db.users
+  name = request.get_json()['name']
+
+  users.find_one_and_update({'_id': ObjectId(id)}, {'$set': {'name': name}}, upsert=False)
+  new_user = users.find_one({'_id': ObjectId(id)})
+
+  result = {'name': new_user['name']}
+
+  return jsonify({'result': result})
+
+@app.route('/api/users/<id>', methods=['DELETE'])
+def delete_user(id):
+  users = mongo.db.users
+
+  response = users.delete_one({'_id': ObjectId(id)})
+
+  if response.deleted_count == 1:
+    result = {'message': 'item deleted successfully'}
+  else:
+    result = {'message': 'failed to delete item'}
+
+  return jsonify({'result': result})
+
 
 
 

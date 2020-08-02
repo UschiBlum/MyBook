@@ -32,6 +32,21 @@ export const login = user => {
         })
 }
 
+export const get_data = newData =>{
+    return axios
+        .post('users/profile', {
+            username: newData.username,
+            timetable: newData.timetable,
+            favoriteNote: newData.favoriteNote
+        })
+        .then(response => {
+            localStorage.setItem('usertoken', response.data.token)
+            return response.data.token
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
 
 export const add_note = newNote => {
     return axios
@@ -51,16 +66,73 @@ export const add_note = newNote => {
         })
 }
 
-
-export const assignments = newAss => {
+export const createLecture = newLecture => {
     return axios
-        .post("users/assignments",{
-            assignments: newAss.items
+        .post("users/timetable", {
+            newlecture: newLecture.newlecture,
+            color: newLecture.color,
+            starttimemonday: newLecture.starttimemonday,
+            endtimemonday: newLecture.endtimemonday,
+            starttimetuesday: newLecture.starttimetuesday,
+            endtimetuesday: newLecture.endtimetuesday,
+            starttimewednesday: newLecture.starttimewednesday,
+            endtimewednesday: newLecture.endtimewednesday,
+            starttimethursday: newLecture.starttimethursday,
+            endtimethursday: newLecture.endtimethursday,
+            starttimefriday: newLecture.starttimefriday,
+            endtimefriday: newLecture.endtimefriday,
+            username: newLecture.username
         })
         .then(response =>{
-            console.log("added assignments")
+            console.log("New Lecture")
+            localStorage.setItem('lecturetoken', response.data.token)
+            return response.data.token
         })
         .catch(err => {
             console.log(err)
+        })
+}
+
+export const add_assignments = newAss => {
+    return axios
+        .post("users/assignments",{
+            newassignment: newAss.newassignment,
+            submission: newAss.submission,
+            isCompleted: newAss.isCompleted,
+            username: newAss.username
+        })
+        .then(response =>{
+            console.log("added assignments")
+            localStorage.setItem('assignmenttoken', response.data.token)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+
+export const create_todos = newTodo => {
+    return axios
+        .post('users/todo', {
+            newtodo: newTodo.newtodo,
+            username: newTodo.username
+        })
+        .then(respone => {
+            console.log("new todo")
+            localStorage.setItem('todotoken', respone.data.token)
+        })
+        .catch(err => {
+            console.log(err)
+        })
+}
+
+export const deleteTodo = term => {
+    return axios
+        .delete('users/todo/${term}'
+        )
+        .then((response) => {
+            console.log(response)
+        })
+        .catch((response)=>{
+            console.log(response)
         })
 }
