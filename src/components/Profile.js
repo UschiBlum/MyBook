@@ -104,8 +104,8 @@ class Profile extends Component {
         this.setState({todolist: [...data]})
     }
 
-    renderTodoList(othertodolist){
-        if(othertodolist === null) {
+    renderTodoList(){
+        // if(othertodolist === null) {
             return this.state.todolist.map((todo, index) => {
                 const {tasks} = todo
                 return (
@@ -122,24 +122,24 @@ class Profile extends Component {
                 )
 
             })
-        } else {
-            return othertodolist.map((todo, index) => {
-                const {tasks} = todo
-                return (
-                    <div key={index}>
-                        <span className="item">
-                            <p className="item-block">
-                                <span className="item-name">
-                                    {todo}
-                                </span>
-                                <button onClick={this.onDelete.bind(this, todo)} className={"Button delete"}>-</button>
-                            </p>
-                        </span>
-                    </div>
-                )
-
-            })
-        }
+        // } else {
+        //     return othertodolist.map((todo, index) => {
+        //         const {tasks} = todo
+        //         return (
+        //             <div key={index}>
+        //                 <span className="item">
+        //                     <p className="item-block">
+        //                         <span className="item-name">
+        //                             {todo}
+        //                         </span>
+        //                         <button onClick={this.onDelete.bind(this, todo)} className={"Button delete"}>-</button>
+        //                     </p>
+        //                 </span>
+        //             </div>
+        //         )
+        //
+        //     })
+        // }
 
 
     }
