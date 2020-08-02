@@ -15,7 +15,7 @@ class Assignments extends Component {
         super()
         this.state = {
             username: '',
-            alist: [],
+            assignmentlist: [],
             newassignment: '',
             deleteassignmentlist: [],
             submission: '',
@@ -33,7 +33,7 @@ class Assignments extends Component {
         const decoded = jwt_decode(token)
         this.setState({
             username: decoded.identity.username,
-            alist: decoded.identity.assignmentlist,
+            assignmentlist: decoded.identity.assignmentlist,
         })
     }
 
@@ -59,7 +59,7 @@ class Assignments extends Component {
 
     onDelete = (val, e) => {
         e.preventDefault()
-        var data = [...this.state.list]
+        var data = [...this.state.assignmentlist]
         data.filter((assignment, index) =>{
             if (assignment === val){
                 data.splice(index, 1)
@@ -75,12 +75,12 @@ class Assignments extends Component {
             }
             return true
         })
-        this.setState({alist: [...data]})
+        this.setState({assignmentlist: [...data]})
     }
 
     renderAssignmentList(){
-        return this.state.alist.map((assignments, index ) => {
-            const {assignment, submission} = assignments
+        return this.state.assignmentlist.map((ass, index ) => {
+            const {assignment, submission} = ass
             return (
                 <div key={index}>
                     <span className="item">
@@ -88,13 +88,14 @@ class Assignments extends Component {
                             <span className="item-name">
                                 {assignment} on {submission}
                             </span>
-                            <button onClick={this.onDelete.bind(this, assignments)} className={"Button delete"}>-</button>
+                            <button onClick={this.onDelete.bind(this, ass)} className={"Button delete"}>-</button>
                         </p>
                     </span>
                 </div>
             )
 
         })
+        // alert(this.state.assignmentlist)
     }
 
     // onSubmit(e) {

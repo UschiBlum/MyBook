@@ -320,17 +320,6 @@ def examen():
     return resultexamen
 
 
-@app.route('/users/todo/<task>')
-def delete_task(task):
-    users = mongo.db.users
-    response = users.delete_many({'task':task})
-    if response.deleted_count ==1:
-        result = {'message': 'record deleted'}
-    else:
-        result = {'message': 'no record found'}
-
-    return jsonify({'result': result})
-
 
 
 @app.route('/users/deleteassignments', methods=['GET','POST'])
