@@ -26,6 +26,28 @@ bcrypt = Bcrypt(app)
 jwt = JWTManager(app)
 
 CORS(app)
+@app.route('/users/profile', methods=['POST'])
+def get_data():
+    users = mongo.db.users
+    username = request.get_json()['username']
+    allnotes = users.distinct("notes", {'username': username})
+    favoriteNote= ''
+    timetable = []
+
+    for x in allnotes:
+        if(x["nfavorite"]):
+            favoriteNote = x['content']
+    
+    print(favoriteNote)
+    access_token = create_access_token(identity = {
+        'username': username,
+        'timetable': timetable,
+        'favoriteNote': favoriteNote
+    })
+    
+    result= jsonify({'token': access_token})
+
+    return result
 
 @app.route('/users/note', methods=['GET', 'POST'])
 def add_note():

@@ -32,12 +32,12 @@ export const login = user => {
         })
 }
 
-export const get_data = user =>{
+export const get_data = newData =>{
     return axios
         .post('users/profile', {
-            username: user.username,
-            timetable: user.timetable,
-            favoriteNote: user.favoriteNote
+            username: newData.username,
+            timetable: newData.timetable,
+            favoriteNote: newData.favoriteNote
         })
         .then(response => {
             localStorage.setItem('usertoken', response.data.token)
