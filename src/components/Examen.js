@@ -2,6 +2,7 @@ import React, {Component} from "react";
 import jwt_decode from 'jwt-decode'
 import {add_exam, deleteExam} from "./UserFunction";
 
+
 class Examen extends Component {
     constructor() {
         super();
@@ -121,8 +122,8 @@ class Examen extends Component {
                         <div className="row first-row"></div>
                     </div>
                 </div>
-                <div className="row header-row">
-                    <div className="col-md-5">
+                <div className="row ">
+                    <div className="col-md-5 pos-cent header-row left">
                         <h1 className="heading text-center display-1">{this.state.username}'s Exams</h1>
                     </div>
                     <div className="col-md-2"></div>

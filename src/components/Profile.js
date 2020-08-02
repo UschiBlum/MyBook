@@ -6,6 +6,7 @@ import Timetable from "./Timetable";
 import paper_plane from "./paper_plane.png";
 import {create_todos, get_data, deleteTodo} from './UserFunction'
 // import {get_data} from './UserFunction'
+import './signup.css'
 
 var colors = ['#58D3F7', '#F781F3', '#8000FF', '#A9F5D0', '#F5BCA9', '#8af'];
 
@@ -21,8 +22,9 @@ var colors = ['#58D3F7', '#F781F3', '#8000FF', '#A9F5D0', '#F5BCA9', '#8af'];
     padding: "50px",
     justifyContent: 'center',
     fontFamily: 'Arial',
-    margin: "2em",
-    marginLeft:"-10em"
+    // margin: "2em",
+    // marginLeft:"10em",
+
   };
 
 class Profile extends Component {
@@ -109,16 +111,16 @@ class Profile extends Component {
             return this.state.todolist.map((todo, index) => {
                 const {tasks} = todo
                 return (
-                    <div key={index}>
+                    // <div key={index}>
                         <span className="item">
-                            <p className="item-block">
+                            <p>
                                 <span className="item-name">
                                     {todo}
                                 </span>
                                 <button onClick={this.onDelete.bind(this, todo)} className={"Button delete"}>-</button>
                             </p>
                         </span>
-                    </div>
+                    // </div>
                 )
 
             })
@@ -208,15 +210,15 @@ class Profile extends Component {
                         <div className="row first-row"></div>
                     </div>
                 </div>
-                <div className="row header-row">
-                    <div className="col-md-5">
+                <div className="row ">
+                    <div className="col-md-5 header-row pos-cent">
                         <h1 className="heading text-center display-1">{this.state.username}'s Homepage</h1>
                     </div>
                     <div className="col-md-2"></div>
                     <div className="col-md-5"></div>
 
                 </div>
-                <div className="row second-row">
+                <div className="row ">
                     <div className="col-md-5 ">
                         <form onSubmit={this.handleSubmit} className="input">
                             <input
@@ -231,14 +233,11 @@ class Profile extends Component {
                                 Submit
                             </button>
                         </form>
-                        <div>
-                            {this.renderTodoList(this.state.deletetodolist)}
-                        </div>
                     </div>
                     <div className="col-md-2" ></div>
                     <div className="col-md-5 ">
-                        <table id='lectures'>
-                                <thead>
+                        <table id='lectures' style={{backgroundColor: 'rgba(0,255,32,0.55)'}}>
+                                <thead className="tableheader">
                                 <tr>
                                     <th>Lecture</th>
                                     <th>Monday</th>
@@ -248,25 +247,31 @@ class Profile extends Component {
                                     <th>Friday</th>
                                 </tr>
                                 </thead>
-                                <tbody>
+                                <tbody className="tablebody">
                                 {this.renderTableData()}
                                 </tbody>
                             </table>
                     </div>
                 </div>
+                <div className="row ">
+                    <div className="col-md-5 lefttodo">
+                        {this.renderTodoList(this.state.deletetodolist)}
+                    </div>
+                    <div className="col-md-2"></div>
+                    <div className="col-md-5 leftlogin"><button type="submit" className="Buttonsubmit" onClick = {this.onSubmit} >
+                        <label className="buttonrefresh">Refresh</label>
+                    </button></div>
+
+                </div>
                 <div className="row">
-                    <div className="col-md-5 left papper"> 
+                    <div className="col-md-5  ">
                     </div>
                     <div className="col-md-2">
-                    <h2 style = {notestyle}>{this.state.favoriteNote}</h2>
                     </div>
                     <div className="col-md-5">
-                        <img src={paper_plane} width="200" alt="Paper Plane" />
-
+                        <h2 style = {notestyle}>{this.state.favoriteNote}</h2>
                     </div>
-                    <button type="submit" className="btn btn-lg btn-primary" onClick = {this.onSubmit} >
-                        Refresh
-                    </button>
+
                 </div>
                 </div>
         )
