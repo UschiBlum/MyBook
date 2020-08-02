@@ -2,293 +2,192 @@ import React, {Component} from 'react'
 import './Assignments.css'
 //import {Link, RichText, Date} from 'prismic-reactjs';
 import { Form } from 'semantic-ui-react'
+import {add_assignments} from "./UserFunction";
+import jwt_decode from 'jwt-decode'
+import logo from "./Logopit.png";
+import List from "./List";
+import paper_plane from "./paper_plane.png";
+import {create_todos, get_data, deleteTodo, deleteAssignment} from './UserFunction'
 
 
+class Assignments extends Component {
+    constructor() {
+        super()
+        this.state = {
+            username: '',
+            alist: [],
+            newassignment: '',
+            deleteassignmentlist: [],
+            submission: '',
+            isCompleted: false
 
-const items = [
-  { id:1, text:'Learn React', isCompleted: false},
-  { id:2, text: 'Work on project', isCompleted: false},
-  { id:3, text: 'Learn Flask', isCompleted: true}
-]
-
-class Assignments extends React.Component {
-
-
-  constructor(props) {
-    super(props);
-    this.state = {
-      items: items,
-      date: Date.now(),
-      description: ""
-    };
-    this.deleteItem = this.deleteItem.bind(this);
-    this.addItem = this.addItem.bind(this);
-    this.editItem = this.editItem.bind(this);
-    this.compleateItem = this.compleateItem.bind(this);
+        }
+        this.handleChange = this.handleChange.bind(this)
+        this.handleSubmit = this.handleSubmit.bind(this)
+        // this.onSubmit = this.onSubmit.bind(this)
 
     }
 
+    componentDidMount () {
+        const token = localStorage.usertoken
+        const decoded = jwt_decode(token)
+        this.setState({
+            username: decoded.identity.username,
+            alist: decoded.identity.assignmentlist,
+        })
+    }
 
-  deleteItem=(id)=>{
-    const {items} = this.state;
-    const isNotId = item => item.id !== id;
-    const updateList = items.filter(isNotId);
-    this.setState({
-      items: updateList
-    });
+    handleChange(e){
+        this.setState({[e.target.name]: e.target.value})
+    }
 
-  }
-  addItem = (item) =>{
-    const {items} = this.state;
-     item.id = items.length+1;
-     item.edit = false;
-     item.compleateItem = false;
-     let updateList = [...items, item];
-     this.setState({
-        items: updateList
-      }
-     )
-  }
+    handleSubmit(e){
+        e.preventDefault()
+        const newAss = {
+            newassignment: this.state.newassignment,
+            username: this.state.username,
+            submission: this.state.submission,
+            isCompleted: this.state.isCompleted
+        }
+        add_assignments(newAss).then(res => {
+            window.location.reload()
+        })
+            .catch(err => {
+                console.log(err)
+            })
+    }
 
-  editItem = (id, item, e) =>{
-   const {items} = this.state;
-      item.id = items.length+1;
-      item.edit = true;
-      item.compleateItem = false;
-      let updateList = [...items, item];
-     this.setState({
-        items: updateList
-      }
-     )
-  }
+    onDelete = (val, e) => {
+        e.preventDefault()
+        var data = [...this.state.list]
+        data.filter((assignment, index) =>{
+            if (assignment === val){
+                data.splice(index, 1)
+                const deleteAssignmentItem ={
+                    deleteassignment: assignment,
+                    username: this.state.username
+                }
+                deleteAssignment(deleteAssignmentItem).then(res => {
+                    console.log(res)
+                }).catch(err => {
+                    console.log(err)
+                })
+            }
+            return true
+        })
+        this.setState({alist: [...data]})
+    }
 
-//   editItem = itemId => {
-//     let tasks = this.map(item => {
-//       if (item.id == itemId) {
-//         item.edit = !item.edit;
-//       }
-//       return item;
-//     });
-//     this.setState({tasks});
-//   }
-// onEdit = (item, itemid, e) => {
-//     e.preventDefault()
-//     this.setState({
-//         id: itemid,
-//         term: item
-//     })
-//     console.log(itemid)
-// }
+    renderAssignmentList(){
+        return this.state.alist.map((assignments, index ) => {
+            const {assignment, submission} = assignments
+            return (
+                <div key={index}>
+                    <span className="item">
+                        <p className="item-block">
+                            <span className="item-name">
+                                {assignment} on {submission}
+                            </span>
+                            <button onClick={this.onDelete.bind(this, assignments)} className={"Button delete"}>-</button>
+                        </p>
+                    </span>
+                </div>
+            )
+
+        })
+    }
+
+    // onSubmit(e) {
+    //     e.preventDefault()
+    //     const token = localStorage.usertoken
+    //     const decoded = jwt_decode(token)
+    //     const newData = {
+    //         username: this.state.username,
+    //
+    //         assignmentlist: decoded.identity.assignmentlist
+    //     }
+    //     get_data(newData).then(res => {
+    //         window.location.reload()
+    //     }).catch(err =>{
+    //         console.log(err)
+    //     });
+    //
+    // }
 
 
-
-
-
-  compleateItem = (item) =>{
-    const {items} = this.state;
-
-    item.isCompleted
-      ? item.isCompleted = false
-      : item.isCompleted = true
-
-    this.setState({
-      items
-    });
-
-  }
-    render() {
+    render () {
         return (
-            // <div className="container">
-            //     <div className="row">
-            //         <div className="col-sm-8 mx-auto">
-            //             <h1 className="text-center">Assignments</h1>
-            //         </div>
-            //     </div>
-            // </div>
             <div className="container">
                 <div className="row">
-                     <div className="col-sm-5 left">
-                         <h1 className="text-center">  </h1>
-                     </div>
+                    <div className="col-md-12">
+                        <div className="row first-row"></div>
+                    </div>
                 </div>
-                    <div className="row">
-                        <div className="col-xs-7 left header-row">
-                            <h1 className="heading text-left display-3">MyBook Assignments</h1>
-                        </div>
-                        {/* <div className="col">
-                        </div> */}
-                        <div className="col-sm-5 right header-row">
-                            <h1 className="heading text-center display-3">Add Assignments</h1>
-
-                        </div>
+                <div className="row header-row">
+                    <div className="col-md-5">
+                        <h1 className="heading text-center display-1">{this.state.username}'s Assignments</h1>
                     </div>
+                    <div className="col-md-2"></div>
+                    <div className="col-md-5"></div>
 
-
-                {/* <div className="row">
-                    <div className="col">
-                     <h1>MyBook Assignments</h1>
-                    </div>
-                    <div className="col">
-                    </div>
-                    <div className="col">
-                     <h1>Add Assignments</h1>
-                    </div>
-                </div> */}
-
-
-                    <Input addItem={this.addItem} super={this.setState}/>
-                    <div>
-                    <Items items = {this.state.items} deleteItem={this.deleteItem} compleateItem={this.compleateItem} editItem={this.editItem} super={this.setState} className="items"/>
-                    </div>
-            </div>
-
-        );
-    }
-}
-
-
-
-const Items = ({items, deleteItem, editItem, compleateItem}) => {
-    const itemList = items.length ? (
-        items.map(item=>
-            <div key={item.id}>
-                <span className="item" >
-                    <p className="item-block">
-                    <span className="item-name" style={{ textDecoration: item.isCompleted ? "line-through" : "" }}>{item.text}</span>
-                    <Button onClick={()=>{compleateItem(item)}} className={"Button"}>&#10004;</Button>
-                    <Button onClick={()=>{editItem(item)}} className={"Button edit"}>Edit</Button>
-                    <Button onClick={()=>{deleteItem(item.id)}} className={"Button delete"}>-</Button>
-                    </p>
-                </span>
-            </div>
-        )
-    )
-
-
-    : (
-        <p><h1>You have no Assignments to do</h1> </p>
-
-    );
-
-
-    return(
-
-        <div className="row">
-            <div className="col">{itemList}</div>
-
-                <div className="col">
-                    {/* <Form>
-                    <Form.Group widths='equal'>
-                        <Form.TextArea width='auto' label='' placeholder='Enter the detail description of Task...' />
-                    </Form.Group>
-                    </Form>
-                 */}
                 </div>
+                <div className="row second-row">
+                    <div className="col-md-5 ">
+                        <form onSubmit={this.handleSubmit} className="input">
+                            <input
+                                className="add-input"
+                                type = "text"
+                                value = {this.state.newassignment}
+                                onChange={this.handleChange}
+                                required="required"
+                                name="newassignment"
+                            >
+                            </input>
+                            <input
+                                className="add-input"
+                                type="date"
+                                name="submission"
+                                value={this.state.submission}
+                                onChange={this.handleChange}
+                            />
+                            <button type={"submit"} className={"Button"}>
+                                Submit
+                            </button>
+                        </form>
+                        <div>
+                            {this.renderAssignmentList()}
+                        </div>
+                    </div>
+                    <div className="col-md-2" ></div>
+                    <div className="col-md-5 ">
 
-        </div>
+                        {/* </thead>
+                                <tbody>
+                                {this.renderTableData()}
+                                </tbody>
+                            </table> */}
+                    </div>
+                </div>
+                <div className="row">
+                    <div className="col-md-5 left papper">
+                    </div>
+                    <div className="col-md-2">
+                        {/* <h2 style = {notestyle}>{this.state.favoriteNote}</h2> */}
+                    </div>
+                    <div className="col-md-5">
+                        <img src={paper_plane} width="200" alt="Paper Plane" />
 
-
-
-    );
-
-}
-class Input extends React.Component {
-    state = {
-        text: '',
-    }
-
-    handleChange = (e) => {
-        this.setState(
-            {
-                text: e.target.value
-
-            }
-        )
-    }
-    handleSubmit = (e) => {
-        e.preventDefault();
-        this.props.addItem(this.state);
-        this.setState(
-            {
-                text: ''
-            }
-        )
-
-    }
-    handleEdit = (e) => {
-        e.preventDefault();
-        this.props.editItem(this.state);
-        this.setState(
-            {
-                text: ''
-            }
-        )
-
-    }
-
-
-
-    render(){
-        return(
-            <div className="container">
-            <div className="row">
-            <div className="col"></div>
-            <div className="col"></div>
-            <div className="col-xs-5">
-
-            <form onSubmit={this.handleSubmit} className="input">
-                <input
-                    className="add-input"
-                    type = "text"
-                    value = {this.state.text}
-                    onChange={this.handleChange}
-                    required="required"
-                    placeholder="Enter your Assignment"
-                >
-                </input>
-
-
-                <Button type={"submit"} className={"Button"}>
-                    Submit
-                </Button>
-            </form>
+                    </div>
+                    <button type="submit" className="btn btn-lg btn-primary" onClick = {this.onSubmit} >
+                        Refresh
+                    </button>
+                </div>
             </div>
-            </div>
-
-
-            </div>
-
-
-        );
+        )
     }
 }
-
-const Button =({
-    onClick,
-    className,
-    type,
-    children,
-})=>
-    <button
-        onClick ={onClick}
-        className={className}
-        type={type}
-    >
-        {children}
-    </button>
-
-
-
-
-
-//ReactDOM.render(<App />, document.getElementById('root'));
-
-
-
-
-
-
-
 
 export default Assignments
+
+
 
