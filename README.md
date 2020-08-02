@@ -61,7 +61,7 @@ official Node.js website (https://nodejs.org/en/download/)
 - pip install flask-cors
 - pip install flask-jwt-extended
 - pip install zeep
-- run flask (Start flask)
+- flask run (Start flask)
 
 
 
