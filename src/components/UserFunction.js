@@ -116,8 +116,8 @@ export const add_assignments = newAss => {
 
 export const add_exam = newExam => {
     return axios
-        .post("users/assignments",{
-            newexam: newExam.newassignment,
+        .post("users/examen",{
+            newexam: newExam.newexam,
             submission: newExam.submission,
             isCompleted: newExam.isCompleted,
             username: newExam.username,

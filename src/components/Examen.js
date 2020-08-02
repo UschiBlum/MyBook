@@ -69,8 +69,8 @@ class Examen extends Component {
     
 
     renderExamList(){
-        return this.state.examlist.map((Exam, index) =>{
-            const {exam, submission} = exam
+        return this.state.examlist.map((exams, index) =>{
+            const {exam, submission} = exams
             return(
                 <div key={index}>
                     <span className="item">

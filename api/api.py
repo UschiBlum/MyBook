@@ -236,6 +236,16 @@ def login():
     print("todos")
     print(alltodos)
 
+
+    allexams = users.distinct("exams", {'username': username})
+    resulte = []
+
+    for n in allexams:
+        resulte.append({'exam': n['exam'], 'submission': n['submission'], 'isCompleted': n['isCompleted']})
+
+    print("exam")
+    print(resulte)
+
     if response:
         if bcrypt.check_password_hash(response['password'], password):
             access_token = create_access_token(identity={
@@ -248,7 +258,8 @@ def login():
                 'assignmentlist': resulta,
                 'todolist': alltodos,
                 'timetable': resultl,
-                'deletetodolist': alltodos
+                'deletetodolist': alltodos,
+                'examlist': resulte
 
             })
             result= jsonify({'token': access_token})
@@ -294,13 +305,14 @@ def add_exam():
     submission = request.get_json()['submission']
     isCompleted = request.get_json()['isCompleted']
     resultexam = ''
+    print(newexam)
 
-    users.update_one({'username': username}, {'$push': {'exam': {'_aid':ObjectId(), 'exam': newexam, 'submission': submission, 'completed': isCompleted}}})
-    allexams = users.distinct("exam", {'username': username})
+    users.update_one({'username': username}, {'$push': {'exams': {'_eid':ObjectId(), 'exam': newexam, 'submission': submission, 'isCompleted': isCompleted}}})
+    allexams = users.distinct("exams", {'username': username})
     result = []
 
     for n in allexams:
-        result.append({'exam':n['exam'],'submission':n['submission'], 'completed':n['completed']})
+        result.append({'exam':n['exam'],'submission':n['submission'], 'isCompleted':n['isCompleted']})
 
     access_token = create_access_token(identity={
         'examlist': result,
