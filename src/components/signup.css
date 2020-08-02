@@ -7139,6 +7139,13 @@ a.text-dark:hover, a.text-dark:focus {
     height: 10em;
 }
 
+.leftlogin{
+    height:10em;
+    min-height: 6em;
+    max-height: 15em;
+    font-size: large;
+    margin-top: 5em;
+    }
 .left{
     height:8em;
     min-height: 6em;
@@ -7159,4 +7166,58 @@ a.text-dark:hover, a.text-dark:focus {
     color:#db2269;
     font-size: 0.8em;
     display: relative;
+}
+
+.Buttonsubmit{
+    border-radius: 50%;
+    width: 10em;
+    height: 5em;
+    cursor: pointer;
+    background-color: #8f48d2;
+    border: none;
+    margin: 0 2px;
+    box-shadow: 3px 8px 11px -3px rgb(140, 38, 230);
+    color: aliceblue;
+}
+.Button:focus{
+    outline: none;
+}
+
+Button:hover{
+    background-color: #7712d6;
+    box-shadow: 0px 15px 20px rgb(109, 5, 201);
+    transform: translateY(-4px);
+    transition: all .1s linear;
+}
+
+.input{
+    display: flex;
+    justify-content: right;
+    align-items: center;
+}
+.add-input{
+    height: 40px;
+    border-radius: 30px;
+    font-size: 20px;
+    padding: 0 10px;
+    border: 2px solid #c7a7e4;
+    box-shadow: 11px 5px 9px 1px rgba(109, 5, 201, 0.25);
+}
+
+.add-input:focus{
+    outline: none;
+    border: 1px solid #b06eee;
+    transition: all .1s linear;
+}
+.pos-cent{
+    text-align: -moz-center;
+}
+.buttonlabel{
+    font-size: xx-large;
+    font-weight: bolder;
+    font-family: "Dancing Script";
+}
+.responsive{
+    max-width: 30em;
+    heigt: auto
 }

@@ -15,14 +15,14 @@ const divStyle = {
 class Welcome extends Component {
     render() {
         return (
-            <div className="container">
+            <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-12">
                         <div className="row first-row"></div>
                     </div>
                 </div>
                 <div className="row header-row">
-                    <div className="col-md-5">
+                    <div className="col-md-5 pos-cent">
                         <h1 className="heading text-center display-1">Welcome</h1>
                     </div>
                     <div className="col-md-2"></div>
@@ -52,13 +52,11 @@ class Welcome extends Component {
                     </div>
                 </div>
                 <div className="row last-row">
-                    <div className="row logo">
-                        <div className="col-md-5 text-right">
-                            <img src={logo} width="250" height="250" />
+                        <div className="col-md-5 logo">
+                            <img src={logo} className="responsive float-right" />
                         </div>
                         <div className="col-md-2"></div>
                         <div className="col-md-5"></div>
-                    </div>
                 </div>
             </div>
 

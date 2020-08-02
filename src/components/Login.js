@@ -2,6 +2,7 @@ import React, {Component} from 'react'
 import {login} from "./UserFunction"
 import logo from './Logopit.png';
 import './signup.css'
+// import './Examen.css'
 
 
 class Login extends Component {
@@ -41,25 +42,24 @@ class Login extends Component {
  
     render() {
         return (
-            <div className="container">
+            <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-12">
                         <div className="row first-row"></div>
                     </div>
                 </div>
-
+                <div className="row">
+                    <div className="col-md-5 left header-row pos-cent">
+                        <h1 className="heading display-1 text-center">Login!</h1>
+                    </div>
+                </div>
                 <form noValidate onSubmit={this.onSubmit}>
                     <div className="row">
-                        <div className="col-md-5 left header-row">
-                            <h1 className="heading display-1 text-center">Login!</h1>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-5 left">
+                        <div className="col-md-5 leftlogin">
                             <div className="form-group">
-                                <label htmlFor="username" className="text-primary">Username</label>
+                                <div><label htmlFor="username" className="text-primary buttonlabel">Username</label></div>
                                 <input type="text"
-                                       className="form-control form-control-lg"
+                                       className=" add-input"
                                        name="username"
                                        placeholder="Enter Username"
                                        value={this.state.username}
@@ -68,15 +68,15 @@ class Login extends Component {
                         </div>
                         <div className="col-md-2"></div>
                         <div className="col-md-5 right">
-                            <img src={logo} width="300" height="300" />
+                            <img src={logo} className="responsive float-left" />
                         </div>
                     </div>
                     <div className="row">
                         <div className="col-md-5 left">
                             <div className="form-group">
-                                <label htmlFor="password" className="text-primary">Password</label>
+                                <div><label htmlFor="password" className="text-primary buttonlabel">Password</label></div>
                                 <input type="password"
-                                       className="form-control form-control-lg"
+                                       className="add-input"
                                        name="password"
                                        placeholder="Enter Password"
                                        value={this.state.password}
@@ -88,9 +88,9 @@ class Login extends Component {
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-md-5 left">
-                            <button type="submit" className="btn btn-lg btn-primary btn-block">
-                                Login
+                        <div className="col-md-5 leftlogin">
+                            <button type="submit" className="Buttonsubmit">
+                                <label className="buttonlabel">Login</label>
                             </button>
                         </div>
                         <div className="col-md-2"></div>

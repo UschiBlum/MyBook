@@ -7154,6 +7154,11 @@ a.text-dark:hover, a.text-dark:focus {
     background-position: top left;
     background-size: 100%;
     background-repeat: repeat;
+    width: auto;
+    min-width: 10em;
+    max-width: max-content;
+    margin-left: auto;
+    padding: inherit;
 }
 .last-row{
     height:20em;
@@ -7162,6 +7167,13 @@ a.text-dark:hover, a.text-dark:focus {
 }
 
 .logo{
-    margin-left: 20em;
+    /*margin-left: 20em;*/
     margin-top: 5em;
+}
+.pos-cent{
+    text-align: -moz-center;
+}
+.responsive{
+    max-width: 50em;
+    height: auto;
 }

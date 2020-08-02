@@ -183,7 +183,7 @@ class Register extends Component {
     render() {
         const {errors, formValid} = this.state
         return (
-            <div className="container">
+            <div className="container-fluid">
                 <div className="row">
                     <div className="col-md-12">
                         <div className="row first-row"></div>
@@ -191,16 +191,16 @@ class Register extends Component {
                 </div>
                 <form noValidate onSubmit={this.handleSubmit}>
                     <div className="row">
-                        <div className="col-md-5 left header-row">
+                        <div className="col-md-5 left header-row pos-cent">
                             <h1 className="heading text-center display-1">Sign up!</h1>
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-md-5 left">
+                        <div className="col-md-5 leftlogin">
                             <div className="form-group">
-                                <label htmlFor="username" className="text-primary">Username</label>
+                                <div><label htmlFor="username" className="text-primary buttonlabel">Username</label></div>
                                 <input type="text"
-                                       className="form-control form-control-lg"
+                                       className="add-input"
                                        name="username"
                                        placeholder="Enter Username"
                                        value={this.state.username}
@@ -211,11 +211,11 @@ class Register extends Component {
                             </div>
                         </div>
                         <div className="col-md-2"></div>
-                        <div className="col-md-5 right">
+                        <div className="col-md-5 leftlogin">
                             <div className="form-group">
-                                <label htmlFor="email" className="text-primary">Email Address</label>
+                                <div><label htmlFor="email" className="text-primary buttonlabel">Email Address</label></div>
                                 <input type="email"
-                                       className="form-control form-control-lg"
+                                       className="add-input"
                                        name="email"
                                        placeholder="Enter Email"
                                        value={this.state.email}
@@ -226,16 +226,16 @@ class Register extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="row">
-                        <div className="col-md-5 left">
-                            <div className="form-group">
-                                <label htmlFor="studyprogram" className="text-primary">Study program</label>
-                                <select value={this.state.studyprogram} onChange={this.onChange} className="form-control form-control-lg" >
-                                    <option s="mai">Master Angewandte Informatik</option>
-                                    <option value="ise">Master Computer Engineering</option>
-                                    <option value="komedia">Master Angewandte Kognitions- und Medienwissenschaft</option>
-                                    <option value="otherprogram">Other</option>
-                                </select>
+                    {/*<div className="row">*/}
+                        {/*<div className="col-md-5 left">*/}
+                            {/*<div className="form-group">*/}
+                            {/*    <label htmlFor="studyprogram" className="text-primary ">Study program</label>*/}
+                            {/*    <select value={this.state.studyprogram} onChange={this.onChange} className="form-control form-control-lg" >*/}
+                            {/*        <option s="mai">Master Angewandte Informatik</option>*/}
+                            {/*        <option value="ise">Master Computer Engineering</option>*/}
+                            {/*        <option value="komedia">Master Angewandte Kognitions- und Medienwissenschaft</option>*/}
+                            {/*        <option value="otherprogram">Other</option>*/}
+                            {/*    </select>*/}
 
                                 {/*<Form>*/}
                                 {/*    <FormGroup>*/}
@@ -259,18 +259,18 @@ class Register extends Component {
                                 {/*    <option>Master Angewandte Kognitions- und Medienwissenschaft</option>*/}
                                 {/*    <option><input type="text" className="form-control" placeholder="Other" /></option>*/}
                                 {/*</input>*/}
-                            </div>
-                        </div>
-                        <div className="col-md-2"></div>
-                        <div className="col-md-5 right">
-                        </div>
-                    </div>
+                            {/*</div>*/}
+                        {/*</div>*/}
+                        {/*<div className="col-md-2"></div>*/}
+                        {/*<div className="col-md-5 right">*/}
+                        {/*</div>*/}
+                    {/*</div>*/}
                     <div className="row">
                         <div className="col-md-5 left">
                             <div className="form-group">
-                                <label htmlFor="password" className="text-primary">Password</label>
+                                <div><label htmlFor="password" className="text-primary buttonlabel">Password</label></div>
                                 <input type="password"
-                                       className="form-control form-control-lg"
+                                       className="add-input"
                                        name="password"
                                        placeholder="Enter Password"
                                        value={this.state.password}
@@ -283,9 +283,9 @@ class Register extends Component {
                         <div className="col-md-2"></div>
                         <div className="col-md-5 right">
                             <div className="form-group">
-                                <label htmlFor="confirmpassword" className="text-primary">Confirm Password</label>
+                                <div><label htmlFor="confirmpassword" className="text-primary buttonlabel">Confirm Password</label></div>
                                 <input type="password"
-                                       className="form-control form-control-lg"
+                                       className="add-input"
                                        name="confirmpassword"
                                        placeholder="Repeat Password"
                                        value={this.state.confirmpassword}
@@ -300,12 +300,10 @@ class Register extends Component {
                         <div className="col-md-5 left">
                         </div>
                         <div className="col-md-2"></div>
-                        <div className="col-md-5 right">
-                            <div className="form-group submit">
-                                <button type="submit" className="btn btn-primary btn-lg">
-                                    Submit
-                                </button>
-                            </div>
+                        <div className="col-md-5 leftlogin">
+                            <button type="submit" className="Buttonsubmit">
+                                <label className="buttonlabel"> Submit</label>
+                            </button>
                         </div>
                     </div>
                     {this.state.errorCount !== null ? <p className="form-status">Form is {formValid ? 'valid ✅' : 'invalid ❌'}</p> : 'Form not submitted'}
