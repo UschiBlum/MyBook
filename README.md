@@ -7,7 +7,7 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Contributors
 Constanze Becker, 
-Tammana, 
+Tamanna, 
 Jule Zirger, 
 
 ## Features
