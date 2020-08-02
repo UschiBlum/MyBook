@@ -4,6 +4,7 @@ import logo from "./Logopit.png";
 import List from "./List";
 import Timetable from "./Timetable";
 import paper_plane from "./paper_plane.png";
+import {get_data} from './UserFunction'
 
 var colors = ['#58D3F7', '#F781F3', '#8000FF', '#A9F5D0', '#F5BCA9', '#8af'];
 
@@ -31,9 +32,11 @@ class Profile extends Component {
             studyprogram: '',
             email: '',
             notes: [],
-            favoriteNote: ''
+            favoriteNote: '',
+            timetable: []
 
         }
+        this.onSubmit = this.onSubmit.bind(this)
     }
 
     componentDidMount () {
@@ -44,8 +47,24 @@ class Profile extends Component {
             studyprogram: decoded.identity.studyprogram,
             email: decoded.identity.email,
             notes: decoded.identity.notes,
-            favoriteNote: decoded.identity.favoriteNote
+            favoriteNote: decoded.identity.favoriteNote,
+            timetable: decoded.identity.timetable
         })
+    }
+
+    onSubmit(e) {
+        e.preventDefault()
+        const newData = {
+            username: this.state.username,
+            timetable: this.state.timetable,
+            favoriteNote: this.state.favoriteNote
+        }
+        get_data(newData).then(res => {
+            window.location.reload()
+        }).catch(err =>{
+            console.log(err)
+        });
+
     }
 
     render () {
@@ -119,7 +138,7 @@ class Profile extends Component {
                     </div>
                 </div>
                 <div className="row">
-                    <div className="col-md-5 left papper">
+                    <div className="col-md-5 left papper"> 
                     </div>
                     <div className="col-md-2">
                     <h2 style = {notestyle}>{this.state.favoriteNote}</h2>
@@ -128,9 +147,10 @@ class Profile extends Component {
                         <img src={paper_plane} width="200" alt="Paper Plane" />
 
                     </div>
+                    <button type="submit" className="btn btn-lg btn-primary" onClick = {this.onSubmit} >
+                        Refresh
+                    </button>
                 </div>
-
-
                 </div>
         )
     }
