@@ -124,3 +124,15 @@ export const create_todos = newTodo => {
             console.log(err)
         })
 }
+
+export const deleteTodo = term => {
+    return axios
+        .delete('users/todo/${term}'
+        )
+        .then((response) => {
+            console.log(response)
+        })
+        .catch((response)=>{
+            console.log(response)
+        })
+}

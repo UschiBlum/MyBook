@@ -4,8 +4,8 @@ import logo from "./Logopit.png";
 import List from "./List";
 import Timetable from "./Timetable";
 import paper_plane from "./paper_plane.png";
-import {create_todos} from './UserFunction'
-import {get_data} from './UserFunction'
+import {create_todos, get_data, deleteTodo} from './UserFunction'
+// import {get_data} from './UserFunction'
 
 var colors = ['#58D3F7', '#F781F3', '#8000FF', '#A9F5D0', '#F5BCA9', '#8af'];
 
@@ -34,7 +34,7 @@ class Profile extends Component {
             email: '',
             notes: [],
             favoriteNote: '',
-            timetable: [],
+            tt: [],
             todolist: [],
             newtodo: ''
 
@@ -57,7 +57,7 @@ class Profile extends Component {
             notes: decoded.identity.notes,
             favoriteNote: decoded.identity.favoriteNote,
             todolist: decoded2.identity.todolist,
-            timetable: decoded.identity.timetable
+            tt: decoded.identity.timetable
         })
     }
 
@@ -79,16 +79,30 @@ class Profile extends Component {
             })
     }
 
+    onDelete = (val, e) => {
+        e.preventDefault()
+        deleteTodo(val)
+        var data = [...this.state.todolist]
+        data.filter((todo, index) =>{
+            if (todo === val){
+                data.splice(index, 1)
+            }
+            return true
+        })
+        this.setState({todolist: [...data]})
+    }
+
     renderTodoList(){
-        return this.state.todolist.map((todo, ) => {
+        return this.state.todolist.map((todo, index ) => {
             const {tasks} = todo
             return (
-                <div>
+                <div key={index}>
                     <span className="item">
                         <p className="item-block">
                             <span className="item-name">
                                 {todo}
                             </span>
+                            <button onClick={this.onDelete.bind(this, todo)} className={"Button delete"}>-</button>
                         </p>
                     </span>
                 </div>
@@ -101,7 +115,7 @@ class Profile extends Component {
         e.preventDefault()
         const newData = {
             username: this.state.username,
-            timetable: this.state.timetable,
+            timetable: this.state.tt,
             favoriteNote: this.state.favoriteNote
         }
         get_data(newData).then(res => {
@@ -112,13 +126,32 @@ class Profile extends Component {
 
     }
 
-    renderTableData(){
-        return this.state.timetable.map((lectures, index) => {
-            const {lecture, color, startMo, endMo, startTu, endTu, startWe, endWe, startTh, endTh, startFr, endFr} = lectures
+    // renderTableData(){
+    //     return this.state.timetable.map((lectures, index) => {
+    //         const {lecture, color, startMo, endMo, startTu, endTu, startWe, endWe, startTh, endTh, startFr, endFr} = lectures
+    //
+    //
+    //         return(
+    //             <tr key={lecture} style={{backgroundColor: this.state.color}}>
+    //                 <td>{lecture}</td>
+    //                 <td>{startMo} - {endMo}</td>
+    //                 <td>{startTu} - {endTu}</td>
+    //                 <td>{startWe} - {endWe}</td>
+    //                 <td>{startTh} - {endTh}</td>
+    //                 <td>{startFr} - {endFr}</td>
+    //             </tr>
+    //
+    //
+    //         )
+    //     })
+    // }
 
+    renderTableData(){
+        return this.state.tt.map((lectures,index  ) => {
+            const {lecture, startMo, endMo, startTu, endTu, startWe, endWe, startTh, endTh, startFr, endFr} = lectures
 
             return(
-                <tr key={lecture} style={{backgroundColor: this.state.color}}>
+                <tr key={lecture}>
                     <td>{lecture}</td>
                     <td>{startMo} - {endMo}</td>
                     <td>{startTu} - {endTu}</td>
@@ -126,8 +159,6 @@ class Profile extends Component {
                     <td>{startTh} - {endTh}</td>
                     <td>{startFr} - {endFr}</td>
                 </tr>
-
-
             )
         })
     }

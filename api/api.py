@@ -101,29 +101,53 @@ def add_note():
     newnote = request.get_json()['newnote']
     username= request.get_json()['username']
     ntimestemp = datetime.utcnow()
-    nfavorite = False
+    favoriteNote = request.get_json()['favoriteNote']
+    favorite = request.get_json()['favorite']
     resultNotes =''
 
-    users.update_one({'username': username},
-                    {'$push': {'notes': {'_nid': ObjectId(), 'content': newnote, 'ntimestemp':ntimestemp, 'nfavorite':nfavorite}}})
+    print("newnote")
+    print(newnote)
 
-    allnotes = users.distinct("notes.content", {'username': username})
+    if(favorite):
+        users.update_one({'username': username, 'notes.content': favoriteNote}, {'$set': {'notes': {'nfavorite':False}}})
+
+    users.update_one({'username': username},
+                    {'$push': {'notes': {'_nid': ObjectId(), 'content': newnote, 'ntimestemp':ntimestemp, 'nfavorite':favorite}}})
+
+    allnotes = users.distinct("notes", {'username': username})
+    timestemps = []
+    result = []
+    for n in allnotes:
+        timestemps.append({'content': n['content'], "ntimestemp": n['ntimestemp']})
+
+    for i in range(len(timestemps) - 1):
+        for j in range(0, len(timestemps) - i - 1):
+            if timestemps[j]['ntimestemp'] > timestemps[j + 1]['ntimestemp']:
+                timestemps[j], timestemps[j + 1] = timestemps[j + 1], timestemps[j]
+
+    for n in timestemps:
+        result.append(n['content'])
+
     noteslist = []
 
-    if len(allnotes) >= 3:
+    if len(result) >= 3:
         for x in range(-3, 0):
-            noteslist.append(allnotes[x])
+            noteslist.append(result[x])
             x = x - 1
     else:
-        noteslist = allnotes
+        noteslist = result
 
     access_token = create_access_token(identity={
         'notes': noteslist,
-        'username':username
+        'username':username,
+        'nfavorite': newnote
     })
     resultNotes = jsonify({'token': access_token})
 
+    print(allnotes)
+    print(noteslist)
     return resultNotes
+
 
 @app.route('/users/register', methods=['GET', 'POST'])
 def register():
@@ -171,13 +195,27 @@ def login():
     result = ""
 
     response = users.find_one({'username':username})
+    allnotes = users.distinct("notes.content", {'username': username})
+    allnotes2 = users.distinct("notes", {'username': username})
+    noteslist = []
+    favoriteNote = ''
 
+    for x in allnotes2:
+        if (x["nfavorite"]):
+            favoriteNote = x['content']
+
+    if len(allnotes) >= 3:
+        for x in range(-3, 0):
+            noteslist.append(allnotes[x])
+            x = x - 1
+    else:
+        noteslist = allnotes
 
     alllectures = users.distinct("timetable", {'username': username})
-    result = []
+    resultl = []
 
     for n in alllectures:
-        result.append({'lecture': n['lecture'], 'color': n['color'], 'startMo': n['startMo'], 'endMo': n['endMo'],
+        resultl.append({'lecture': n['lecture'], 'color': n['color'], 'startMo': n['startMo'], 'endMo': n['endMo'],
                        'startTu': n['startTu'], 'endTu': n['endTu'], 'startWe': n['startWe'], 'endWe': n['endWe'],
                        'startTh': n['startTh'], 'endTh': n['endTh'], 'startFr': n['startFr'], 'endFr': n['endFr']})
 
@@ -193,6 +231,8 @@ def login():
     alltodos = users.distinct('tasks', {'username': username})
     print("todos")
     print(alltodos)
+
+
     if response:
         if bcrypt.check_password_hash(response['password'], password):
             access_token = create_access_token(identity={
@@ -203,7 +243,8 @@ def login():
                 'favoriteNote': favoriteNote,
                 'noteslist':result,
                 'assignments': resulta,
-                'todolist': alltodos
+                'todolist': alltodos,
+                'timetable': resultl
 
             })
             result= jsonify({'token': access_token})
@@ -277,3 +318,14 @@ def examen():
 
     return resultexamen
 
+
+@app.route('/users/todo/<task>')
+def delete_task(task):
+    users = mongo.db.users
+    response = users.delete_many({'task':task})
+    if response.deleted_count ==1:
+        result = {'message': 'record deleted'}
+    else:
+        result = {'message': 'no record found'}
+
+    return jsonify({'result': result})
