@@ -10,8 +10,6 @@ class Examen extends Component {
         this.state={
             username: '',
             newexam: '',
-            submission: '',
-            isCompleted: false,
             examlist: [],
             deleteExamlist: [],
         }
@@ -38,8 +36,6 @@ class Examen extends Component {
         const newexam = {
             username: this.state.username,
             newexam: this.state.newexam,
-            submission: this.state.submission,
-            isCompleted: this.state.isCompleted
         }
         add_exam(newexam).then(res => {
             window.location.reload()
@@ -69,7 +65,9 @@ class Examen extends Component {
             }
             return true
         })
-        this.setState({alist: [...data]})
+           const token = localStorage.deleteexamtoken
+           const decode = jwt_decode(token)
+        this.setState({examlist: decode.identity.deleteexamlist})
     }
     
 
@@ -77,15 +75,14 @@ class Examen extends Component {
 
     renderExamList(){
         return this.state.examlist.map((exams, index) =>{
-            const {exam, submission} = exams
+            const {exam} = exams
             return(
                 <span className="item" key={index}>
                         <p>
                             <span className="item-name">
-                                {exam} Lastdate: {submission}
+                                {exams}
                             </span>
-                            <button className={"Button complete"}>&#10004;</button>
-                            <button className={"Button delete"}>-</button>
+                            <button onClick={this.onDelete.bind(this, exams)} className={"Button delete"}>-</button>
                         </p>
                     </span>
 
@@ -133,14 +130,12 @@ class Examen extends Component {
                         {this.renderExamList()}
                     </div>
                     <div className="col-md-2"></div>
-                    <div className="col-md-5 pos-cent">
-                            <h1 className="heading text-center display-3"> Add Exams</h1>
-                        </div>
+                    <div className="col-md-5 "></div>
                     </div>
                     <div className="row">
                         <div className="col-md-5"></div>
                         <div className="col-md-2"></div>
-                        <div className="col-md-5 lefttodo">
+                        <div className="col-md-5 ">
                             <div className="form-group">
                                 <div><label htmlFor="newexam" className="text-primary buttonlabel">Exam</label> </div>
                                     <input
@@ -151,35 +146,24 @@ class Examen extends Component {
                                         value={this.state.newexam}
                                         onChange={this.handleChange}
                                     />
-                                </div>
                             </div>
                         </div>
-                            <div className="row">
-                                <div className="col-md-5"></div>
-                                <div className="col-md-2"></div>
-                                <div className="col-md-5">
-                                    <div className="form-group">
-                                        <div><label htmlFor="submission" className="text-primary buttonlabel">Submission date</label> </div>
-                                        <input
-                                            className="add-input"
-                                            type="text"
-                                            name="submission"
-                                            placeholder="DD/MM/YY"
-                                            value={this.state.submission}
-                                            onChange={this.handleChange}
-                                        />
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="row">
-                                <div className="col-md-5 lefttodo">
-                                    <img src={paper_plane} alt="paper plane" width="50%" />
-                                </div>
-                                <div className="col-md-2"></div>
-                                <div className="col-md-5 leftlogin">
-                                <button type={"submit"} className="Buttonsubmit">
+                    </div>
+                    <div className="row">
+                        <div className="col-md-5"></div>
+                        <div className="col-md-2"></div>
+                        <div className="col-md-5 leftlogin">
+                            <button type={"submit"} className="Buttonsubmit">
                                 <label className="buttonlabel"> Add </label>
                             </button>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-5 ">
+                        </div>
+                        <div className="col-md-2"></div>
+                        <div className="col-md-5 leftexam">
+                            <img src={paper_plane} alt="paper plane" width="50%" />
                         </div>
                     </div>
                 </form>

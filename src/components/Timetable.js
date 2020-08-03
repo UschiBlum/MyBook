@@ -163,7 +163,7 @@ class Timetable extends Component {
                     <div className="row">
                         <div className="col-md-5"></div>
                         <div className="col-md-2"></div>
-                        <div className="col-md-5 right lefttodo">
+                        <div className="col-md-5 right lefttt">
                             <div className="form-group">
                                 <input type="text"
                                        className="add-input"
@@ -296,8 +296,8 @@ class Timetable extends Component {
                                     </div>
                                 </div>
                                 <div className="row papper">
-                                    <button type="submit" className="Buttonsubmit">
-                                        <label className="buttonlabel">Submit</label>
+                                    <button type="submit" className="Buttonsubmittt">
+                                        <label className="buttonlabeltt">Submit</label>
                                     </button>
                                 </div>
                             </div>

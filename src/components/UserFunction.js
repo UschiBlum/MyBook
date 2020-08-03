@@ -98,8 +98,6 @@ export const add_assignments = newAss => {
     return axios
         .post("users/assignments",{
             newassignment: newAss.newassignment,
-            submission: newAss.submission,
-            isCompleted: newAss.isCompleted,
             username: newAss.username,
             
         })
@@ -117,14 +115,14 @@ export const add_assignments = newAss => {
 
 export const deleteAssignment = deleteAssignmentItem => {
     return axios
-        .post('users/deleteAssignment', {
-            deleteAssignment: deleteAssignmentItem.deleteAssignment,
+        .post('users/deleteassignment', {
+            deleteassignment: deleteAssignmentItem.deleteassignment,
             username: deleteAssignmentItem.username
             }
         )
         .then(response => {
             console.log(response)
-            localStorage.setItem('deleteAssignmenttoken', response.data.token)
+            localStorage.setItem('deleteassignmenttoken', response.data.token)
         })
         .catch(err =>{
             console.log(err)
@@ -142,8 +140,6 @@ export const add_exam = newExam => {
     return axios
         .post("users/examen",{
             newexam: newExam.newexam,
-            submission: newExam.submission,
-            isCompleted: newExam.isCompleted,
             username: newExam.username,
             
         })
@@ -160,8 +156,8 @@ export const add_exam = newExam => {
 
 export const deleteExam = deleteExamItem => {
     return axios
-        .post("users/examen", {
-            deleteExam: deleteExamItem.deleteExam,
+        .post("users/deleteexamen", {
+            deleteexam: deleteExamItem.deleteexam,
             username: deleteExamItem.username
             }
         )

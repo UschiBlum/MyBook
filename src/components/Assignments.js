@@ -11,10 +11,8 @@ class Assignments extends Component {
         this.state={
             username: '',
             newassignment: '',
-            submission: '',
-            isCompleted: false,
             assignmentlist: [],
-            //deleteassignmentlist: [],
+            deleteassignmentlist: [],
         }
         this.handleChange = this.handleChange.bind(this)
         this.handleSubmit = this.handleSubmit.bind(this)
@@ -40,8 +38,6 @@ class Assignments extends Component {
         const newAss = {
             username: this.state.username,
             newassignment: this.state.newassignment,
-            submission: this.state.submission,
-            isCompleted: this.state.isCompleted
         }
         add_assignments(newAss).then(res => {
             window.location.reload()
@@ -50,8 +46,6 @@ class Assignments extends Component {
         })
 
     }
-
-
 
     onDelete = (val, e) => {
         e.preventDefault()
@@ -71,22 +65,23 @@ class Assignments extends Component {
             }
             return true
         })
-        this.setState({alist: [...data]})
+        const token = localStorage.deleteassignmenttoken
+        const decode = jwt_decode(token)
+        this.setState({assignmentlist: decode.identity.deleteassignmentlist})
     }
 
 
 
     renderAssignmentList(){
         return this.state.assignmentlist.map((assignments, index) =>{
-            const {assignment, submission} = assignments
+            const {assignment} = assignments
             return(
-                    <span className="item" key={index}>
+                    <span className="item">
                         <p>
                             <span className="item-name">
-                                {assignment} Lastdate: {submission}
+                                {assignments}
                             </span>
-                            <button className={"Button complete"}>&#10004;</button>
-                            <button className={"Button delete"}>-</button>
+                            <button onClick={this.onDelete.bind(this, assignments)} className={"Button delete"}>-</button>
                         </p>
                     </span>
             )
@@ -133,8 +128,7 @@ class Assignments extends Component {
                             {this.renderAssignmentList()}
                         </div>
                         <div className="col-md-2"></div>
-                        <div className="col-md-5 pos-cent">
-                            <h1 className="heading text-center display-3"> Add Assignments</h1>
+                        <div className="col-md-5 ">
                         </div>
                     </div>
                     <div className="row">
@@ -157,29 +151,18 @@ class Assignments extends Component {
                     <div className="row">
                         <div className="col-md-5"></div>
                         <div className="col-md-2"></div>
-                        <div className="col-md-5">
-                            <div className="form-group">
-                                <div><label htmlFor="submission" className="text-primary buttonlabel">Submission date</label> </div>
-                                <input
-                                    className="add-input"
-                                    type="text"
-                                    name="submission"
-                                    placeholder="DD/MM/YY"
-                                    value={this.state.submission}
-                                    onChange={this.handleChange}
-                                />
-                            </div>
-                        </div>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-5 lefttodo">
-                            <img src={paper_plane} alt="paper plane" width="50%" />
-                        </div>
-                        <div className="col-md-2"></div>
                         <div className="col-md-5 leftlogin">
                             <button type={"submit"} className="Buttonsubmit">
                                 <label className="buttonlabel"> Add </label>
                             </button>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-5 ">
+                        </div>
+                        <div className="col-md-2"></div>
+                        <div className="col-md-5 leftexam">
+                            <img src={paper_plane} alt="paper plane" width="50%" />
                         </div>
                     </div>
                 </form>

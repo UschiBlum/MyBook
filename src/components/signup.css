@@ -7153,11 +7153,18 @@ a.text-dark:hover, a.text-dark:focus {
     font-size: large;
     margin-top: 2em;
 }
-.left{
+.left {
+    height: 8em;
+    min-height: 6em;
+    max-height: 10em;
+    font-size: large;
+}
+.leftexam{
     height:8em;
     min-height: 6em;
     max-height: 10em;
     font-size: large;
+    margin-bottom: 5em;
 }
 .leftplane{
     height:8em;
