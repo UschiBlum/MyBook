@@ -73,7 +73,7 @@ class Navbar extends Component {
         )
 
         return (
-            <nav className="navbar navbar-expand-lg  rounded text-primary text-center navbar-design ">
+            <nav className=" nav  navbar-expand-lg rounded text-primary text-center navbar-design ">
                 <div className="container-fluid">
                     <button className="navbar-toggler"
                             type="button"
@@ -86,10 +86,10 @@ class Navbar extends Component {
                     </button>
 
                     <div className="logo-pos">
-                        <img src={logo} width="100" height="100" />
+                        <img src={logo} width="150" height="150" />
 
                     </div>
-                    <h1 className="headline display-3">MyBook</h1>
+                    {/*<div className="headername"><h1 className="headline display-3">MyBook</h1></div>*/}
                     <div className="collapse navbar-collapse justify-content-end"
                          id="navbar1">
                         <ul className="navbar-nav">

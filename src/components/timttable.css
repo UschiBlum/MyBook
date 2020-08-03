@@ -7153,10 +7153,11 @@ a.text-dark:hover, a.text-dark:focus {
 }
 .table{
     height:15em;
-    font-size: medium;
-    width: 20em;
+    font-size: small;
+    /*width: 15em;*/
     /*margin-left: -10em;*/
-    margin-right: 10em;
+    /*margin-right: 10em;*/
+    margin-left: 5em;
 }
 .submit{
     padding-left: 20em;
@@ -7166,12 +7167,12 @@ a.text-dark:hover, a.text-dark:focus {
     padding-top: 5em;
 }
 .picker{
-    margin-top: -5em;
+    margin-top: -10em;
 }
 .Buttonsubmit{
     border-radius: 50%;
-    width: 10em;
-    height: 5em;
+    width: 7em;
+    height: 3em;
     cursor: pointer;
     background-color: #8f48d2;
     border: none;
@@ -7183,6 +7184,11 @@ a.text-dark:hover, a.text-dark:focus {
     outline: none;
 }
 
+.buttonlabel{
+    font-size: large;
+    font-weight: bolder;
+    font-family: "Dancing Script";
+}
 Button:hover{
     background-color: #7712d6;
     box-shadow: 0px 15px 20px rgb(109, 5, 201);
@@ -7195,13 +7201,14 @@ Button:hover{
     justify-content: right;
     align-items: center;
 }
-.add-input{
-    height: 40px;
-    border-radius: 30px;
-    font-size: 20px;
+.add-inputtimes{
+    height: 25px;
+    border-radius: 20px;
+    font-size: 15px;
     padding: 0 10px;
     border: 2px solid #c7a7e4;
     box-shadow: 11px 5px 9px 1px rgba(109, 5, 201, 0.25);
+    width: 70px;
 }
 
 .add-input:focus{
@@ -7224,5 +7231,9 @@ Button:hover{
     min-height: 6em;
     max-height: 15em;
     font-size: large;
-    margin-top: -5em;
+    margin-top: -15em;
+}
+.responsive{
+    max-width: 30%;
+    height: auto;
 }
