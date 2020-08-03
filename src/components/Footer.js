@@ -11,13 +11,13 @@ class Footer extends Component {
                            <p className="copyright text-muted text-center text-footer">Copyright &copy; Donotreact 2020</p>
                         </div>
                         <div className="col-md-3 footer-nav animated fadeInUp">
-                            <a href="https://github.com/" className="text-footer">GitHub</a>
+                            <a href="https://github.com/UschiBlum/MyBook" className="text-footer">GitHub</a>
                         </div>
                         <div className="col-md-3 footer-nav animated fadeInUp">
-                            <a href="https://youtube.com/" className="text-footer">YouTube</a>
+                            <a href="https://www.youtube.com/watch?v=7Eh4K9ZCeKw" className="text-footer">YouTube</a>
                         </div>
                         <div className="col-md-2 footer-nav animated fadeInUp">
-                            <a href="https://heroku.com/" className="text-footer">HEROKU</a>
+                            <a href="https://mybook-bullet-journal.herokuapp.com/" className="text-footer">HEROKU</a>
                         </div>
                     </div>
                     <div className="row justify-content-center">
