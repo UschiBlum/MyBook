@@ -1,7 +1,8 @@
 import React, {Component} from "react";
 import jwt_decode from 'jwt-decode'
 import {add_exam, deleteExam} from "./UserFunction";
-
+import './signup.css'
+import paper_plane from "./paper_plane.png";
 
 class Examen extends Component {
     constructor() {
@@ -78,9 +79,8 @@ class Examen extends Component {
         return this.state.examlist.map((exams, index) =>{
             const {exam, submission} = exams
             return(
-                <div key={index}>
-                    <span className="item">
-                        <p className="item-block">
+                <span className="item" key={index}>
+                        <p>
                             <span className="item-name">
                                 {exam} Lastdate: {submission}
                             </span>
@@ -88,7 +88,7 @@ class Examen extends Component {
                             <button className={"Button delete"}>-</button>
                         </p>
                     </span>
-                </div>
+
             )
         })
     }
@@ -122,53 +122,67 @@ class Examen extends Component {
                         <div className="row first-row"></div>
                     </div>
                 </div>
-                <div className="row ">
-                    <div className="col-md-5 pos-cent header-row left">
-                        <h1 className="heading text-center display-1">{this.state.username}'s Exams</h1>
+                <div className="row">
+                    <div className="col-md-5 left header-row pos-cent">
+                        <h1 className="heading text-center display-1">Exam Planner!</h1>
                     </div>
-                    <div className="col-md-2"></div>
-                    <div className="col-md-5"></div>
                 </div>
-                <div className="row second-row">
-                    <div className="col-md-5">
+                <form onSubmit={this.handleSubmit}>
+                    <div className="row ">
+                        <div className="col-md-5">
                         {this.renderExamList()}
                     </div>
-                    <div className="col-md-2">
-                    <h1 className="heading text-center display-3"> Add Your Exams</h1>
+                    <div className="col-md-2"></div>
+                    <div className="col-md-5 pos-cent">
+                            <h1 className="heading text-center display-3"> Add Exams</h1>
+                        </div>
                     </div>
-                    <div className="col-md-5">
-                        <form onSubmit={this.handleSubmit} className="input">
-                            <div>
-                                <input
-                                    className="add-input"
-                                    type="text"
-                                    name="newexam"
-                                    placeholder="Enter Exam"
-                                    value={this.state.newexam}
-                                    onChange={this.handleChange}
-                                    required="required"
-                                />
+                    <div className="row">
+                        <div className="col-md-5"></div>
+                        <div className="col-md-2"></div>
+                        <div className="col-md-5 lefttodo">
+                            <div className="form-group">
+                                <div><label htmlFor="newexam" className="text-primary buttonlabel">Exam</label> </div>
+                                    <input
+                                        className="add-input"
+                                        type="text"
+                                        name="newexam"
+                                        placeholder="Enter Exam"
+                                        value={this.state.newexam}
+                                        onChange={this.handleChange}
+                                    />
+                                </div>
                             </div>
-                            <br/>
-                            <div>
-                                <input
-                                    className="add-input"
-                                    type="text"
-                                    name="submission"
-                                    placeholder="DD/MM/YY"
-                                    value={this.state.submission}
-                                    onChange={this.handleChange}
-                                />
+                        </div>
+                            <div className="row">
+                                <div className="col-md-5"></div>
+                                <div className="col-md-2"></div>
+                                <div className="col-md-5">
+                                    <div className="form-group">
+                                        <div><label htmlFor="submission" className="text-primary buttonlabel">Submission date</label> </div>
+                                        <input
+                                            className="add-input"
+                                            type="text"
+                                            name="submission"
+                                            placeholder="DD/MM/YY"
+                                            value={this.state.submission}
+                                            onChange={this.handleChange}
+                                        />
+                                    </div>
+                                </div>
                             </div>
-                            <br/>
-                            <div>
-                                <button type={"submit"} className={"Button"}>
-                                    Add
-                                </button>
-                            </div>
-                        </form>
+                            <div className="row">
+                                <div className="col-md-5 lefttodo">
+                                    <img src={paper_plane} alt="paper plane" width="50%" />
+                                </div>
+                                <div className="col-md-2"></div>
+                                <div className="col-md-5 leftlogin">
+                                <button type={"submit"} className="Buttonsubmit">
+                                <label className="buttonlabel"> Add </label>
+                            </button>
+                        </div>
                     </div>
-                </div>
+                </form>
             </div>
 
         )
