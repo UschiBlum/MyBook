@@ -98,6 +98,7 @@ https://github.com/UschiBlum/MyBook
 https://mybook-bullet-journal.herokuapp.com/
 
 ## Link to the live demo:
+https://uni-duisburg-essen.sciebo.de/s/XjG9h5WcNMwnYF6
 
 ## Link to MyBook Trailer (advertisement video): 
 
