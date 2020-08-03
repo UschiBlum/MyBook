@@ -103,7 +103,9 @@ class Profile extends Component {
             }
             return true
         })
-        this.setState({todolist: [...data]})
+        const token = localStorage.deletetodotoken
+        const decode = jwt_decode(token)
+        this.setState({todolist: decode.identity.deletetodolist})
     }
 
     renderTodoList(){
@@ -149,13 +151,10 @@ class Profile extends Component {
 
     onSubmit(e) {
         e.preventDefault()
-        const token = localStorage.usertoken
-        const decoded = jwt_decode(token)
         const newData = {
             username: this.state.username,
             timetable: this.state.tt,
-            favoriteNote: this.state.favoriteNote,
-            todolist: decoded.identity.todolist
+            favoriteNote: this.state.favoriteNote
         }
         get_data(newData).then(res => {
             window.location.reload()
@@ -230,7 +229,7 @@ class Profile extends Component {
                             >
                             </input>
                             <button type={"submit"} className={"Button"}>
-                                Submit
+                                Add
                             </button>
                         </form>
                     </div>
@@ -255,7 +254,7 @@ class Profile extends Component {
                 </div>
                 <div className="row ">
                     <div className="col-md-5 lefttodo">
-                        {this.renderTodoList(this.state.deletetodolist)}
+                        {this.renderTodoList()}
                     </div>
                     <div className="col-md-2"></div>
                     <div className="col-md-5 leftlogin"><button type="submit" className="Buttonsubmit" onClick = {this.onSubmit} >

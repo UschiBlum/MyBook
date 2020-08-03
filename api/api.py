@@ -30,7 +30,7 @@ jwt = JWTManager(app)
 CORS(app)
 
 
-@app.route('/users/profile', methods=['POST'])
+@app.route('/users/profile', methods=['POST','GET'])
 def get_data():
     users = mongo.db.users
     username = request.get_json()['username']
@@ -52,7 +52,8 @@ def get_data():
         'username': username,
         'timetable': timetable,
         'favoriteNote': favoriteNote,
-        'todolist': alltodos
+        'todolist': alltodos,
+        'refreshlist':alltodos
     })
 
     
