@@ -1,6 +1,9 @@
 import React, {Component} from "react";
 import jwt_decode from 'jwt-decode'
 import {add_assignments, deleteAssignment} from "./UserFunction";
+import './signup.css'
+import paper_plane from "./paper_plane.png";
+
 
 class Assignments extends Component {
     constructor() {
@@ -77,9 +80,8 @@ class Assignments extends Component {
         return this.state.assignmentlist.map((assignments, index) =>{
             const {assignment, submission} = assignments
             return(
-                <div key={index}>
-                    <span className="item">
-                        <p className="item-block">
+                    <span className="item" key={index}>
+                        <p>
                             <span className="item-name">
                                 {assignment} Lastdate: {submission}
                             </span>
@@ -87,7 +89,6 @@ class Assignments extends Component {
                             <button className={"Button delete"}>-</button>
                         </p>
                     </span>
-                </div>
             )
         })
     }
@@ -121,23 +122,27 @@ class Assignments extends Component {
                         <div className="row first-row"></div>
                     </div>
                 </div>
-                <div className="row header-row">
-                    <div className="col-md-5">
-                        <h1 className="heading text-center display-3">{this.state.username}'s Assignments</h1>
+                <div className="row">
+                    <div className="col-md-5 left header-row pos-cent">
+                        <h1 className="heading text-center display-1">Assignments!</h1>
                     </div>
-                    <div className="col-md-2"></div>
-                    <div className="col-md-5"></div>
                 </div>
-                <div className="row second-row">
-                    <div className="col-md-5">
-                        {this.renderAssignmentList()}
+                <form onSubmit={this.handleSubmit}>
+                    <div className="row ">
+                        <div className="col-md-5">
+                            {this.renderAssignmentList()}
+                        </div>
+                        <div className="col-md-2"></div>
+                        <div className="col-md-5 pos-cent">
+                            <h1 className="heading text-center display-3"> Add Assignments</h1>
+                        </div>
                     </div>
-                    <div className="col-md-2"> 
-                      <h1 className="heading text-center display-3"> Add Assignments</h1>
-                    </div>
-                    <div className="col-md-5">
-                        <form onSubmit={this.handleSubmit} className="input">
-                            <div>
+                    <div className="row">
+                        <div className="col-md-5"></div>
+                        <div className="col-md-2"></div>
+                        <div className="col-md-5 lefttodo">
+                            <div className="form-group">
+                                <div><label htmlFor="newassignment" className="text-primary buttonlabel">Assignment</label> </div>
                                 <input
                                     className="add-input"
                                     type="text"
@@ -145,11 +150,16 @@ class Assignments extends Component {
                                     placeholder="Enter Assignment"
                                     value={this.state.newassignment}
                                     onChange={this.handleChange}
-                                    required="required"
-                                />
-                            </div>
-                            <br/>
-                            <div>
+                                    />
+                                </div>
+                        </div>
+                    </div>
+                    <div className="row">
+                        <div className="col-md-5"></div>
+                        <div className="col-md-2"></div>
+                        <div className="col-md-5">
+                            <div className="form-group">
+                                <div><label htmlFor="submission" className="text-primary buttonlabel">Submission date</label> </div>
                                 <input
                                     className="add-input"
                                     type="text"
@@ -159,15 +169,20 @@ class Assignments extends Component {
                                     onChange={this.handleChange}
                                 />
                             </div>
-                            <br/>
-                            <div>
-                                <button type={"submit"} className={"Button"}>
-                                    Add
-                                </button>
-                            </div>
-                        </form>
+                        </div>
                     </div>
-                </div>
+                    <div className="row">
+                        <div className="col-md-5 lefttodo">
+                            <img src={paper_plane} alt="paper plane" width="50%" />
+                        </div>
+                        <div className="col-md-2"></div>
+                        <div className="col-md-5 leftlogin">
+                            <button type={"submit"} className="Buttonsubmit">
+                                <label className="buttonlabel"> Add </label>
+                            </button>
+                        </div>
+                    </div>
+                </form>
             </div>
 
         )
