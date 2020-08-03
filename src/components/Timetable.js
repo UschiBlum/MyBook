@@ -135,8 +135,8 @@ class Timetable extends Component {
                 </div>
                 <form noValidate onSubmit={this.onSubmit}>
                     <div className="row">
-                        <div className="col-md-5 left header-row">
-                            <h1 className="heading text-center display-1">MyBook Time table!</h1>
+                        <div className="col-md-5 left header-row pos-cent">
+                            <h1 className="heading text-center display-1">Time table!</h1>
                         </div>
                     </div>
                     <div className="row">
@@ -291,8 +291,8 @@ class Timetable extends Component {
                                     </div>
                                 </div>
                                 <div className="row papper">
-                                    <button type="submit" className="btn btn-lg btn-dark btn-primary btn-block center-block">
-                                        Submit
+                                    <button type="submit" className="Buttonsubmit">
+                                        <label className="buttonlabel">Submit</label>
                                     </button>
                                 </div>
                             </div>
