@@ -158,15 +158,10 @@ class Timetable extends Component {
                             </table>
                         </div>
                         <div className="col-md-2"></div>
-                        <div className="col-md-5"></div>
-                    </div>
-                    <div className="row">
-                        <div className="col-md-5"></div>
-                        <div className="col-md-2"></div>
-                        <div className="col-md-5 right lefttodo">
+                        <div className="col-md-5 right papper">
                             <div className="form-group">
                                 <input type="text"
-                                       className="add-input"
+                                       className="form-control form-control-lg"
                                        name="newlecture"
                                        placeholder="Lecture"
                                        value={this.state.newlecture}
@@ -184,8 +179,8 @@ class Timetable extends Component {
                         </div>
                     </div>
                     <div className="row">
-                        <div className="col-md-5 left ">
-                            <img src={paper_plane} className="responsive" alt="Paper Plane" />
+                        <div className="col-md-5 left papper">
+                            <img src={paper_plane} width="200" alt="Paper Plane" />
                                                     </div>
                         <div className="col-md-2"></div>
                         <div className="col-md-5 right picker">
@@ -193,8 +188,8 @@ class Timetable extends Component {
                                 <div className="row">
                                     <div className="col-md-2"><h5>Monday:</h5></div>
                                     <div className="col-md-5 mb-auto">
-                                        <div><label htmlFor="starttimemonday">Start time:</label></div>
-                                        <input type="text" className=" add-inputtimes"
+                                        <label htmlFor="starttimemonday">Start time:</label>
+                                        <input type="text" className="form-control"
                                                name = "starttimemonday"
                                                value={this.state.starttimemonday}
                                                placeholder="12:00"
@@ -202,8 +197,8 @@ class Timetable extends Component {
                                         />
                                     </div>
                                     <div className="col-md-5 mb-auto">
-                                        <div><label htmlFor="endtimemonday">End time:</label></div>
-                                        <input type="text" className=" add-inputtimes"
+                                        <label htmlFor="endtimemonday">End time:</label>
+                                        <input type="text" className="form-control"
                                                name = "endtimemonday"
                                                value={this.state.endtimemonday}
                                                placeholder="14:00:"
@@ -214,8 +209,8 @@ class Timetable extends Component {
                                 <div className="row">
                                     <div className="col-md-2"> <h5>Tuesday:</h5></div>
                                     <div className="col-md-5 mb-auto">
-                                        <div><label htmlFor="starttimetuesday">Start time:</label></div>
-                                        <input type="text" className="add-inputtimes"
+                                        <label htmlFor="starttimetuesday">Start time:</label>
+                                        <input type="text" className="form-control"
                                                name = "starttimetuesday"
                                                value={this.state.starttimetuesday}
                                                placeholder="12:00"
@@ -223,8 +218,8 @@ class Timetable extends Component {
                                         />
                                     </div>
                                     <div className="col-md-5 mb-auto">
-                                        <div><label htmlFor="endtimetuesday">End time:</label></div>
-                                        <input type="text" className="add-inputtimes"
+                                        <label htmlFor="endtimetuesday">End time:</label>
+                                        <input type="text" className="form-control"
                                                name = "endtimetuesday"
                                                value={this.state.endtimetuesday}
                                                placeholder="14:00"
@@ -235,8 +230,8 @@ class Timetable extends Component {
                                 <div className="row">
                                     <div className="col-md-2"> <h5>Wednesday:</h5></div>
                                     <div className="col-md-5 mb-auto">
-                                        <div><label htmlFor="starttimewednesday">Start time:</label></div>
-                                        <input type="text" className="add-inputtimes"
+                                        <label htmlFor="starttimewednesday">Start time:</label>
+                                        <input type="text" className="form-control"
                                                name = "starttimewednesday"
                                                value={this.state.starttimewednesday}
                                                placeholder="12:00"
@@ -244,8 +239,8 @@ class Timetable extends Component {
                                         />
                                     </div>
                                     <div className="col-md-5 mb-auto">
-                                        <div><label htmlFor="endtimewednesday">End time:</label></div>
-                                        <input type="text" className="add-inputtimes"
+                                        <label htmlFor="endtimewednesday">End time:</label>
+                                        <input type="text" className="form-control"
                                                name = "endtimewednesday"
                                                value={this.state.endtimewednesday}
                                                placeholder="14:00"
@@ -256,8 +251,8 @@ class Timetable extends Component {
                                 <div className="row">
                                     <div className="col-md-2"><h5>Thursday:</h5></div>
                                     <div className="col-md-5 mb-auto">
-                                        <div><label htmlFor="starttimethursday">End time:</label></div>
-                                        <input type="text" className="add-inputtimes"
+                                        <label htmlFor="starttimethursday">End time:</label>
+                                        <input type="text" className="form-control"
                                                name = "starttimethursday"
                                                value={this.state.starttimethursday}
                                                placeholder="12:00"
@@ -265,8 +260,8 @@ class Timetable extends Component {
                                         />
                                     </div>
                                     <div className="col-5 mb-auto">
-                                        <div><label htmlFor="endtimethursday">End time:</label></div>
-                                        <input type="text" className="add-inputtimes"
+                                        <label htmlFor="endtimethursday">End time:</label>
+                                        <input type="text" className="form-control"
                                                name = "endtimethursday"
                                                value={this.state.endtimethursday}
                                                placeholder="14:00"
@@ -277,8 +272,8 @@ class Timetable extends Component {
                                 <div className="row">
                                     <div className="col-md-2"> <h5>Friday:</h5></div>
                                     <div className="col-md-5 mb-auto">
-                                        <div><label htmlFor="starttimefriday">Start time:</label></div>
-                                        <input type="text" className="add-inputtimes"
+                                        <label htmlFor="starttimefriday">Start time:</label>
+                                        <input type="text" className="form-control"
                                                name = "starttimefriday"
                                                value={this.state.starttimefriday}
                                                placeholder="12:00"
@@ -286,8 +281,8 @@ class Timetable extends Component {
                                         />
                                     </div>
                                     <div className="col-md-5 mb-auto">
-                                        <div><label htmlFor="endtimefriday">End time:</label></div>
-                                        <input type="text" className="add-inputtimes"
+                                        <label htmlFor="endtimefriday">End time:</label>
+                                        <input type="text" className="form-control"
                                                name = "endtimefriday"
                                                value={this.state.endtimefriday}
                                                placeholder="14:00"
@@ -295,7 +290,7 @@ class Timetable extends Component {
                                         />
                                     </div>
                                 </div>
-                                <div className="row ">
+                                <div className="row papper">
                                     <button type="submit" className="Buttonsubmit">
                                         <label className="buttonlabel">Submit</label>
                                     </button>
