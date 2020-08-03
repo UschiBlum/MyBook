@@ -7146,11 +7146,26 @@ a.text-dark:hover, a.text-dark:focus {
     font-size: large;
     margin-top: 5em;
     }
+.leftnotes{
+    height:10em;
+    min-height: 6em;
+    max-height: 15em;
+    font-size: large;
+    margin-top: 2em;
+}
 .left{
     height:8em;
     min-height: 6em;
     max-height: 10em;
     font-size: large;
+}
+.leftplane{
+    height:8em;
+    min-height: 6em;
+    max-height: 10em;
+    font-size: large;
+    margin-top: 10em;
+    margin-left: 5em;
 }
 .lefttodo{
     height:10em;
@@ -7238,4 +7253,7 @@ Button:hover{
 }
 .tablebody{
     font-size: medium;
+}
+.favorite{
+font-size: medium;
 }

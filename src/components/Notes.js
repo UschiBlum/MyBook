@@ -4,6 +4,8 @@ import jwt_decode from 'jwt-decode'
 import {add_note} from './UserFunction'
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import './signup.css'
+import paper_plane from "./paper_plane.png";
 
 
 const divStyle = {
@@ -32,8 +34,8 @@ const divStyle = {
     padding: "50px",
     justifyContent: 'center',
     fontFamily: 'Arial',
-    margin: "2em",
-    marginLeft:"-10em"
+    // margin: "2em",
+    // marginLeft:"-10em"
   };
 
   var notecontent = []
@@ -110,12 +112,12 @@ class Notes extends Component {
             const {content} = note
             // if (id > 1){
                 return (
-                    <div>
+
                         <div className="col-md-6 ">
                             <h2 style = {notestyle}>{note}</h2>
                         </div>
-                        {/*<div className="col-md-2"></div>*/}
-                    </div>
+
+
                 )
             // }
 
@@ -130,36 +132,38 @@ class Notes extends Component {
                         <div className="row first-row"></div>
                     </div>
                 </div>
-                <div className="row header-row">
-                    <div className="col-md-5">
-                        <h1 className="heading text-center display-1">Notes</h1>
+                <div className="row ">
+                    <div className="col-md-5 header-row pos-cent">
+                        <h1 className="heading text-center display-1">Notes!</h1>
                     </div>
                 </div>
-                <div className="col-md-5 left">
+                <div className="col-md-5 left pos-cent">
                     <div className="form-group">
-                        <div>
                             {this.renderNotesData()}
-                        </div>
                     </div>
                 </div>
-                    <div className="col-md-2"></div>
-                    <div className="col-md-5 right">
-                        <div className = "form-group">
-                            <form onSubmit={this.handleSubmit}>
-                                <textarea placeholder='Write a Note' onChange={this.handleChange} value ={this.state.newnote} style={{ minHeight: 300 , minWidth: 500}} />
-                                <div>
-                                    <button type="submit" className="btn btn-primary btn-lg">
-                                        Create Note
-                                    </button>
-                                    <div classname="col-md-5"></div>
-                                    <FormControlLabel
-                                        control={<Checkbox checked={this.state.favorite} onChange={this.handleCheckbox} name="checkedA" />}
-                                        label="Favorite"
-                                    />
-                                </div>
-                            </form>
-                        </div>
+                <div className="col-md-2"></div>
+                <div className="col-md-5 right">
+                    <div className = "form-group">
+                        <form onSubmit={this.handleSubmit}>
+                            <textarea placeholder='Write a Note' onChange={this.handleChange} value ={this.state.newnote} style={{ minHeight: 300 , minWidth: 500}} />
+                            <div className="leftnotes">
+                                <button type="submit" className="Buttonsubmit">
+                                    <label className="buttonlabel"> Create Note</label>
+                                </button>
+                                <FormControlLabel
+                                    control={<Checkbox checked={this.state.favorite} onChange={this.handleCheckbox} name="checkedA" size="medium"/>}
+                                    label="Favorite"
+                                />
+                            </div>
+                        </form>
                     </div>
+                </div>
+                <div className="col-md-5 leftplane ">
+                    <img src={paper_plane} alt="paper plane" width="30%" />
+                </div>
+                <div className="col-md-2"></div>
+                <div className="col-md-5"></div>
             </div>
         )
     }
