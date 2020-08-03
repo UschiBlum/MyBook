@@ -1,3 +1,5 @@
+![Logo](https://user-images.githubusercontent.com/57901189/89155721-ac773f80-d569-11ea-9735-b55a54382aeb.png)
+
 # MyBook
 A student project of a digital bullet journal.
 You can plan your week, make Notes, create a Timetable and much more!
@@ -7,8 +9,8 @@ This project was bootstrapped with [Create React App](https://github.com/faceboo
 
 ## Contributors
 Constanze Becker, 
-Tammana, 
-Jule Zirger, 
+Tamanna, 
+Jule Zirger 
 
 ## Features
 
@@ -26,6 +28,37 @@ This Project uses a React App with an Flask Backend which is connected to MongoD
 The Design is made with Bootstrap
 
 ## Screenshots
+
+
+
+###  Welcome Page
+![Welcome page](https://user-images.githubusercontent.com/57901189/89155616-789c1a00-d569-11ea-98c2-45c571962848.png)
+
+
+### Signup Page
+![signup](https://user-images.githubusercontent.com/57901189/89155628-7e91fb00-d569-11ea-8704-06d31dabb448.png)
+
+
+### Login Page
+![login](https://user-images.githubusercontent.com/57901189/89155769-c7e24a80-d569-11ea-8fd7-dae128fb3292.png)
+
+### Profile Page
+![Profile](https://user-images.githubusercontent.com/57901189/89155850-ee07ea80-d569-11ea-8cda-98ad6997fccf.png)
+
+### Notes
+![notes](https://user-images.githubusercontent.com/57901189/89155856-f2340800-d569-11ea-8fd6-47b20cf532f6.png)
+
+### Assignments
+![Assignment Page](https://user-images.githubusercontent.com/57901189/89155864-f95b1600-d569-11ea-87ab-7d5f9d88e8dc.png)
+
+### Exam Planner
+![Exam planner](https://user-images.githubusercontent.com/57901189/89155870-feb86080-d569-11ea-90f9-d9cbd96fc429.png)
+
+### Timetable
+![Timetable](https://user-images.githubusercontent.com/57901189/89155879-02e47e00-d56a-11ea-8fbf-88e6345efae9.png)
+
+
+
 
 ## Installation
 
@@ -55,8 +88,20 @@ official Node.js website (https://nodejs.org/en/download/)
 - pip install flask-cors
 - pip install flask-jwt-extended
 - pip install zeep
-- run flask (Start flask)
+- flask run (Start flask)
 
+
+## Link to MyBook on GitHub: 
+https://github.com/UschiBlum/MyBook
+
+## Link to MyBook on Heroku: 
+https://mybook-bullet-journal.herokuapp.com/
+
+## Link to the live demo:
+
+## Link to MyBook Trailer (advertisement video): 
+
+https://www.youtube.com/watch?v=7Eh4K9ZCeKw
 
 
 
