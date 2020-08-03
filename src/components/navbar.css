@@ -7150,7 +7150,7 @@ a.text-dark:hover, a.text-dark:focus {
     height: 5em;
 }
 .nav-pos{
-    margin: auto auto auto auto;
+    margin: auto auto auto 3em;
 }
 .signup-text{
     font-size: xx-large;

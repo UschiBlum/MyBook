@@ -7154,24 +7154,24 @@ a.text-dark:hover, a.text-dark:focus {
 .table{
     height:15em;
     font-size: medium;
-    width: 20em;
-    /*margin-left: -10em;*/
-    margin-right: 10em;
+    /*width: 20em;*/
+    margin-left: 5em;
+    /*margin-right: 10em;*/
 }
 .submit{
     padding-left: 20em;
 
 }
 .papper{
-    padding-top: 5em;
+    padding-top: -15em;
 }
 .picker{
-    margin-top: -5em;
+    margin-top: -10em;
 }
 .Buttonsubmit{
     border-radius: 50%;
-    width: 10em;
-    height: 5em;
+    width: 5em;
+    height: 3em;
     cursor: pointer;
     background-color: #8f48d2;
     border: none;
@@ -7203,7 +7203,15 @@ Button:hover{
     border: 2px solid #c7a7e4;
     box-shadow: 11px 5px 9px 1px rgba(109, 5, 201, 0.25);
 }
-
+.add-inputtime{
+    height: 25px;
+    border-radius: 30px;
+    font-size: 20px;
+    padding: 0 10px;
+    border: 2px solid #c7a7e4;
+    box-shadow: 11px 5px 9px 1px rgba(109, 5, 201, 0.25);
+    width: 75px;
+}
 .add-input:focus{
     outline: none;
     border: 1px solid #b06eee;
@@ -7224,5 +7232,10 @@ Button:hover{
     min-height: 6em;
     max-height: 15em;
     font-size: large;
-    margin-top: -5em;
+    margin-top: -15em;
+}
+.buttonlabel{
+    font-size: large;
+    font-weight: bolder;
+    font-family: "Dancing Script";
 }
